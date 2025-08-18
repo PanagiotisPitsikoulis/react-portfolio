@@ -1,0 +1,58 @@
+---
+title: "Next.js Image Optimization Guide"
+date: "2025-05-22"
+summary: "Get crispy, fast images without the headaches."
+tags: ["nextjs", "images", "performance"]
+cover: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=1400&auto=format&fit=crop"
+authorName: Panagiotis Pitsikoulis
+authorAvatar: https://avatars.githubusercontent.com/u/177002430?v=4
+metaTitle: Next.js Image Optimization Guide — Practical defaults
+metaDescription: Best practices for responsive images, priority loading and placeholders in Next.js.
+---
+
+# Next.js Image Optimization Guide
+
+From responsive sizes to `priority` and `placeholder`, these defaults will keep images crisp and fast.
+
+## The Essentials
+
+- Always set an appropriate `sizes` attribute to avoid over-fetching
+- Use `fill` for container-based layouts; `width`/`height` for intrinsic
+- Only set `priority` on above-the-fold hero media
+- Prefer `placeholder="blur"` with a `blurDataURL` for LCP images
+
+```tsx
+<Image
+  src={cover}
+  alt={title}
+  width={1200}
+  height={800}
+  sizes="(max-width:768px) 100vw, 50vw"
+  priority
+  placeholder="blur"
+  blurDataURL={lqip}
+/>
+```
+
+## Remote Patterns
+
+Configure `next.config.mjs` to allow remote hosts:
+
+```js
+images: {
+  remotePatterns: [
+    { protocol: 'https', hostname: 'images.unsplash.com' },
+    { protocol: 'https', hostname: 'images.pexels.com' },
+  ],
+},
+```
+
+## Common Pitfalls
+
+- Oversized `sizes` attribute causing 2× bandwidth
+- Missing `alt` or misleading descriptions
+- `priority` used on all images (hurts CPU/network)
+
+## Debugging
+
+Use Chrome DevTools > Network to verify requested dimensions and format. Aim for modern formats (AVIF/WEBP) and <100KB for list thumbnails.

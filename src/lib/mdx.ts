@@ -13,6 +13,10 @@ export interface ContentFrontmatter {
   published?: boolean
   tags?: string[]
   tech?: string[]
+  authorName?: string
+  authorAvatar?: string
+  metaTitle?: string
+  metaDescription?: string
 }
 
 export interface ContentItem {

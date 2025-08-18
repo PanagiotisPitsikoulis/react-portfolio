@@ -13,6 +13,11 @@ import { useCurrentRoute } from "@/components/current-route-context";
 import { metadata } from "@/lib/data";
 import { AnimatedThemeToggler } from "@/components/magicui/animated-theme-toggler";
 import CommandBar from "@/components/command-bar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 function findNestedHref(array: string[], route: string): string {
   const routeIndex = array.indexOf(route);
@@ -24,14 +29,23 @@ function findNestedHref(array: string[], route: string): string {
   return `/${pathSegments.join("/")}`;
 }
 
-interface HeaderProps {}
+interface HeaderProps {
+  projects?: { title: string; url: string }[];
+  blog?: { title: string; url: string }[];
+}
 
-const Header: React.FC<HeaderProps> = ({}) => {
+const Header: React.FC<HeaderProps> = ({ projects = [], blog = [] }) => {
   const { currentRouteArray } = useCurrentRoute();
+
   return (
-    <header className="flex h-16 rounded-t-2xl shrink-0 items-center gap-2 px-6 lg:px-12 w-full justify-between sticky top-0 bg-background z-50">
+    <header className="flex h-16 lg:rounded-t-2xl shrink-0 items-center dark gap-2 px-6 lg:px-12 w-full justify-between sticky top-0 bg-background z-50">
       <div className="w-full flex flex-row items-center">
-        <SidebarTrigger className="-ml-1" />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <SidebarTrigger className="-ml-1 text-muted-foreground" />
+          </TooltipTrigger>
+          <TooltipContent side="bottom">Toggle sidebar</TooltipContent>
+        </Tooltip>
         <Separator
           orientation="vertical"
           className="mr-2 data-[orientation=vertical]:h-4"
@@ -42,16 +56,26 @@ const Header: React.FC<HeaderProps> = ({}) => {
               <div key={index} className="flex flex-row items-center gap-2">
                 <BreadcrumbItem key={index}>
                   {index === 0 ? (
-                    <BreadcrumbLink className="capitalize" href={"/"}>
-                      {metadata.title as string}
-                    </BreadcrumbLink>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <BreadcrumbLink className="capitalize" href={"/"}>
+                          {metadata.title as string}
+                        </BreadcrumbLink>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">Home</TooltipContent>
+                    </Tooltip>
                   ) : (
-                    <BreadcrumbLink
-                      className="capitalize"
-                      href={findNestedHref(currentRouteArray, route)}
-                    >
-                      {route}
-                    </BreadcrumbLink>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <BreadcrumbLink
+                          className="capitalize"
+                          href={findNestedHref(currentRouteArray, route)}
+                        >
+                          {route}
+                        </BreadcrumbLink>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom">{route}</TooltipContent>
+                    </Tooltip>
                   )}
                 </BreadcrumbItem>
                 {index !== currentRouteArray.length - 1 &&
@@ -64,8 +88,22 @@ const Header: React.FC<HeaderProps> = ({}) => {
         </Breadcrumb>
       </div>
       <div className="flex flex-row gap-2 items-center">
-        <CommandBar />
-        <AnimatedThemeToggler />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div>
+              <CommandBar projects={projects} blog={blog} />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">Search (⌘K)</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div>
+              <AnimatedThemeToggler />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">Toggle theme</TooltipContent>
+        </Tooltip>
       </div>
     </header>
   );

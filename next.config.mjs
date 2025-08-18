@@ -3,10 +3,17 @@ import createMDX from "@next/mdx";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "images.pexels.com" },
+      { protocol: "https", hostname: "avatars.githubusercontent.com" },
+      { protocol: "https", hostname: "deifkwefumgah.cloudfront.net" },
+    ],
+  },
   experimental: {
     reactCompiler: true,
     viewTransition: true,
-    useLightningCss: true,
     mdxRs: {
       jsxRuntime: "automatic",
       jsxImportSource: "react",

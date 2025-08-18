@@ -16,7 +16,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { sidebarData } from "@/lib/data";
 
-export default function CommandBar() {
+type NavItem = { title: string; url: string };
+
+export default function CommandBar({
+  projects = [],
+  blog = [],
+}: {
+  projects?: NavItem[];
+  blog?: NavItem[];
+}) {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
 
@@ -72,7 +80,7 @@ export default function CommandBar() {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
 
-          {/* Top-level pages */}
+          {/* Top-level pages with dynamic content */}
           {sidebarData.navMain.map((section) => (
             <React.Fragment key={section.title}>
               <CommandGroup heading={section.title}>
@@ -84,19 +92,22 @@ export default function CommandBar() {
                   </CommandItem>
                 )}
                 {/* Child items */}
-                {Array.isArray(section.items) &&
-                  section.items.map((child) => (
-                    <CommandItem
-                      key={child.url}
-                      onSelect={() => navigate(child.url)}
-                    >
-                      {section.icon ? (
-                        // Render a faint dot to align text when no icon
-                        <span className="mr-1.5 size-4" />
-                      ) : null}
+                {(() => {
+                  const dynamicChildren: NavItem[] | null =
+                    section.title === "Projects"
+                      ? projects
+                      : section.title === "Blog"
+                        ? blog
+                        : null;
+                  const children: NavItem[] | undefined = dynamicChildren ?? (section.items as any);
+                  if (!Array.isArray(children)) return null;
+                  return children.map((child) => (
+                    <CommandItem key={child.url} onSelect={() => navigate(child.url)}>
+                      {section.icon ? <span className="mr-1.5 size-4" /> : null}
                       <span>{child.title}</span>
                     </CommandItem>
-                  ))}
+                  ));
+                })()}
               </CommandGroup>
               <CommandSeparator />
             </React.Fragment>

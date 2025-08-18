@@ -1,0 +1,56 @@
+---
+title: "React Suspense in Practice"
+date: "2025-06-18"
+summary: "Patterns for streaming UI and data fetching with Suspense."
+tags: ["react", "suspense", "concurrency"]
+cover: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1400&auto=format&fit=crop"
+authorName: Panagiotis Pitsikoulis
+authorAvatar: https://avatars.githubusercontent.com/u/177002430?v=4
+metaTitle: React Suspense in Practice — Streaming UI
+metaDescription: Real-world guidance for using Suspense to simplify loading states and stream UI.
+---
+
+# React Suspense in Practice
+
+Suspense enables smoother loading by letting you stream UI progressively.
+
+## Where to Start
+
+- Put boundaries at route/page level for coarse loading
+- Use component-level boundaries for slow widgets (charts, comments)
+- Pair with `ErrorBoundary` for robust recovery
+
+```tsx
+<Suspense fallback={<Spinner />}>
+  <UserProfile id={id} />
+</Suspense>
+```
+
+## With Server Components
+
+- Fetch on the server by default; stream to the client
+- Keep client components lean; pass serialized data props
+
+```tsx
+// Server Component
+export default async function Page() {
+  const user = await getUser()
+  return <UserInfo client user={user} />
+}
+```
+
+## Anti‑patterns
+
+- Nesting too many small boundaries (jittery UI)
+- Triggering client fetches inside Suspense without coordination
+
+## Tooling Tips
+
+- React DevTools Profiler to verify waterfalls are gone
+- Use network throttling to validate fallback durations
+
+```tsx
+<Suspense fallback={<Spinner />}>
+  <UserProfile id={id} />
+</Suspense>
+```

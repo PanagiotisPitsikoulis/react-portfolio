@@ -11,7 +11,7 @@ interface ProvidersProps {
 const Providers: React.FC<ProvidersProps> = ({ children }) => {
   return (
     <RouteProvider>
-      <ReactLenis root />
+      {/*<ReactLenis root />*/}
       <ThemeProvider>{children}</ThemeProvider>
     </RouteProvider>
   );

@@ -6,7 +6,6 @@ export const metadata: Metadata = {
   description: "Full-stack developer",
 };
 
-// Site-level SEO metadata consumed by seo utilities
 export const siteMetadata = {
   // Core
   title: "Portfolio - Panos",
@@ -21,13 +20,12 @@ export const siteMetadata = {
     "next.js",
   ],
 
-  // Social / Branding
   twitter: {
     handle: "@panos_dev_",
     cardType: "summary_large_image" as const,
   },
   images: {
-    ogImage: "/og-image.jpg", // host-relative, resolved against siteUrl
+    ogImage: "/og-image.jpg",
     logo: "/logo.svg",
   },
 
@@ -37,10 +35,8 @@ export const siteMetadata = {
   includeBlogInSitemap: true,
   includeProjectsInSitemap: true,
 
-  // Optional: static paths to include in sitemap root
-  staticPaths: ["/" , "/blog" , "/projects"],
+  staticPaths: ["/", "/blog", "/projects"],
 
-  // Feeds / endpoints
   rssPath: "/feed.xml",
   sitemapPath: "/sitemap.xml",
 };
@@ -57,56 +53,13 @@ export const sidebarData = {
       title: "Projects",
       icon: <PresentationIcon />,
       url: "/projects",
-      items: [
-        {
-          title: "Wordflow CMS",
-          url: "/projects/wordflow-cms",
-          isActive: true,
-        },
-        {
-          title: "C-ESG Compass",
-          url: "/projects/c-esg-compass",
-        },
-        {
-          title: "Simply Drive",
-          url: "/projects/simply-drive",
-        },
-        {
-          title: "AZ Kids Travel",
-          url: "/projects/az-kids-travel",
-        },
-        {
-          title: "AZ Kids Store",
-          url: "/projects/az-kids-store",
-        },
-        {
-          title: "Blink Calendar",
-          url: "/projects/blink-calendar",
-        },
-        {
-          title: "Portfolio",
-          url: "/projects/portfolio",
-        },
-      ],
+      items: [],
     },
     {
       title: "Blog",
       icon: <NotebookPen />,
       url: "/blog",
-      items: [
-        {
-          title: "AI in Education Seminar",
-          url: "/activities/ai-in-education",
-        },
-        {
-          title: "Student Research Symposium",
-          url: "/activities/student-research-symposium",
-        },
-        {
-          title: "Helexpo Conference",
-          url: "/activities/helexpo-conference",
-        },
-      ],
+      items: [],
     },
     {
       title: "Contact Me",

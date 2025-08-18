@@ -1,6 +1,5 @@
 "use client";
 
-import AutoScroll from "embla-carousel-auto-scroll";
 import { ArrowRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
@@ -12,51 +11,38 @@ import "swiper/css";
 import "swiper/css/effect-cards";
 
 import { Button } from "@/components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
 
-const Hero = () => {
+type HeroImage = { src: string; alt: string };
+type HeroCta = {
+  label: string;
+  href: string;
+  variant?: "default" | "secondary" | "outline";
+};
+
+export interface HeroProps {
+  badgeText: string;
+  badgeHref: string;
+  title: string;
+  subtitle: string;
+  primaryCta: HeroCta;
+  secondaryCta: HeroCta;
+  images: HeroImage[];
+}
+
+const Hero: React.FC<HeroProps> = ({
+  badgeText,
+  title,
+  subtitle,
+  primaryCta,
+  secondaryCta,
+  images,
+  badgeHref,
+}) => {
   const [domLoaded, setDomLoaded] = useState(false);
 
   useEffect(() => {
     setDomLoaded(true);
   }, []);
-
-  const images = [
-    {
-      src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random11.jpeg",
-      alt: "Portrait of Joanna Doe in urban setting",
-      name: "Joanna Doe",
-    },
-    {
-      src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random1.jpeg",
-      alt: "Portrait of Joan Doe in natural lighting",
-      name: "Joan Doe",
-    },
-    {
-      src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random2.jpeg",
-      alt: "Portrait of Sarah Chen in studio setting",
-      name: "Sarah Chen",
-    },
-    {
-      src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random11.jpeg",
-      alt: "Portrait of Joanna Doe in urban setting",
-      name: "Joanna Doe",
-    },
-    {
-      src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random1.jpeg",
-      alt: "Portrait of Joan Doe in natural lighting",
-      name: "Joan Doe",
-    },
-    {
-      src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random2.jpeg",
-      alt: "Portrait of Sarah Chen in studio setting",
-      name: "Sarah Chen",
-    },
-  ];
 
   const css = `
   .mySwiperHero231 {
@@ -68,9 +54,11 @@ const Hero = () => {
   .mySwiperHero231 .swiper-slide {
     background-position: center;
     background-size: cover;
-    width: 300px;
-    margin-top: 60px;
-    height: 420px;
+    width: 85vw;
+    max-width: 320px;
+    margin-top: 24px;
+    height: 60vw;
+    max-height: 420px;
   }
 
   .mySwiperHero231 .swiper-slide img {
@@ -98,6 +86,11 @@ const Hero = () => {
       width: fit-content !important;
       left: 80% !important;
     }
+    .mySwiperHero231 .swiper-slide {
+      width: 300px;
+      margin-top: 60px;
+      height: 420px;
+    }
   }
 
   `;
@@ -107,35 +100,40 @@ const Hero = () => {
       <style>{css}</style>
       <div className="container mt-4 flex flex-col items-center justify-center gap-4 overflow-hidden text-left xl:mt-14 xl:flex-row xl:overflow-visible">
         <div className="w-full space-y-10 xl:w-1/2">
-          <Button
-            variant="secondary"
-            className="items-left bg-muted/70 group flex w-fit justify-center gap-3 rounded-full px-5 py-1"
-          >
-            <span className="bg-foreground size-2.5 rounded-full" />
-            Flexible Plan customized for you
-          </Button>
-          <h1 className="font-calSans text-foreground mt-12 text-5xl font-medium tracking-tight md:text-7xl">
-            Blocks Built <br /> With Shadcn & Tailwind.
-          </h1>
-          <p className="text-muted-foreground/80 mt-3 max-w-lg">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem
-            id voluptates sed doloremque voluptas dolor laudantium eaque ex.
-          </p>
-          <div className="flex gap-4 xl:mt-32">
+          <a href={badgeHref}>
             <Button
               variant="secondary"
-              className="group flex w-fit items-center justify-center gap-2 rounded-full px-4 py-1 tracking-tight"
+              className="items-left bg-muted/70 group flex w-fit justify-center gap-3 rounded-full px-5 py-1"
             >
-              <span>Documentation</span>
-              <ArrowRight className="size-4 -rotate-45 transition-all ease-out group-hover:ml-3 group-hover:rotate-0" />
+              <span className="bg-foreground size-2.5 rounded-full" />
+              {badgeText}
             </Button>
-            <Button
-              variant="default"
-              className="group flex w-fit items-center justify-center gap-2 rounded-full px-4 py-1 tracking-tight"
-            >
-              <span>Get Started</span>
-              <ArrowRight className="size-4 -rotate-45 transition-all ease-out group-hover:ml-3 group-hover:rotate-0" />
-            </Button>
+          </a>
+          <h1 className="font-calSans text-foreground mt-12 text-5xl font-medium tracking-tight md:text-7xl">
+            {title}
+          </h1>
+          <p className="text-muted-foreground/80 mt-3 max-w-lg">
+            {subtitle}
+          </p>
+          <div className="flex gap-4 xl:mt-32">
+            <a href={secondaryCta.href}>
+              <Button
+                variant={secondaryCta.variant ?? "secondary"}
+                className="group flex w-fit items-center justify-center gap-2 rounded-full px-4 py-1 tracking-tight"
+              >
+                <span>{secondaryCta.label}</span>
+                <ArrowRight className="size-4 -rotate-45 transition-all ease-out group-hover:ml-3 group-hover:rotate-0" />
+              </Button>
+            </a>
+            <a href={primaryCta.href}>
+              <Button
+                variant={primaryCta.variant ?? "default"}
+                className="group flex w-fit items-center justify-center gap-2 rounded-full px-4 py-1 tracking-tight"
+              >
+                <span>{primaryCta.label}</span>
+                <ArrowRight className="size-4 -rotate-45 transition-all ease-out group-hover:ml-3 group-hover:rotate-0" />
+              </Button>
+            </a>
           </div>
         </div>
         <div className="h-145 relative w-full xl:mt-0 xl:w-3/5">

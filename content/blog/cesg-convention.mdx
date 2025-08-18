@@ -1,0 +1,56 @@
+---
+slug: cesg-convention
+title: "Crafting Convention"
+date: 2025-08-10
+summary: "A lightweight naming and structure convention that scales from prototypes to products."
+cover: https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=1400&auto=format&fit=crop
+published: true
+tags:
+  - meta
+  - intro
+authorName: Panagiotis Pitsikoulis
+authorAvatar: https://avatars.githubusercontent.com/u/177002430?v=4
+metaTitle: CESG Convention — Maintainable React at scale
+metaDescription: A pragmatic convention for Components, Effects, State, and Graphs to keep React codebases tidy.
+---
+
+# CESG: Components, Effects, State, Graphs
+
+Keep files organized, predictable, and easy to scan.
+
+## Components
+- One responsibility per component
+- Extract rendering helpers, prefer pure functions
+
+## Effects
+- Isolate side effects at the bottom of the file
+- Name effects by intent, not lifecycle
+
+## State
+- Model state explicitly; derive what you can
+- Prefer reducers for complex transitions
+
+## Graphs
+- Data dependencies across components; keep them explicit (props) not implicit (globals)
+
+```tsx
+type Status = 'idle' | 'loading' | 'success' | 'error'
+
+export function useFetch<T>(fn: () => Promise<T>) {
+  const [status, setStatus] = useState<Status>('idle')
+  const [data, setData] = useState<T | null>(null)
+  const [error, setError] = useState<Error | null>(null)
+  // Effect: fetch on mount
+  useEffect(() => {
+    let mounted = true
+    setStatus('loading')
+    fn()
+      .then((d) => mounted && (setData(d), setStatus('success')))
+      .catch((e) => mounted && (setError(e), setStatus('error')))
+    return () => {
+      mounted = false
+    }
+  }, [fn])
+  return { status, data, error }
+}
+```

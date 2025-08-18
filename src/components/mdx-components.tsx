@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import type { MDXComponents as MDXComponentsMap } from "mdx/types";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -50,7 +51,7 @@ function Paragraph({ className, ...props }: MDXComponentProps) {
 }
 
 function Heading({ level, className, ...props }: MDXComponentProps & { level: 1 | 2 | 3 | 4 | 5 | 6 }) {
-  const Tag = (`h${level}` as unknown) as keyof JSX.IntrinsicElements;
+  const Tag = (`h${level}` as unknown) as any;
   const base =
     level === 1
       ? "mt-10 scroll-m-20 text-4xl/tight font-bold"
@@ -184,8 +185,8 @@ export const mdxComponents = {
 
 // For @mdx-js/react provider integration
 export function useMDXComponents(
-  components: Record<string, React.ComponentType<any>>,
-) {
-  return { ...mdxComponents, ...components };
+  components: MDXComponentsMap,
+): MDXComponentsMap {
+  return { ...(mdxComponents as unknown as MDXComponentsMap), ...components };
 }
 
