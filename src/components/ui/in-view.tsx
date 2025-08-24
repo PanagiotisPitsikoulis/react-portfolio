@@ -1,12 +1,12 @@
-'use client';
-import { ReactNode, useRef, useState } from 'react';
+"use client";
+import { ReactNode, useRef, useState } from "react";
 import {
   motion,
   useInView,
   Variant,
   Transition,
   UseInViewOptions,
-} from 'motion/react';
+} from "motion/react";
 
 export type InViewProps = {
   children: ReactNode;
@@ -17,7 +17,8 @@ export type InViewProps = {
   transition?: Transition;
   viewOptions?: UseInViewOptions;
   as?: React.ElementType;
-  once?: boolean
+  once?: boolean;
+  className?: string;
 };
 
 const defaultVariants = {
@@ -28,29 +29,30 @@ const defaultVariants = {
 export function InView({
   children,
   variants = defaultVariants,
+  className,
   transition,
   viewOptions,
-  as = 'div',
-  once
+  as = "div",
+  once,
 }: InViewProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, viewOptions);
 
-  const [isViewed, setIsViewed] = useState(false)
+  const [isViewed, setIsViewed] = useState(false);
 
   const MotionComponent = motion[as as keyof typeof motion] as typeof as;
 
   return (
     <MotionComponent
       ref={ref}
-      initial='hidden'
+      initial="hidden"
       onAnimationComplete={() => {
-        if (once) setIsViewed(true)
+        if (once) setIsViewed(true);
       }}
-      animate={(isInView || isViewed) ? "visible" : "hidden"}
-
+      animate={isInView || isViewed ? "visible" : "hidden"}
       variants={variants}
       transition={transition}
+      className={className}
     >
       {children}
     </MotionComponent>

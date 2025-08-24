@@ -22,9 +22,7 @@ type MDXComponentProps = React.HTMLAttributes<HTMLElement> & {
   className?: string;
 };
 
-function AnchorTag(
-  props: React.AnchorHTMLAttributes<HTMLAnchorElement>,
-) {
+function AnchorTag(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
   const isExternal = props.href?.startsWith("http");
   return (
     <Link
@@ -50,8 +48,12 @@ function Paragraph({ className, ...props }: MDXComponentProps) {
   );
 }
 
-function Heading({ level, className, ...props }: MDXComponentProps & { level: 1 | 2 | 3 | 4 | 5 | 6 }) {
-  const Tag = (`h${level}` as unknown) as any;
+function Heading({
+  level,
+  className,
+  ...props
+}: MDXComponentProps & { level: 1 | 2 | 3 | 4 | 5 | 6 }) {
+  const Tag = `h${level}` as unknown as any;
   const base =
     level === 1
       ? "mt-10 scroll-m-20 text-4xl/tight font-bold"
@@ -68,11 +70,21 @@ function Heading({ level, className, ...props }: MDXComponentProps & { level: 1 
 }
 
 function List({ className, ...props }: MDXComponentProps) {
-  return <ul className={cn("my-6 ml-6 list-disc [&>li]:mt-2", className)} {...props} />;
+  return (
+    <ul
+      className={cn("my-6 ml-6 list-disc [&>li]:mt-2", className)}
+      {...props}
+    />
+  );
 }
 
 function OrderedList({ className, ...props }: MDXComponentProps) {
-  return <ol className={cn("my-6 ml-6 list-decimal [&>li]:mt-2", className)} {...props} />;
+  return (
+    <ol
+      className={cn("my-6 ml-6 list-decimal [&>li]:mt-2", className)}
+      {...props}
+    />
+  );
 }
 
 function Blockquote({ className, ...props }: MDXComponentProps) {
@@ -129,19 +141,17 @@ function ImageTag(props: React.ImgHTMLAttributes<HTMLImageElement>) {
 }
 
 // Convenience component to render callouts from MDX
-function Callout(
-  {
-    title,
-    children,
-    variant = "default",
-    className,
-  }: {
-    title?: React.ReactNode;
-    children?: React.ReactNode;
-    variant?: "default" | "destructive";
-    className?: string;
-  },
-) {
+function Callout({
+  title,
+  children,
+  variant = "default",
+  className,
+}: {
+  title?: React.ReactNode;
+  children?: React.ReactNode;
+  variant?: "default" | "destructive";
+  className?: string;
+}) {
   return (
     <Alert variant={variant} className={cn("my-6", className)}>
       {title ? <AlertTitle>{title}</AlertTitle> : null}
@@ -162,7 +172,9 @@ export const mdxComponents = {
   a: AnchorTag,
   ul: List,
   ol: OrderedList,
-  li: (props: MDXComponentProps) => <li className={cn("mt-2", props.className)} {...props} />,
+  li: (props: MDXComponentProps) => (
+    <li className={cn("mt-2", props.className)} {...props} />
+  ),
   blockquote: Blockquote,
   hr: HorizontalRule,
   img: ImageTag,
@@ -170,12 +182,22 @@ export const mdxComponents = {
   pre: Pre,
   // Tables
   table: (props: React.ComponentProps<typeof Table>) => <Table {...props} />,
-  thead: (props: React.ComponentProps<typeof TableHeader>) => <TableHeader {...props} />,
-  tbody: (props: React.ComponentProps<typeof TableBody>) => <TableBody {...props} />,
-  tfoot: (props: React.ComponentProps<typeof TableFooter>) => <TableFooter {...props} />,
+  thead: (props: React.ComponentProps<typeof TableHeader>) => (
+    <TableHeader {...props} />
+  ),
+  tbody: (props: React.ComponentProps<typeof TableBody>) => (
+    <TableBody {...props} />
+  ),
+  tfoot: (props: React.ComponentProps<typeof TableFooter>) => (
+    <TableFooter {...props} />
+  ),
   tr: (props: React.ComponentProps<typeof TableRow>) => <TableRow {...props} />,
-  th: (props: React.ComponentProps<typeof TableHead>) => <TableHead {...props} />,
-  td: (props: React.ComponentProps<typeof TableCell>) => <TableCell {...props} />,
+  th: (props: React.ComponentProps<typeof TableHead>) => (
+    <TableHead {...props} />
+  ),
+  td: (props: React.ComponentProps<typeof TableCell>) => (
+    <TableCell {...props} />
+  ),
   caption: (props: React.ComponentProps<typeof TableCaption>) => (
     <TableCaption {...props} />
   ),
@@ -189,4 +211,3 @@ export function useMDXComponents(
 ): MDXComponentsMap {
   return { ...(mdxComponents as unknown as MDXComponentsMap), ...components };
 }
-

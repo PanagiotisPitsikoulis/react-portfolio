@@ -18,6 +18,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Link from "next/link";
 
 function findNestedHref(array: string[], route: string): string {
   const routeIndex = array.indexOf(route);
@@ -25,8 +26,9 @@ function findNestedHref(array: string[], route: string): string {
     return `/${route}`;
   }
 
-  const pathSegments = array.slice(0, routeIndex + 1);
-  return `/${pathSegments.join("/")}`;
+  const pathSegments = array.slice(0, routeIndex + 1).filter(Boolean);
+
+  return "/" + pathSegments.join("/");
 }
 
 interface HeaderProps {
@@ -38,7 +40,11 @@ const Header: React.FC<HeaderProps> = ({ projects = [], blog = [] }) => {
   const { currentRouteArray } = useCurrentRoute();
 
   return (
-    <header className="flex h-16 lg:rounded-t-2xl shrink-0 items-center dark gap-2 px-6 lg:px-12 w-full justify-between sticky top-0 bg-background z-50">
+    <header
+      data-slot="sidebar-header"
+      data-sidebar="header"
+      className="flex h-16 shrink-0 items-center bg-gradient-to-b from-background via-background to-transparent rounded-t-3xl gap-2 px-6 lg:px-12 w-full justify-between sticky top-0 z-50"
+    >
       <div className="w-full flex flex-row items-center">
         <Tooltip>
           <TooltipTrigger asChild>
@@ -67,11 +73,10 @@ const Header: React.FC<HeaderProps> = ({ projects = [], blog = [] }) => {
                   ) : (
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <BreadcrumbLink
-                          className="capitalize"
-                          href={findNestedHref(currentRouteArray, route)}
-                        >
-                          {route}
+                        <BreadcrumbLink className="capitalize" asChild>
+                          <Link href={findNestedHref(currentRouteArray, route)}>
+                            {route}
+                          </Link>
                         </BreadcrumbLink>
                       </TooltipTrigger>
                       <TooltipContent side="bottom">{route}</TooltipContent>

@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { siteMetadata } from "../data";
 
 export interface PageMetadataProps {
   title?: string;
@@ -74,14 +75,14 @@ export function generateBlogPostMetadata({
 }: {
   title: string;
   excerpt: string;
-  canonical: string; // full URL provided by caller
+  canonical: string;
   date: string;
   categories: string[];
   coverImage?: string;
   author?: string;
 }) {
   return generatePageMetadata({
-    title,
+    title: title + " - " + siteMetadata.title,
     description: excerpt,
     keywords: categories,
     image: coverImage
@@ -103,7 +104,7 @@ export function generateBlogPostMetadata({
 // Helper function for structured data
 export function generateStructuredData(
   type: "Organization" | "Article" | "WebSite",
-  data: any
+  data: any,
 ) {
   const commonData = {
     "@context": "https://schema.org",

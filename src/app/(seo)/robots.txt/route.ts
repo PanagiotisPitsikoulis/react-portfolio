@@ -40,10 +40,10 @@ Sitemap: ${baseUrl}/sitemap.xml
 # ${baseUrl}/feed.xml
 
 # Additional information for search engines
-# This is a fishing cruise business website
-# Main keywords: fishing cruises, mani peninsula, greece fishing, mediterranean fishing
+# This is a nextjs - reactjs - typescript web developer portfolio website
+# Main keywords: nextjs, reactjs, typescript, web developer, portfolio, website
 # Location: Agios Nikolaos, West Mani, Greece
-# Contact: thiresiamast@gmail.com
+# Contact: panagiotispitsikoulis2003@gmail.com
 `;
 
   return new NextResponse(robotsTxt, {

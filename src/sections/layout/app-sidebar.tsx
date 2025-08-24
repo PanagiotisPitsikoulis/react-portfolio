@@ -83,7 +83,9 @@ export function AppSidebar({
                   <span className="font-medium">
                     {metadata.title as string}
                   </span>
-                  <span className="">{metadata.description}</span>
+                  <span className="text-muted-foreground/90 text-sm">
+                    {metadata.description}
+                  </span>
                 </div>
               </Link>
             </SidebarMenuButton>

@@ -2,10 +2,11 @@ import * as React from "react";
 import TimelineCard from "./timeline-card";
 import Hero from "./hero";
 import LandingCarousel from "./landing-carousel";
-import BentoGrid from "./bento-grid";
+import Features from "./features";
 import { cn } from "@/lib/utils";
 import BlogCard from "./blog-card";
 import { landingPageData } from "@/lib/data/landing-page";
+import SectionHeading from "@/components/section-heading";
 
 interface HomePageProps {}
 
@@ -22,16 +23,20 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
           secondaryCta={landingPageData.hero.secondaryCta}
           images={landingPageData.hero.images}
         />
-        <BentoGrid
-          leadTile={landingPageData.bentoGrid.leadTile}
-          secondaryTile={landingPageData.bentoGrid.secondaryTile}
-          stat={landingPageData.bentoGrid.stat}
-          avatarStrip={landingPageData.bentoGrid.avatarStrip}
-          wideImageTile={landingPageData.bentoGrid.wideImageTile}
-          highlightTile={landingPageData.bentoGrid.highlightTile}
-          pricing={landingPageData.bentoGrid.pricing}
-        />
+        <SectionHeading>
+          <>Welcome to React Portfolio, a very cool website</>
+          <>This is a portfolio website built using React.</>
+        </SectionHeading>
+        <Features featuresData={landingPageData.featuresData} />
+        <SectionHeading>
+          <>Welcome to React Portfolio, a very cool website</>
+          <>This is a portfolio website built using React.</>
+        </SectionHeading>
         <LandingCarousel items={landingPageData.carousel.items} />
+        <SectionHeading>
+          <>Welcome to React Portfolio, a very cool website</>
+          <>This is a portfolio website built using React.</>
+        </SectionHeading>
         <BlogCard
           sectionTitle={landingPageData.blogCard.sectionTitle}
           sectionSubtitle={landingPageData.blogCard.sectionSubtitle}
@@ -40,6 +45,10 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
           authorAvatarSrc={landingPageData.blogCard.authorAvatarSrc}
           labels={landingPageData.blogCard.labels}
         />
+        <SectionHeading>
+          <>Welcome to React Portfolio, a very cool website</>
+          <>This is a portfolio website built using React.</>
+        </SectionHeading>
         <TimelineCard
           data={landingPageData.timeline.data}
           defaultActiveTime={landingPageData.timeline.defaultActiveTime}

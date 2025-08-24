@@ -1,18 +1,24 @@
 import { TimelineIcons } from "@/sections/landing/timeline-card";
 import type { ArcTimelineItem } from "@/components/magicui/arc-timeline";
 import type { HeroProps } from "@/sections/landing/hero";
-import type {
-  BentoGridProps,
-  BentoAvatar,
-  BentoImageTile,
-  BentoPricing,
-  BentoStat,
-} from "@/sections/landing/bento-grid";
 import type { LandingCarouselItem } from "@/sections/landing/landing-carousel";
+import {
+  ArrowRight,
+  BadgeCheck,
+  Clock,
+  Pyramid,
+  Sparkle,
+  Zap,
+} from "lucide-react";
 
 export interface LandingPageData {
   hero: HeroProps;
-  bentoGrid: BentoGridProps;
+  featuresData: {
+    title: string;
+    description: string;
+    image: string;
+    icon: React.ReactNode;
+  }[];
   carousel: { items: LandingCarouselItem[] };
   timeline: { data: ArcTimelineItem[]; defaultActiveTime: string };
   blogCard: {
@@ -33,7 +39,7 @@ export const landingPageData: LandingPageData = {
   hero: {
     badgeText: "Available for freelance work",
     badgeHref: "/#contact",
-    title: "Web Developer — Panos Pitsikoulis",
+    title: "Web Developer Panos Pitsikoulis",
     subtitle:
       "I build fast, accessible web apps with modern React, TypeScript, and Next.js.",
     primaryCta: {
@@ -73,68 +79,40 @@ export const landingPageData: LandingPageData = {
       },
     ],
   },
-  bentoGrid: {
-    leadTile: {
-      imageSrc:
-        "https://images.pexels.com/photos/4069292/pexels-photo-4069292.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      alt: "Minimal workspace with shadows",
-      headline: "Crafting delightful web experiences",
+  featuresData: [
+    {
+      title: "Seamless Integrations",
+      description:
+        "Connect your favorite tools and services effortlessly for a unified workflow.",
+      image:
+        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-1.svg",
+      icon: <Zap className="size-5" />,
     },
-    secondaryTile: {
-      imageSrc:
-        "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      alt: "Team collaborating over UI designs",
-      headline: "Design systems, performant UI, and maintainable code.",
+    {
+      title: "Advanced Analytics",
+      description:
+        "Gain deep insights with powerful analytics to make data-driven decisions.",
+      image:
+        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-2.svg",
+      icon: <Pyramid className="size-5" />,
     },
-    stat: {
-      value: "10+",
-      labelLines: ["Client satisfaction", "and on-time delivery"],
+    {
+      title: "Smart Search & Filters",
+      description:
+        "Find exactly what you need with intelligent search and filtering options.",
+      image:
+        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-3.svg",
+      icon: <Sparkle className="size-5" />,
     },
-    avatarStrip: [
-      {
-        imageSrc:
-          "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop&crop=faces",
-        fallback: "P1",
-      },
-      {
-        imageSrc:
-          "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop&crop=faces",
-        fallback: "P2",
-      },
-      {
-        imageSrc:
-          "https://images.pexels.com/photos/1130624/pexels-photo-1130624.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop&crop=faces",
-        fallback: "P3",
-      },
-      {
-        imageSrc:
-          "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop&crop=faces",
-        fallback: "P4",
-      },
-      {
-        imageSrc:
-          "https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&w=80&h=80&fit=crop&crop=faces",
-        fallback: "P5",
-      },
-    ],
-    wideImageTile: {
-      imageSrc:
-        "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      alt: "Code editor on laptop at desk",
+    {
+      title: "Enhanced Security",
+      description:
+        "Protect your data with top-notch security features and encryption.",
+      image:
+        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-4.svg",
+      icon: <BadgeCheck className="size-5" />,
     },
-    highlightTile: {
-      imageSrc:
-        "https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&w=1600",
-      alt: "Developer working on interface design",
-      titleTop: "Rapid Development",
-      titleBottom: "Ship features faster with tested components",
-    },
-    pricing: {
-      price: "Custom",
-      label: "Project-based pricing available",
-      cta: { label: "Get a quote", href: "/#contact" },
-    },
-  },
+  ],
   carousel: {
     items: [
       {

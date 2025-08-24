@@ -1,11 +1,11 @@
-import { AppSidebar, type ContentNavItem } from "@/app/(sidebar)/_app-sidebar";
+import { AppSidebar, type ContentNavItem } from "@/sections/layout/app-sidebar";
 
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 import * as React from "react";
-import Header from "./_header";
-import Footer from "./_footer";
-import SidebarBody from "./_sidebar-body";
+import Header from "../../sections/layout/header";
+import Footer from "../../sections/layout/footer";
+import SidebarBody from "../../sections/layout/sidebar-body";
 import { listContent } from "@/lib/mdx";
 
 interface SidebarLayoutProps {
@@ -17,10 +17,19 @@ const SidebarLayout = async ({ children }: SidebarLayoutProps) => {
     listContent("projects"),
     listContent("blog"),
   ]);
-  const toNav = (items: Awaited<ReturnType<typeof listContent>>): ContentNavItem[] =>
+  const toNav = (
+    items: Awaited<ReturnType<typeof listContent>>,
+  ): ContentNavItem[] =>
     items
-      .map((i) => ({ title: i.frontmatter.title || i.slug, url: `/${i.type}/${i.frontmatter.slug || i.slug}`, date: i.frontmatter.date || null }))
-      .sort((a, b) => (new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()));
+      .map((i) => ({
+        title: i.frontmatter.title || i.slug,
+        url: `/${i.type}/${i.frontmatter.slug || i.slug}`,
+        date: i.frontmatter.date || null,
+      }))
+      .sort(
+        (a, b) =>
+          new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime(),
+      );
   const projects = toNav(projectsRaw);
   const blog = toNav(blogRaw);
 
@@ -37,7 +46,7 @@ const SidebarLayout = async ({ children }: SidebarLayoutProps) => {
       <SidebarInset>
         <Header projects={projects} blog={blog} />
         <SidebarBody>{children}</SidebarBody>
-        <Footer />
+        <Footer projects={projects} blog={blog} />
       </SidebarInset>
     </SidebarProvider>
   );

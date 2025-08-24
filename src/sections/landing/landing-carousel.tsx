@@ -103,7 +103,9 @@ const LandingCarousel: React.FC<LandingCarouselProps> = ({ items }) => {
                 key={index}
                 onClick={() => api?.scrollTo(index)}
                 className={`h-2.5 w-2.5 rounded-full transition-all ${
-                  current === index ? "bg-primary w-4" : "bg-muted-foreground/50"
+                  current === index
+                    ? "bg-primary w-4"
+                    : "bg-muted-foreground/50"
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />

@@ -7,7 +7,6 @@ import remarkMath from "remark-math";
 import remarkEmoji from "remark-emoji";
 import remarkBreaks from "remark-breaks";
 import remarkToc from "remark-toc";
-import remarkUnwrapImages from "remark-unwrap-images";
 import remarkRehype from "remark-rehype";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
@@ -25,7 +24,6 @@ export async function renderMarkdownToHtml(markdown: string) {
     .use(remarkEmoji)
     .use(remarkBreaks)
     .use(remarkToc, { heading: "toc|table[ -]of[ -]contents?", tight: true })
-    .use(remarkUnwrapImages)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
     .use(rehypeSlug)

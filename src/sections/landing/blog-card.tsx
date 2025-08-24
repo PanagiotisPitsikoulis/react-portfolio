@@ -35,15 +35,15 @@ const BlogCard = async ({
   const [featured, ...rest] = posts;
   const secondary = rest.slice(0, 3);
   return (
-    <section className="dark relative bg-background p-4 lg:p-12 rounded-3xl">
-      <div className="container">
+    <section className="dark relative bg-background">
+      <div className="p-8">
         {/* Title Section - Updated layout */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground md:text-4xl lg:text-5xl">
             {sectionTitle}
           </h1>
 
-          <div className="mt-4 flex justify-start">
+          <div className="flex justify-start">
             <span className="mt-2 block text-sm text-muted-foreground md:text-base">
               {sectionSubtitle}
             </span>
@@ -79,14 +79,14 @@ const BlogCard = async ({
                     className="group relative block"
                   >
                     <Image
-                      className="w-full rounded-lg object-cover aspect-[3/2]"
+                      className="w-full object-cover aspect-[3/2] border"
                       src={featured.frontmatter.cover}
                       alt={featured.frontmatter.title || featured.slug}
                       width={1200}
                       height={800}
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
-                    <ArrowUpRight className="text-white/90 absolute right-3 top-3 hidden size-5 rounded-md bg-black/40 p-0.5 backdrop-blur-sm group-hover:block" />
+                    <ArrowUpRight className="text-white/90 absolute right-3 top-3 hidden size-5 bg-black/40 p-0.5 backdrop-blur-sm group-hover:block" />
                   </Link>
                 </TooltipTrigger>
                 <TooltipContent side="top">
@@ -157,7 +157,7 @@ const BlogCard = async ({
                     <div className="w-1/4 shrink-0 md:w-1/5">
                       {post.frontmatter.cover ? (
                         <Image
-                          className="rounded-md object-cover w-full h-auto aspect-[3/2]"
+                          className="object-cover w-full h-auto aspect-[3/2] border"
                           src={post.frontmatter.cover}
                           alt={post.frontmatter.title || post.slug}
                           width={240}
