@@ -4,27 +4,42 @@ import Link from "next/link";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { ContentItem, ContentType } from "@/lib/mdx";
-import Image from "next/image";
 import { SimpleMDXContent } from "@/lib/render-mdx";
+import Image from "next/image";
+import PostCard from "../post-viewer/post-card";
 
 const PostPageClient = ({
   post,
   contentType,
+  relatedPosts,
 }: {
   post: ContentItem;
   contentType: ContentType;
+  relatedPosts: ContentItem[];
 }) => {
   return (
-    <section className="px-6 lg:px-12 py-10">
+    <section className="page-container py-10">
       <div className="">
         <div className="relative flex flex-col justify-between gap-10 lg:flex-row">
-          <aside className="top-10 h-fit flex-shrink-0 lg:sticky lg:w-[300px] xl:w-[400px]">
+          <article className="max-w-2xl">
+            {post.frontmatter.cover && (
+              <Image
+                src={post.frontmatter.cover}
+                alt={post.frontmatter.title}
+                width={1000}
+                height={600}
+                className="mb-8 mt-0 aspect-video w-full rounded-3xl object-cover"
+              />
+            )}
+            <SimpleMDXContent source={post.body} />
+          </article>
+          <aside className="top-20 h-fit flex-shrink-0 lg:sticky lg:w-[300px] xl:w-[400px]">
             <Link
               className="text-muted-foreground hover:text-primary capitalize mb-5 flex items-center gap-1"
-              href={"/" + contentType}
+              href={`/${contentType}`}
             >
               <ChevronLeft className="h-full w-4" />
-              All {contentType} posts
+              All {contentType === "blog" ? "posts" : "projects"}
             </Link>
             <h1 className="mb-2 text-balance text-3xl font-bold lg:text-4xl">
               {post.frontmatter.title}
@@ -40,25 +55,26 @@ const PostPageClient = ({
                 <h2 className="font-semibold">{post.frontmatter.authorName}</h2>
                 <p className="text-muted-foreground text-xs">
                   {new Date(
-                    post.frontmatter.date as string,
+                    post.frontmatter.date as string
                   ).toLocaleDateString()}
                 </p>
               </div>
             </div>
-          </aside>
-
-          <article className="">
-            {post.frontmatter.cover && (
-              <Image
-                src={post.frontmatter.cover}
-                alt={post.frontmatter.title}
-                width={1000}
-                height={600}
-                className="mb-8 mt-0 aspect-video w-full rounded-lg object-cover"
-              />
+            {/* Recommended Articles Section */}
+            {relatedPosts.length > 0 && (
+              <div className="pt-12">
+                <div className="flex flex-col gap-6">
+                  {relatedPosts.map((relatedPost) => (
+                    <PostCard
+                      key={relatedPost.slug}
+                      post={relatedPost}
+                      contentType={contentType}
+                    />
+                  ))}
+                </div>
+              </div>
             )}
-            <SimpleMDXContent source={post.body} />
-          </article>
+          </aside>
         </div>
       </div>
     </section>

@@ -1,14 +1,19 @@
-import { NotebookPen, PresentationIcon, Send, Home } from "lucide-react";
+import { Home, NotebookPen, PresentationIcon, Send } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Portfolio - Panos",
+  title: "Portfolio Panos",
   description: "Full-stack developer",
+};
+
+export const author = {
+  name: "Panos Pitsikoulis",
+  avatar: "/author.jpeg",
 };
 
 export const siteMetadata = {
   // Core
-  title: "Portfolio - Panos",
+  title: "Portfolio Panos",
   description: "Full-stack developer",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   language: "en-us",
@@ -76,7 +81,7 @@ export const sidebarData = {
         },
         {
           title: "GitHub",
-          url: "https://github.com/PanagiotisPitsikouli",
+          url: "https://github.com/PanagiotisPitsikoulis",
         },
         {
           title: "X/Twitter",

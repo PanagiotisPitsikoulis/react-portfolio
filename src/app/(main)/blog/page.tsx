@@ -1,8 +1,6 @@
-import Link from "next/link";
-import { listContent } from "@/lib/mdx";
-import { siteMetadata } from "@/lib/data";
-import { Metadata } from "next";
 import PostViewer from "@/sections/post-viewer";
+import { Metadata } from "next";
+import { siteMetadata } from "../../../../content/data";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {

@@ -1,5 +1,5 @@
-import { siteMetadata } from "@/lib/data";
 import { listContent } from "@/lib/mdx";
+import { siteMetadata } from "../../../content/data";
 
 export interface RSSEntry {
   title: string;

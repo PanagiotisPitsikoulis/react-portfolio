@@ -1,213 +1,374 @@
 "use client";
-
-import * as React from "react";
-import type { MDXComponents as MDXComponentsMap } from "mdx/types";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-
-// shadcn/ui primitives
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableFooter,
-  TableRow,
-} from "@/components/ui/table";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { CheckCircle, Copy, ExternalLink } from "lucide-react";
+import type { MDXComponents } from "mdx/types";
+import Image from "next/image";
+import React, { useState } from "react";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
-type MDXComponentProps = React.HTMLAttributes<HTMLElement> & {
-  className?: string;
+// Helper function to generate heading IDs
+const generateId = (text: string): string => {
+  if (typeof text !== "string") {
+    return "";
+  }
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
 };
 
-function AnchorTag(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
-  const isExternal = props.href?.startsWith("http");
+// Extract language from className
+const getLanguage = (className: string): string => {
+  const match = className?.match(/language-(\w+)/);
+  return match ? match[1] : "text";
+};
+
+// Extract text content from React children recursively
+const extractTextContent = (children: any): string => {
+  if (typeof children === "string") {
+    return children;
+  }
+
+  if (typeof children === "number") {
+    return children.toString();
+  }
+
+  if (Array.isArray(children)) {
+    return children.map(extractTextContent).join("");
+  }
+
+  if (React.isValidElement(children)) {
+    return extractTextContent((children.props as any).children);
+  }
+
+  return "";
+};
+
+// Copy Button Component
+const CopyButton = ({ text }: { text: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   return (
-    <Link
-      href={props.href || "#"}
-      target={isExternal ? "_blank" : undefined}
-      rel={isExternal ? "noopener noreferrer" : undefined}
-      className={cn(
-        "text-primary underline underline-offset-4 hover:decoration-2",
-        props.className,
-      )}
-    >
-      {props.children}
-    </Link>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleCopy}
+            className="h-8 w-8 p-0 hover:bg-muted transition-colors"
+          >
+            {copied ? (
+              <CheckCircle className="h-4 w-4 text-green-500" />
+            ) : (
+              <Copy className="h-4 w-4" />
+            )}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{copied ? "Copied!" : "Copy code"}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
-}
+};
 
-function Paragraph({ className, ...props }: MDXComponentProps) {
-  return (
-    <p
-      className={cn("leading-7 [&:not(:first-child)]:mt-6", className)}
-      {...props}
-    />
-  );
-}
+// This file allows you to provide custom React components
+// to be used in MDX files. You can import and use any
+// React component you want, including inline styles,
+// components from other libraries, and more.
 
-function Heading({
-  level,
-  className,
-  ...props
-}: MDXComponentProps & { level: 1 | 2 | 3 | 4 | 5 | 6 }) {
-  const Tag = `h${level}` as unknown as any;
-  const base =
-    level === 1
-      ? "mt-10 scroll-m-20 text-4xl/tight font-bold"
-      : level === 2
-        ? "mt-10 scroll-m-20 text-3xl/tight font-semibold"
-        : level === 3
-          ? "mt-8 scroll-m-20 text-2xl/tight font-semibold"
-          : level === 4
-            ? "mt-8 scroll-m-20 text-xl/tight font-semibold"
-            : level === 5
-              ? "mt-6 scroll-m-20 text-lg/tight font-semibold"
-              : "mt-6 scroll-m-20 text-base/tight font-semibold";
-  return <Tag className={cn(base, className)} {...props} />;
-}
+export function useMDXComponents(components: MDXComponents): MDXComponents {
+  return {
+    // Allows customizing built-in components, e.g. to add styling.
+    h1: ({ children }) => {
+      const id = generateId(String(children));
+      return (
+        <h1
+          id={id}
+          className="text-4xl md:text-5xl font-bold text-foreground mt-12 mb-8 first:mt-0 scroll-mt-24 leading-tight"
+        >
+          {children}
+        </h1>
+      );
+    },
+    h2: ({ children }) => {
+      const id = generateId(String(children));
+      return (
+        <h2
+          id={id}
+          className="text-3xl font-bold text-foreground mt-12 mb-6 scroll-mt-24 leading-tight"
+        >
+          {children}
+        </h2>
+      );
+    },
+    h3: ({ children }) => {
+      const id = generateId(String(children));
+      return (
+        <h3
+          id={id}
+          className="text-2xl font-semibold text-foreground mt-10 mb-4 scroll-mt-24 leading-tight"
+        >
+          {children}
+        </h3>
+      );
+    },
+    h4: ({ children }) => {
+      const id = generateId(String(children));
+      return (
+        <h4
+          id={id}
+          className="text-xl font-semibold text-foreground mt-8 mb-3 scroll-mt-24 leading-tight"
+        >
+          {children}
+        </h4>
+      );
+    },
+    h5: ({ children }) => {
+      const id = generateId(String(children));
+      return (
+        <h5
+          id={id}
+          className="text-lg font-semibold text-foreground mt-6 mb-3 scroll-mt-24 leading-tight"
+        >
+          {children}
+        </h5>
+      );
+    },
+    h6: ({ children }) => {
+      const id = generateId(String(children));
+      return (
+        <h6
+          id={id}
+          className="text-base font-semibold text-foreground mt-6 mb-2 scroll-mt-24 leading-tight uppercase tracking-wide"
+        >
+          {children}
+        </h6>
+      );
+    },
+    p: ({ children }) => (
+      <p className="mb-6 leading-relaxed text-foreground/90 text-base">
+        {children}
+      </p>
+    ),
+    ul: ({ children }) => (
+      <ul className="list-disc list-outside mb-6 ml-6 space-y-2 text-foreground marker:text-primary">
+        {children}
+      </ul>
+    ),
+    ol: ({ children }) => (
+      <ol className="list-decimal list-outside mb-6 ml-6 space-y-2 text-foreground marker:text-primary marker:font-medium">
+        {children}
+      </ol>
+    ),
+    li: ({ children }) => <li className="leading-relaxed pl-1">{children}</li>,
+    blockquote: ({ children }) => (
+      <div className="my-8 pl-6 border-l-4 border-primary/60 bg-muted/50 py-4 pr-4 rounded-r-lg">
+        <div className="italic text-foreground/90 text-lg leading-relaxed">
+          {children}
+        </div>
+      </div>
+    ),
+    pre: ({ children }) => {
+      // Extract code content and language properly
+      let codeText = "";
+      let language = "text";
 
-function List({ className, ...props }: MDXComponentProps) {
-  return (
-    <ul
-      className={cn("my-6 ml-6 list-disc [&>li]:mt-2", className)}
-      {...props}
-    />
-  );
-}
+      // Handle different types of children structures
+      if (React.isValidElement(children)) {
+        const codeElement = children;
+        const props = codeElement.props as any;
 
-function OrderedList({ className, ...props }: MDXComponentProps) {
-  return (
-    <ol
-      className={cn("my-6 ml-6 list-decimal [&>li]:mt-2", className)}
-      {...props}
-    />
-  );
-}
+        // Extract language from className
+        if (props.className) {
+          language = getLanguage(props.className);
+        }
 
-function Blockquote({ className, ...props }: MDXComponentProps) {
-  return (
-    <blockquote
-      className={cn(
-        "mt-6 border-l-2 pl-6 italic text-muted-foreground",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
+        // Extract text content recursively
+        codeText = extractTextContent(props.children);
+      } else if (Array.isArray(children)) {
+        // Find the code element in the array
+        const codeElement = children.find(
+          (child) => React.isValidElement(child) && child.type === "code"
+        );
 
-function InlineCode({ className, ...props }: MDXComponentProps) {
-  return (
-    <code
-      className={cn(
-        "bg-muted rounded px-1.5 py-0.5 font-mono text-[0.85em]",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
+        if (React.isValidElement(codeElement)) {
+          const props = codeElement.props as any;
+          if (props.className) {
+            language = getLanguage(props.className);
+          }
+          codeText = extractTextContent(props.children);
+        } else {
+          // Fallback: extract from all children
+          codeText = extractTextContent(children);
+        }
+      } else {
+        // Fallback for other cases
+        codeText = extractTextContent(children);
+      }
 
-function Pre({ className, ...props }: React.HTMLAttributes<HTMLPreElement>) {
-  // Keep it simple; syntax highlighting can be handled by rehype-pretty-code styles
-  return (
-    <pre
-      className={cn(
-        "bg-muted/50 relative mt-6 overflow-x-auto rounded-md border p-4",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
+      // Choose theme based on dark mode
+      const syntaxTheme = oneDark;
 
-function HorizontalRule(props: React.HTMLAttributes<HTMLHRElement>) {
-  return <hr className="my-8 border-t" {...props} />;
-}
+      return (
+        <Card className="overflow-hidden shadow-sm border border-border/50 py-0">
+          <CardContent className="p-0">
+            {/* Safari-style header */}
+            <div className="flex items-center justify-between bg-muted px-4 py-3 border-b border-border/50">
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-muted-foreground">
+                  {language === "text" ? "Code" : language.toUpperCase()}
+                </span>
+              </div>
 
-function ImageTag(props: React.ImgHTMLAttributes<HTMLImageElement>) {
-  return (
-    // Using img for flexibility with MDX content dimensions
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      alt={props.alt || ""}
-      className={cn("rounded-md border", props.className)}
-      {...props}
-    />
-  );
-}
+              <div className="flex items-center gap-3">
+                {/* Copy Button */}
+                <CopyButton text={codeText.trim()} />
+              </div>
+            </div>
 
-// Convenience component to render callouts from MDX
-function Callout({
-  title,
-  children,
-  variant = "default",
-  className,
-}: {
-  title?: React.ReactNode;
-  children?: React.ReactNode;
-  variant?: "default" | "destructive";
-  className?: string;
-}) {
-  return (
-    <Alert variant={variant} className={cn("my-6", className)}>
-      {title ? <AlertTitle>{title}</AlertTitle> : null}
-      {children ? <AlertDescription>{children}</AlertDescription> : null}
-    </Alert>
-  );
-}
+            {/* Code content */}
+            <div className="relative">
+              <SyntaxHighlighter
+                language={language}
+                style={syntaxTheme}
+                customStyle={{
+                  margin: 0,
+                  padding: "1.5rem",
+                  fontSize: "0.875rem",
+                  lineHeight: "1.6",
+                  fontFamily:
+                    "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
+                }}
+                showLineNumbers={true}
+                wrapLongLines={true}
+              >
+                {codeText.trim()}
+              </SyntaxHighlighter>
+            </div>
+          </CardContent>
+        </Card>
+      );
+    },
+    code: ({ children, className }) => {
+      const isInline = !className;
 
-// MDX components map
-export const mdxComponents = {
-  h1: (props: MDXComponentProps) => <Heading level={1} {...props} />,
-  h2: (props: MDXComponentProps) => <Heading level={2} {...props} />,
-  h3: (props: MDXComponentProps) => <Heading level={3} {...props} />,
-  h4: (props: MDXComponentProps) => <Heading level={4} {...props} />,
-  h5: (props: MDXComponentProps) => <Heading level={5} {...props} />,
-  h6: (props: MDXComponentProps) => <Heading level={6} {...props} />,
-  p: Paragraph,
-  a: AnchorTag,
-  ul: List,
-  ol: OrderedList,
-  li: (props: MDXComponentProps) => (
-    <li className={cn("mt-2", props.className)} {...props} />
-  ),
-  blockquote: Blockquote,
-  hr: HorizontalRule,
-  img: ImageTag,
-  code: InlineCode,
-  pre: Pre,
-  // Tables
-  table: (props: React.ComponentProps<typeof Table>) => <Table {...props} />,
-  thead: (props: React.ComponentProps<typeof TableHeader>) => (
-    <TableHeader {...props} />
-  ),
-  tbody: (props: React.ComponentProps<typeof TableBody>) => (
-    <TableBody {...props} />
-  ),
-  tfoot: (props: React.ComponentProps<typeof TableFooter>) => (
-    <TableFooter {...props} />
-  ),
-  tr: (props: React.ComponentProps<typeof TableRow>) => <TableRow {...props} />,
-  th: (props: React.ComponentProps<typeof TableHead>) => (
-    <TableHead {...props} />
-  ),
-  td: (props: React.ComponentProps<typeof TableCell>) => (
-    <TableCell {...props} />
-  ),
-  caption: (props: React.ComponentProps<typeof TableCaption>) => (
-    <TableCaption {...props} />
-  ),
-  // Callouts
-  Callout,
-} as const;
+      if (isInline) {
+        return (
+          <Badge
+            variant="secondary"
+            className="text-sm px-2 py-1 bg-muted text-primary font-medium rounded-md"
+          >
+            {children}
+          </Badge>
+        );
+      }
 
-// For @mdx-js/react provider integration
-export function useMDXComponents(
-  components: MDXComponentsMap,
-): MDXComponentsMap {
-  return { ...(mdxComponents as unknown as MDXComponentsMap), ...components };
+      // For code blocks, this will be handled by the pre component
+      return <code className={className}>{children}</code>;
+    },
+    a: ({ children, href }) => {
+      const isExternal = href?.startsWith("http");
+      return (
+        <a
+          href={href}
+          className="text-primary hover:text-primary/80 underline underline-offset-2 transition-colors font-medium inline-flex items-center gap-1"
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+        >
+          {children}
+          {isExternal && <ExternalLink className="h-3 w-3" />}
+        </a>
+      );
+    },
+    strong: ({ children }) => (
+      <strong className="font-bold text-foreground">{children}</strong>
+    ),
+    em: ({ children }) => (
+      <em className="italic text-foreground">{children}</em>
+    ),
+    hr: () => <Separator className="my-12" />,
+    table: ({ children }) => (
+      <div className="my-8 overflow-x-auto">
+        <Card className="shadow-sm">
+          <CardContent className="p-0">
+            <table className="min-w-full">{children}</table>
+          </CardContent>
+        </Card>
+      </div>
+    ),
+    thead: ({ children }) => <thead className="bg-muted">{children}</thead>,
+    tbody: ({ children }) => (
+      <tbody className="divide-y divide-border/50">{children}</tbody>
+    ),
+    tr: ({ children }) => (
+      <tr className="hover:bg-muted/50 transition-colors">{children}</tr>
+    ),
+    th: ({ children }) => (
+      <th className="px-6 py-4 text-left font-semibold text-foreground text-sm">
+        {children}
+      </th>
+    ),
+    td: ({ children }) => (
+      <td className="px-6 py-4 text-foreground text-sm leading-relaxed">
+        {children}
+      </td>
+    ),
+    // Custom components for better visuals
+    img: ({ src, alt, ...props }) => (
+      <figure className="my-8">
+        <Card className="overflow-hidden shadow-sm">
+          <CardContent className="p-0">
+            <Image
+              src={src}
+              alt={alt}
+              width={1000}
+              height={1000}
+              className="w-full h-auto object-cover"
+              loading="lazy"
+              {...props}
+            />
+          </CardContent>
+        </Card>
+        {alt && (
+          <figcaption className="mt-3 text-center text-sm text-muted-foreground italic">
+            {alt}
+          </figcaption>
+        )}
+      </figure>
+    ),
+    ...components,
+  };
 }

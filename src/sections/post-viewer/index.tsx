@@ -1,8 +1,4 @@
-import Link from "next/link";
 import { ContentType, listContent } from "@/lib/mdx";
-import { siteMetadata } from "@/lib/data";
-import SectionHeading from "@/components/section-heading";
-import Image from "next/image";
 import PostViewerClient from "./post-viewer-client";
 
 export default async function PostViewer(props: {

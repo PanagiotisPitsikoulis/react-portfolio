@@ -1,9 +1,9 @@
-import { siteMetadata } from "@/lib/data";
 import { getContent, listContent } from "@/lib/mdx";
 import { generateBlogPostMetadata, generateStructuredData } from "@/lib/seo";
 import PostPage from "@/sections/post-page";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { siteMetadata } from "../../../../../content/data";
 
 export async function generateMetadata({
   params,

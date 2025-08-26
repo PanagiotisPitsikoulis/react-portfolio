@@ -14,12 +14,8 @@ const nextConfig = {
   experimental: {
     reactCompiler: true,
     viewTransition: true,
-    mdxRs: {
-      jsxRuntime: "automatic",
-      jsxImportSource: "react",
-      mdxType: "gfm",
-    },
   },
+  
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },
@@ -30,6 +26,7 @@ const withMDX = createMDX({
   options: {
     remarkPlugins: ["remark-gfm", "remark-frontmatter"],
     rehypePlugins: ["rehype-slug", "rehype-highlight"],
+    development: process.env.NODE_ENV === "development",
   },
 });
 

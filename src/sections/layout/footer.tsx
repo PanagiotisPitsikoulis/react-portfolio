@@ -1,10 +1,10 @@
 // app/(sidebar)/_footer.tsx
+import { ScreenShare } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { metadata } from "../../../content/data";
 import { ContentNavItem } from "./app-sidebar";
-import Link from "next/link";
-import { ScreenShare } from "lucide-react";
-import { metadata } from "@/lib/data";
 
 interface FooterProps {
   logo?: {
@@ -85,7 +85,7 @@ const Footer = ({
 
   return (
     <section className="pt-10 pb-5">
-      <div className="px-6 lg:px-12">
+      <div className="page-container">
         <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left">
           <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
             {/* Logo */}

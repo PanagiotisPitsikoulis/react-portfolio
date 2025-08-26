@@ -1,6 +1,5 @@
 import { generateSitemap } from "@/lib/seo/generate-sitemap";
 import { NextResponse } from "next/server";
-import { siteMetadata } from "@/lib/data";
 
 // Cache time in seconds (configurable via site data; fallback 1 day)
 const CACHE_MAX_AGE = 60 * 60 * 24;

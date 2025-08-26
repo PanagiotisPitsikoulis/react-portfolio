@@ -1,6 +1,5 @@
 import { generateRSSFeed } from "@/lib/seo/generate-rss-feed";
 import { NextResponse } from "next/server";
-import { siteMetadata } from "@/lib/data";
 
 // Cache time in seconds (fallback 1 hour)
 const CACHE_MAX_AGE = 60 * 60;

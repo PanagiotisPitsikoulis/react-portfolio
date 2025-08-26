@@ -1,5 +1,5 @@
-import { siteMetadata } from "@/lib/data";
 import { NextResponse } from "next/server";
+import { siteMetadata } from "../../../../content/data";
 
 // Cache time in seconds (1 day)
 const CACHE_MAX_AGE = 60 * 60 * 24;
@@ -46,7 +46,7 @@ export async function GET() {
           "Content-Type": "application/xml",
           "Cache-Control": "public, max-age=3600",
         },
-      },
+      }
     );
   }
 }

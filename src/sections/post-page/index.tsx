@@ -1,11 +1,6 @@
-import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
-
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import PostPageClient from "./post-page-client";
-import { ContentItem, ContentType, getContent } from "@/lib/mdx";
+import { ContentType, getContent, getRelatedPosts } from "@/lib/mdx";
 import { redirect } from "next/navigation";
-import { renderMarkdownToHtml } from "@/lib/markdown";
+import PostPageClient from "./post-page-client";
 
 const PostPage = async ({
   slug,
@@ -20,7 +15,16 @@ const PostPage = async ({
       throw new Error("Post not found");
     }
 
-    return <PostPageClient post={post} contentType={contentType} />;
+    // Get related posts
+    const relatedPosts = await getRelatedPosts(post, 3);
+
+    return (
+      <PostPageClient
+        post={post}
+        contentType={contentType}
+        relatedPosts={relatedPosts}
+      />
+    );
   } catch (error) {
     redirect("/" + contentType);
   }

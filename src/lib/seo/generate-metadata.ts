@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { siteMetadata } from "../data";
+import { siteMetadata } from "../../../content/data";
 
 export interface PageMetadataProps {
   title?: string;
@@ -104,7 +104,7 @@ export function generateBlogPostMetadata({
 // Helper function for structured data
 export function generateStructuredData(
   type: "Organization" | "Article" | "WebSite",
-  data: any,
+  data: any
 ) {
   const commonData = {
     "@context": "https://schema.org",

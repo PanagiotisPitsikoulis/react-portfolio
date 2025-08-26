@@ -1,5 +1,5 @@
-import { siteMetadata } from "@/lib/data";
 import { NextResponse } from "next/server";
+import { siteMetadata } from "../../../../content/data";
 
 // Cache time in seconds (1 day)
 const CACHE_MAX_AGE = 60 * 60 * 24;

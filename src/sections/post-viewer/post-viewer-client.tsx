@@ -1,15 +1,13 @@
 "use client";
 
-import type { ContentItem, ContentType } from "@/lib/mdx";
 import SectionHeading from "@/components/section-heading";
-import { useState, useMemo, useEffect } from "react";
-import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useSearchParamsState } from "@/hooks/use-search-params";
 import { useDebounce } from "@/hooks/use-debounce";
+import { useSearchParamsState } from "@/hooks/use-search-params";
+import type { ContentItem, ContentType } from "@/lib/mdx";
+import { Search } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 
-import Pagination from "./pagination";
-import Filters from "./filters";
 import {
   Carousel,
   CarouselContent,
@@ -17,10 +15,12 @@ import {
 } from "@/components/ui/carousel";
 import {
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Autoplay from "embla-carousel-autoplay";
+import Filters from "./filters";
+import Pagination from "./pagination";
 import PostCards from "./post-cards";
 
 const POSTS_PER_PAGE = 6;
@@ -41,14 +41,35 @@ export default function PostViewer({
   const { updateSearchParams, getParam } = useSearchParamsState();
   const [searchQuery, setSearchQuery] = useState(getParam("search") || "");
   const [selectedTags, setSelectedTags] = useState<string[]>(
-    getParam("tags") ? getParam("tags").split(",") : [],
+    getParam("tags") ? getParam("tags").split(",") : []
   );
   const [currentPage, setCurrentPage] = useState(
-    Number.parseInt(getParam("page")) || 1,
+    Number.parseInt(getParam("page")) || 1
   );
   const [isFiltersOpen, setIsFiltersOpen] = useState(true);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  // Handle case when there are no posts
+  if (!posts || posts.length === 0) {
+    return (
+      <section className="flex flex-1 flex-col gap-8 page-container pb-32">
+        <SectionHeading>
+          <>{title}</>
+          <>{description}</>
+        </SectionHeading>
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <h3 className="mb-2 text-xl font-semibold">
+            No {contentType === "blog" ? "posts" : "projects"} found
+          </h3>
+          <p className="text-muted-foreground max-w-md">
+            There are no {contentType === "blog" ? "posts" : "projects"}{" "}
+            available at the moment.
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   useEffect(() => {
     updateSearchParams({
@@ -85,7 +106,7 @@ export default function PostViewer({
 
     if (selectedTags.length > 0) {
       filtered = filtered.filter((post) =>
-        selectedTags.some((tag) => post.frontmatter.tags?.includes(tag)),
+        selectedTags.some((tag) => post.frontmatter.tags?.includes(tag))
       );
     }
 
@@ -106,7 +127,7 @@ export default function PostViewer({
 
   const handleTagToggle = (tag: string) => {
     setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     );
     setCurrentPage(1);
   };
@@ -136,7 +157,7 @@ export default function PostViewer({
     debouncedSearchQuery.trim().length > 0 || selectedTags.length > 0;
 
   return (
-    <section className="flex flex-1 flex-col gap-8 px-6 lg:px-12 pb-32">
+    <section className="flex flex-1 flex-col gap-8 page-container pb-32">
       <SectionHeading>
         <>{title}</>
         <>{description}</>
@@ -167,6 +188,7 @@ export default function PostViewer({
       </div>
 
       <Filters
+        contentType={contentType}
         searchQuery={searchQuery}
         debouncedSearchQuery={debouncedSearchQuery}
         handleClearAllFilters={handleClearAllFilters}
@@ -185,7 +207,7 @@ export default function PostViewer({
         currentPage={currentPage}
       />
 
-      <PostCards contentType={contentType} posts={posts} />
+      <PostCards contentType={contentType} posts={paginatedPosts} />
 
       {(debouncedSearchQuery || selectedTags.length > 0) &&
         filteredPosts.length === 0 && (
@@ -195,15 +217,19 @@ export default function PostViewer({
                 <Search className="mb-4 h-16 w-16 text-muted-foreground/30" />
               </TooltipTrigger>
               <TooltipContent side="top">
-                No matching posts found for your search
+                No matching {contentType === "blog" ? "posts" : "projects"}{" "}
+                found for your search
               </TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <h3 className="mb-2 text-xl font-semibold">No posts found</h3>
+                <h3 className="mb-2 text-xl font-semibold">
+                  No {contentType === "blog" ? "posts" : "projects"} found
+                </h3>
               </TooltipTrigger>
               <TooltipContent side="top">
-                Your current filters don't match any posts
+                Your current filters don't match any{" "}
+                {contentType === "blog" ? "posts" : "projects"}
               </TooltipContent>
             </Tooltip>
             <p className="text-muted-foreground max-w-md">
@@ -215,11 +241,12 @@ export default function PostViewer({
                     className="p-0 h-auto font-medium"
                     onClick={handleClearAllFilters}
                   >
-                    browse all posts
+                    browse all {contentType === "blog" ? "posts" : "projects"}
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="top">
-                  Clear all filters and show all posts
+                  Clear all filters and show all{" "}
+                  {contentType === "blog" ? "posts" : "projects"}
                 </TooltipContent>
               </Tooltip>
               .

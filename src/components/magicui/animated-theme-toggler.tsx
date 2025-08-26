@@ -1,9 +1,12 @@
 "use client";
 
-import { Moon, SunDim } from "lucide-react";
-import { useState, useRef } from "react";
-import { flushSync } from "react-dom";
 import { cn } from "@/lib/utils";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { Moon, SunDim } from "lucide-react";
+import { useRef, useState } from "react";
+import { flushSync } from "react-dom";
+import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 type props = {
   className?: string;
@@ -42,24 +45,35 @@ export const AnimatedThemeToggler = ({ className }: props) => {
         duration: 700,
         easing: "ease-in-out",
         pseudoElement: "::view-transition-new(root)",
-      },
+      }
     );
   };
   return (
-    <button
-      ref={buttonRef}
-      onClick={changeTheme}
-      aria-label="Toggle theme"
-      className={cn(
-        "inline-flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-transparent",
-        className,
-      )}
-    >
-      {isDarkMode ? (
-        <SunDim className="size-5" />
-      ) : (
-        <Moon className="size-5" />
-      )}
-    </button>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            ref={buttonRef}
+            onClick={changeTheme}
+            variant={"outline"}
+            size={"icon"}
+            aria-label="Toggle theme"
+            className={cn(
+              className,
+              "bg-sidebar dark:bg-sidebar dark:hover:bg-sidebar"
+            )}
+          >
+            {isDarkMode ? (
+              <SunDim className="size-4 text-muted-foreground hover:text-foreground" />
+            ) : (
+              <Moon className="size-4 text-muted-foreground hover:text-foreground" />
+            )}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          {isDarkMode ? "Change to Light mode" : "Change to Dark mode"}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };

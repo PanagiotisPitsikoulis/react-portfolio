@@ -1,18 +1,29 @@
-import { TimelineIcons } from "@/sections/landing/timeline-card";
 import type { ArcTimelineItem } from "@/components/magicui/arc-timeline";
 import type { HeroProps } from "@/sections/landing/hero";
 import type { LandingCarouselItem } from "@/sections/landing/landing-carousel";
-import {
-  ArrowRight,
-  BadgeCheck,
-  Clock,
-  Pyramid,
-  Sparkle,
-  Zap,
-} from "lucide-react";
+import { TimelineIcons } from "@/sections/landing/timeline-card";
+import { BadgeCheck, Pyramid, Sparkle, Zap } from "lucide-react";
 
 export interface LandingPageData {
   hero: HeroProps;
+  sectionHeadings: {
+    features: {
+      title: string;
+      subtitle: string;
+    };
+    carousel: {
+      title: string;
+      subtitle: string;
+    };
+    blog: {
+      title: string;
+      subtitle: string;
+    };
+    timeline: {
+      title: string;
+      subtitle: string;
+    };
+  };
   featuresData: {
     title: string;
     description: string;
@@ -78,6 +89,25 @@ export const landingPageData: LandingPageData = {
         alt: "Portrait in soft lighting",
       },
     ],
+  },
+  sectionHeadings: {
+    features: {
+      title: "What I Do",
+      subtitle:
+        "Full-stack development with modern technologies and best practices",
+    },
+    carousel: {
+      title: "Featured Work",
+      subtitle: "A showcase of my latest projects and technical expertise",
+    },
+    blog: {
+      title: "Latest Insights",
+      subtitle: "Thoughts on technology, development, and industry trends",
+    },
+    timeline: {
+      title: "My Journey",
+      subtitle: "Professional milestones and growth over the years",
+    },
   },
   featuresData: [
     {

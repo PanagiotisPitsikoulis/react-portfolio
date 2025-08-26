@@ -1,46 +1,138 @@
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkGfm from "remark-gfm";
-import remarkFrontmatter from "remark-frontmatter";
-import remarkMdx from "remark-mdx";
-import remarkMath from "remark-math";
-import remarkEmoji from "remark-emoji";
-import remarkBreaks from "remark-breaks";
-import remarkToc from "remark-toc";
-import remarkRehype from "remark-rehype";
-import rehypeRaw from "rehype-raw";
+import fs from "fs";
+import matter from "gray-matter";
+import path from "path";
+import { rehype } from "rehype";
+import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeExternalLinks from "rehype-external-links";
-import rehypeStringify from "rehype-stringify";
+import { remark } from "remark";
+import remarkGfm from "remark-gfm";
+import remarkHtml from "remark-html";
 
-export async function renderMarkdownToHtml(markdown: string) {
-  const processor = unified()
-    .use(remarkParse)
-    .use(remarkMdx)
+export type Post = {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  coverImage: string;
+  date: string;
+  readTime: number;
+  categories: string[];
+  featured: boolean;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    keywords?: string[];
+  };
+};
+
+const postsDirectory = path.join(process.cwd(), "content/posts");
+
+export function getAllPostSlugs() {
+  try {
+    const fileNames = fs.readdirSync(postsDirectory);
+    return fileNames
+      .filter((name) => name.endsWith(".md") || name.endsWith(".mdx"))
+      .map((name) => name.replace(/\.(md|mdx)$/, ""));
+  } catch (error) {
+    console.warn("Posts directory not found, returning empty array");
+    return [];
+  }
+}
+
+export async function processMarkdownContent(content: string): Promise<string> {
+  const processedContent = await remark()
     .use(remarkGfm)
-    .use(remarkFrontmatter, ["yaml"])
-    .use(remarkMath)
-    .use(remarkEmoji)
-    .use(remarkBreaks)
-    .use(remarkToc, { heading: "toc|table[ -]of[ -]contents?", tight: true })
-    .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeRaw)
-    .use(rehypeSlug)
-    .use(rehypeAutolinkHeadings, { behavior: "append" })
-    .use(rehypeExternalLinks, {
-      rel: ["nofollow", "noopener", "noreferrer"],
-      target: "_blank",
-    })
-    .use(rehypeStringify);
+    .use(remarkHtml, { sanitize: false })
+    .process(content);
 
-  const file = await processor.process(markdown);
-  return String(file);
+  // Further process with rehype for additional plugins
+  const finalContent = await rehype()
+    .use(rehypeSlug)
+    .use(rehypeHighlight)
+    .process(processedContent.toString());
+
+  return finalContent.toString();
+}
+
+export function getPostBySlug(slug: string): Post | null {
+  try {
+    const mdPath = path.join(postsDirectory, `${slug}.md`);
+    const mdxPath = path.join(postsDirectory, `${slug}.mdx`);
+
+    let fullPath: string;
+    let fileContents: string;
+
+    if (fs.existsSync(mdxPath)) {
+      fullPath = mdxPath;
+      fileContents = fs.readFileSync(fullPath, "utf8");
+    } else if (fs.existsSync(mdPath)) {
+      fullPath = mdPath;
+      fileContents = fs.readFileSync(fullPath, "utf8");
+    } else {
+      return null;
+    }
+
+    const { data, content } = matter(fileContents);
+
+    return {
+      id: data.id,
+      title: data.title,
+      slug: data.slug,
+      excerpt: data.excerpt,
+      content: content, // Keep raw markdown content for client-side processing
+      coverImage: data.coverImage,
+      date: data.date,
+      readTime: data.readTime,
+      categories: data.categories,
+      featured: data.featured || false,
+      seo: {
+        metaTitle: data.metaTitle,
+        metaDescription: data.metaDescription,
+        keywords: data.keywords,
+      },
+    };
+  } catch (error) {
+    console.error(`Error reading post ${slug}:`, error);
+    return null;
+  }
+}
+
+export function getAllPosts(): Post[] {
+  const slugs = getAllPostSlugs();
+  const posts = slugs
+    .map((slug) => getPostBySlug(slug))
+    .filter((post): post is Post => post !== null)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+  return posts;
+}
+
+export function getFeaturedPosts(): Post[] {
+  return getAllPosts().filter((post) => post.featured);
+}
+
+export function getPostsByCategory(category: string): Post[] {
+  return getAllPosts().filter((post) =>
+    post.categories.some((cat) => cat.toLowerCase() === category.toLowerCase())
+  );
+}
+
+export function getRelatedPosts(currentPost: Post, limit = 3): Post[] {
+  const allPosts = getAllPosts();
+
+  return allPosts
+    .filter(
+      (post) =>
+        post.id !== currentPost.id &&
+        post.categories.some((cat) => currentPost.categories.includes(cat))
+    )
+    .slice(0, limit);
 }
 
 // Utility function to extract table of contents from markdown content
 export function extractTableOfContents(
-  content: string,
+  content: string
 ): { id: string; title: string; level: number }[] {
   const headingRegex = /^(#{1,6})\s+(.+)$/gm;
   const toc: { id: string; title: string; level: number }[] = [];

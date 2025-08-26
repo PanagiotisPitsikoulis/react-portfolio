@@ -44,7 +44,7 @@ export default function TagSelector({
                 variant="ghost"
                 size="sm"
                 onClick={onClearAll}
-                className="h-auto ext-xs text-muted-foreground hover:text-foreground"
+                className="h-auto text-xs text-muted-foreground hover:text-foreground"
               >
                 Clear all
               </Button>

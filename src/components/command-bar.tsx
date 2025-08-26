@@ -1,8 +1,9 @@
 "use client";
-import * as React from "react";
+import { ExternalLink, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Search, ExternalLink } from "lucide-react";
+import * as React from "react";
 
+import { Button } from "@/components/ui/button";
 import {
   CommandDialog,
   CommandEmpty,
@@ -13,8 +14,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
-import { Button } from "@/components/ui/button";
-import { sidebarData } from "@/lib/data";
+import { sidebarData } from "../../content/data";
 
 type NavItem = { title: string; url: string };
 
@@ -53,19 +53,19 @@ export default function CommandBar({
   return (
     <div className="flex items-center">
       <Button
-        variant="ghost"
+        variant="outline"
         size="icon"
-        className="sm:hidden text-muted-foreground hover:bg-transparent"
+        className="sm:hidden text-muted-foreground  bg-sidebar dark:hover:bg-sidebar dark:bg-sidebar"
         onClick={() => setOpen(true)}
         aria-label="Search"
       >
-        <Search className="size-5" />
+        <Search className="size-4" />
       </Button>
 
       <Button
         variant="outline"
         size="sm"
-        className="hidden h-9 w-[220px] justify-start text-muted-foreground sm:flex"
+        className="hidden h-9 w-[220px] justify-start text-muted-foreground sm:flex dark:bg-sidebar bg-sidebar rounded-full dark:hover:bg-sidebar"
         onClick={() => setOpen(true)}
       >
         <Search className="mr-2 size-4" />
@@ -97,12 +97,16 @@ export default function CommandBar({
                     section.title === "Projects"
                       ? projects
                       : section.title === "Blog"
-                        ? blog
-                        : null;
-                  const children: NavItem[] | undefined = dynamicChildren ?? (section.items as any);
+                      ? blog
+                      : null;
+                  const children: NavItem[] | undefined =
+                    dynamicChildren ?? (section.items as any);
                   if (!Array.isArray(children)) return null;
                   return children.map((child) => (
-                    <CommandItem key={child.url} onSelect={() => navigate(child.url)}>
+                    <CommandItem
+                      key={child.url}
+                      onSelect={() => navigate(child.url)}
+                    >
                       {section.icon ? <span className="mr-1.5 size-4" /> : null}
                       <span>{child.title}</span>
                     </CommandItem>

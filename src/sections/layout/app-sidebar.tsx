@@ -1,15 +1,14 @@
 "use client";
-import * as React from "react";
-import {
-  ScreenShare,
-  MoreHorizontal,
-  ChevronRight,
-  ChevronDown,
-} from "lucide-react";
-import { sidebarData } from "@/lib/data";
-import { metadata } from "@/lib/data";
 import { useCurrentRoute } from "@/components/current-route-context";
+import {
+  ChevronDown,
+  ChevronRight,
+  MoreHorizontal,
+  ScreenShare,
+} from "lucide-react";
+import * as React from "react";
 import { useMemo, useState } from "react";
+import { metadata, sidebarData } from "../../../content/data";
 
 import {
   Sidebar,
@@ -25,12 +24,13 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export type ContentNavItem = {
   title: string;
@@ -70,7 +70,7 @@ export function AppSidebar({
   }, [projects, blog]);
 
   return (
-    <Sidebar variant="inset" collapsible="icon" {...props}>
+    <Sidebar variant="floating" collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -94,7 +94,7 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu className="gap-2">
+          <SidebarMenu className="gap-4">
             {nav.map((section) => {
               const isRoot = section.url === "/";
               const isTopLevelActive = isRoot
@@ -110,6 +110,7 @@ export function AppSidebar({
                     asChild
                     isActive={isTopLevelActive}
                     tooltip={section.title}
+                    className={isTopLevelActive ? "rounded-full px-3 py-2" : ""}
                   >
                     <Link href={section.url} className="font-medium">
                       {section.icon}
@@ -172,7 +173,7 @@ export function AppSidebar({
                     </>
                   )}
                   {section.items?.length ? (
-                    <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
+                    <SidebarMenuSub className="ml-0 border-l-0 px-1.5 mt-1">
                       {(section.title === "Projects" || section.title === "Blog"
                         ? expanded[section.title]
                           ? section.items
@@ -187,11 +188,12 @@ export function AppSidebar({
                                 <SidebarMenuSubButton
                                   asChild
                                   isActive={isSubActive}
-                                  className={
+                                  className={cn(
+                                    "mt-px",
                                     isSubActive
-                                      ? undefined
-                                      : "text-muted-foreground"
-                                  }
+                                      ? "rounded-full px-3 py-2"
+                                      : "text-muted-foreground px-3 py-2"
+                                  )}
                                 >
                                   <Link href={subItem.url}>
                                     {subItem.title}

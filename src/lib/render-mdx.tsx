@@ -13,7 +13,7 @@ interface MDXContentProps {
 }
 
 export async function serializeMDX(
-  content: string,
+  content: string
 ): Promise<MDXRemoteSerializeResult> {
   return await serialize(content, {
     mdxOptions: {
@@ -28,7 +28,7 @@ export function MDXContent({ source }: { source: MDXRemoteSerializeResult }) {
   const components = useMDXComponents({});
 
   return (
-    <div className="max-w-none">
+    <div className="prose prose-lg dark:prose-invert max-w-none">
       <MDXRemote {...source} components={components} />
     </div>
   );

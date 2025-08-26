@@ -767,6 +767,11 @@
     body {
         @apply bg-background text-foreground font-sans antialiased;
     }
+
+    .page-container {
+     @apply px-6 lg:px-10;
+    }
+
 }
 
 .hide-scrollbar {

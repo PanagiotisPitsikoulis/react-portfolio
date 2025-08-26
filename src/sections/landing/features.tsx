@@ -2,8 +2,7 @@
 
 import { cn } from "@/lib/utils";
 
-import { Badge } from "@/components/ui/badge";
-import { LandingPageData } from "@/lib/data/landing-page";
+import { LandingPageData } from "../../../content/data/landing-page";
 
 const Features = ({
   featuresData,

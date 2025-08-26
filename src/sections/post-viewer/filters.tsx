@@ -1,20 +1,21 @@
 "use client";
 
-import { Input } from "@/components/ui/input";
-import { Search, Filter, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+import { InView } from "@/components/ui/in-view";
+import { Input } from "@/components/ui/input";
 import {
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ContentItem, ContentType } from "@/lib/mdx";
+import { Filter, Search, X } from "lucide-react";
 import TagSelector from "./tag-selector";
-import { ContentItem } from "@/lib/mdx";
-import { InView } from "@/components/ui/in-view";
 
 export default function Filters({
+  contentType,
   searchQuery,
   setSearchQuery,
   handleClearSearch,
@@ -32,6 +33,7 @@ export default function Filters({
   totalPages,
   currentPage,
 }: {
+  contentType: ContentType;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   handleClearSearch: () => void;
@@ -57,7 +59,7 @@ export default function Filters({
         visible: { opacity: 1, y: 0 },
       }}
       transition={{ duration: 0.4 }}
-      className="mt-4 bg-card p-6 shadow-lg backdrop-blur-md border dark"
+      className="mt-4 bg-card p-6 shadow-lg rounded-b-3xl border dark"
     >
       <div className="space-y-6">
         {/* Search and Filter Controls */}
@@ -76,14 +78,17 @@ export default function Filters({
               <TooltipTrigger asChild>
                 <Input
                   type="text"
-                  placeholder="Search posts..."
+                  placeholder={`Search ${
+                    contentType === "blog" ? "posts" : "projects"
+                  }...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 pr-12 h-12 text-white bg-background/80 border-border/60 focus:border-primary/50 focus:ring-primary/20 rounded-xl shadow-sm"
+                  className="pl-12 pr-12 h-12 text-white bg-background/80 border-border/60 focus:border-primary/50 focus:border-primary/50 focus:ring-primary/20 rounded-xl shadow-sm"
                 />
               </TooltipTrigger>
               <TooltipContent side="top">
-                Search posts by title, summary, or tags
+                Search {contentType === "blog" ? "posts" : "projects"} by title,
+                summary, or tags
               </TooltipContent>
             </Tooltip>
             {searchQuery && (
@@ -245,12 +250,18 @@ export default function Filters({
               className="overflow-hidden"
             >
               <CollapsibleContent className="pt-3 border-t">
-                <TagSelector
-                  allTags={allTags}
-                  selectedTags={selectedTags}
-                  onTagToggle={handleTagToggle}
-                  onClearAll={handleClearAllTags}
-                />
+                {allTags.length > 0 ? (
+                  <TagSelector
+                    allTags={allTags}
+                    selectedTags={selectedTags}
+                    onTagToggle={handleTagToggle}
+                    onClearAll={handleClearAllTags}
+                  />
+                ) : (
+                  <div className="text-center py-4 text-muted-foreground">
+                    No tags available
+                  </div>
+                )}
               </CollapsibleContent>
             </InView>
           )}
@@ -279,22 +290,26 @@ export default function Filters({
                     <span className="font-medium text-foreground">
                       {posts.length}
                     </span>{" "}
-                    posts
+                    {contentType === "blog" ? "posts" : "projects"}
                   </span>
                 ) : (
                   <span>
                     <span className="font-medium text-foreground">
                       {posts.length}
                     </span>{" "}
-                    posts total
+                    {contentType === "blog" ? "posts" : "projects"} total
                   </span>
                 )}
               </div>
             </TooltipTrigger>
             <TooltipContent side="top">
               {hasActiveFilters
-                ? `${filteredPosts.length} posts match your current filters`
-                : `Browse all ${posts.length} available posts`}
+                ? `${filteredPosts.length} ${
+                    contentType === "blog" ? "posts" : "projects"
+                  } match your current filters`
+                : `Browse all ${posts.length} available ${
+                    contentType === "blog" ? "posts" : "projects"
+                  }`}
             </TooltipContent>
           </Tooltip>
           {totalPages > 1 && (
