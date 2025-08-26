@@ -18,9 +18,9 @@ const PostPageClient = ({
   relatedPosts: ContentItem[];
 }) => {
   return (
-    <section className="page-container py-10">
+    <section className="page-container pb-5">
       <div className="">
-        <div className="relative flex flex-col justify-between gap-10 lg:flex-row">
+        <div className="relative flex flex-col justify-between gap-6 lg:flex-row">
           <article className="max-w-2xl">
             {post.frontmatter.cover && (
               <Image
@@ -28,27 +28,27 @@ const PostPageClient = ({
                 alt={post.frontmatter.title}
                 width={1000}
                 height={600}
-                className="mb-8 mt-0 aspect-video w-full rounded-3xl object-cover"
+                className="mb-4 mt-0 aspect-video w-full rounded-2xl object-cover"
               />
             )}
             <SimpleMDXContent source={post.body} />
           </article>
-          <aside className="top-20 h-fit flex-shrink-0 lg:sticky lg:w-[300px] xl:w-[400px]">
+          <aside className="top-16 h-fit flex-shrink-0 lg:sticky lg:w-[280px] xl:w-[340px]">
             <Link
-              className="text-muted-foreground hover:text-primary capitalize mb-5 flex items-center gap-1"
+              className="text-muted-foreground hover:text-primary capitalize mb-3 flex items-center gap-1"
               href={`/${contentType}`}
             >
-              <ChevronLeft className="h-full w-4" />
+              <ChevronLeft className="h-full w-3.5" />
               All {contentType === "blog" ? "posts" : "projects"}
             </Link>
-            <h1 className="mb-2 text-balance text-3xl font-bold lg:text-4xl">
+            <h1 className="mb-1.5 text-balance text-2xl font-bold lg:text-3xl">
               {post.frontmatter.title}
             </h1>
-            <h3 className="text-muted-foreground text-lg mb-5">
+            <h3 className="text-muted-foreground text-base mb-4">
               {post.frontmatter.summary}
             </h3>
-            <div className="flex gap-3">
-              <Avatar className="size-7 rounded-full">
+            <div className="flex gap-2">
+              <Avatar className="size-6 rounded-full">
                 <AvatarImage src="/author.jpeg" alt="Author Avatar" />
               </Avatar>
               <div>
@@ -62,8 +62,8 @@ const PostPageClient = ({
             </div>
             {/* Recommended Articles Section */}
             {relatedPosts.length > 0 && (
-              <div className="pt-12">
-                <div className="flex flex-col gap-6">
+              <div className="pt-8">
+                <div className="flex flex-col gap-4">
                   {relatedPosts.map((relatedPost) => (
                     <PostCard
                       key={relatedPost.slug}

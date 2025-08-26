@@ -9,16 +9,10 @@ import { Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
-import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import Autoplay from "embla-carousel-autoplay";
 import Filters from "./filters";
 import Pagination from "./pagination";
 import PostCards from "./post-cards";
@@ -29,13 +23,11 @@ export default function PostViewer({
   title,
   description,
   posts,
-  images,
   contentType,
 }: {
   title: string;
   description: string;
   posts: ContentItem[];
-  images: string[];
   contentType: ContentType;
 }) {
   const { updateSearchParams, getParam } = useSearchParamsState();
@@ -46,19 +38,19 @@ export default function PostViewer({
   const [currentPage, setCurrentPage] = useState(
     Number.parseInt(getParam("page")) || 1
   );
-  const [isFiltersOpen, setIsFiltersOpen] = useState(true);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   // Handle case when there are no posts
   if (!posts || posts.length === 0) {
     return (
-      <section className="flex flex-1 flex-col gap-8 page-container pb-32">
+      <section className="flex flex-1 flex-col gap-6 page-container pb-24">
         <SectionHeading>
           <>{title}</>
           <>{description}</>
         </SectionHeading>
-        <div className="flex flex-col items-center justify-center py-16 text-center">
+        <div className="flex flex-col items-center justify-center py-12 text-center">
           <h3 className="mb-2 text-xl font-semibold">
             No {contentType === "blog" ? "posts" : "projects"} found
           </h3>
@@ -157,35 +149,11 @@ export default function PostViewer({
     debouncedSearchQuery.trim().length > 0 || selectedTags.length > 0;
 
   return (
-    <section className="flex flex-1 flex-col gap-8 page-container pb-32">
+    <section className="flex flex-1 flex-col gap-10 page-container pb-24">
       <SectionHeading>
         <>{title}</>
         <>{description}</>
       </SectionHeading>
-
-      <div className="relative mx-auto -mt-20 flex items-center justify-center">
-        <Carousel
-          plugins={[Autoplay({ delay: 1500 })]}
-          opts={{ loop: true, align: "start" }}
-        >
-          <CarouselContent>
-            {images.map((image, index) => (
-              <CarouselItem
-                key={index}
-                className="translate-y-18 relative flex basis-1/2 cursor-grab justify-center active:cursor-grabbing sm:basis-1/4 md:basis-1/3 lg:basis-1/5"
-              >
-                <div className="easeOut hover:-translate-y-18 mt-auto w-full overflow-hidden rounded-t-3xl border transition-all">
-                  <img
-                    src={image}
-                    alt={image}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
-      </div>
 
       <Filters
         contentType={contentType}
@@ -211,10 +179,10 @@ export default function PostViewer({
 
       {(debouncedSearchQuery || selectedTags.length > 0) &&
         filteredPosts.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
+          <div className="flex flex-col items-center justify-center py-12 text-center">
             <Tooltip>
               <TooltipTrigger asChild>
-                <Search className="mb-4 h-16 w-16 text-muted-foreground/30" />
+                <Search className="mb-4 h-14 w-14 text-muted-foreground/30" />
               </TooltipTrigger>
               <TooltipContent side="top">
                 No matching {contentType === "blog" ? "posts" : "projects"}{" "}
@@ -255,7 +223,7 @@ export default function PostViewer({
         )}
 
       {totalPages > 1 && (
-        <div className="mt-8">
+        <div className="mt-6">
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

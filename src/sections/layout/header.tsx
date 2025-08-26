@@ -56,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({ projects = [], blog = [] }) => {
       data-sidebar="header"
       className="flex h-16 shrink-0 items-center sticky bg-gradient-to-b from-sidebar/80 to-transparent gap-2 px-6 lg:px-4 w-full justify-between top-0 z-50"
     >
-      <div className="w-fit flex flex-row items-center bg-sidebar h-9 px-4 py-2 rounded-full border overflow-hidden">
+      <div className="w-fit flex flex-row items-center bg-sidebar shadow h-9 px-4 py-2 rounded-full border overflow-hidden">
         <Tooltip>
           <TooltipTrigger asChild>
             <SidebarTrigger className="-ml-1 text-muted-foreground" />

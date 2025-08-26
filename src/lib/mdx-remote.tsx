@@ -1,18 +1,17 @@
-import * as React from "react";
+import { useMDXComponents } from "@/components/mdx-components";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
-import remarkGfm from "remark-gfm";
-import remarkFrontmatter from "remark-frontmatter";
-import remarkMdx from "remark-mdx";
-import remarkMath from "remark-math";
-import remarkEmoji from "remark-emoji";
-import remarkBreaks from "remark-breaks";
-import remarkToc from "remark-toc";
-import rehypeRaw from "rehype-raw";
-import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
-import { mdxComponents } from "@/components/mdx-components";
+import rehypeRaw from "rehype-raw";
+import rehypeSlug from "rehype-slug";
+import remarkBreaks from "remark-breaks";
+import remarkEmoji from "remark-emoji";
+import remarkFrontmatter from "remark-frontmatter";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import remarkMdx from "remark-mdx";
+import remarkToc from "remark-toc";
 
 export async function compileMdx(source: string) {
   const mdxSource = await serialize(source, {
@@ -47,5 +46,5 @@ export function MDXRemoteContent({
 }: {
   compiled: MDXRemoteSerializeResult;
 }) {
-  return <MDXRemote {...compiled} components={mdxComponents as any} />;
+  return <MDXRemote {...compiled} components={useMDXComponents as any} />;
 }

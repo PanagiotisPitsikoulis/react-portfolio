@@ -1,5 +1,6 @@
 import { Providers } from "@/components/providers";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 
 export { metadata } from "../../content/data";
@@ -24,7 +25,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
       >
-        <Providers>{children}</Providers>
+        <Suspense fallback={<></>}>
+          <Providers>{children}</Providers>
+        </Suspense>
       </body>
     </html>
   );

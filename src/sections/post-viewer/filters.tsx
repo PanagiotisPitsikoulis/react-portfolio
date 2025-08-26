@@ -59,9 +59,9 @@ export default function Filters({
         visible: { opacity: 1, y: 0 },
       }}
       transition={{ duration: 0.4 }}
-      className="mt-4 bg-card p-6 shadow-lg rounded-b-3xl border dark"
+      className="mt-3 bg-sidebar p-4 shadow border dark"
     >
-      <div className="space-y-6">
+      <div className="space-y-4">
         {/* Search and Filter Controls */}
         <InView
           as="div"
@@ -70,10 +70,10 @@ export default function Filters({
             visible: { opacity: 1, y: 0 },
           }}
           transition={{ duration: 0.4 }}
-          className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
+          className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between"
         >
           <div className="relative flex-1 max-w-lg">
-            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Tooltip>
               <TooltipTrigger asChild>
                 <Input
@@ -83,7 +83,7 @@ export default function Filters({
                   }...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 pr-12 h-12 text-white bg-background/80 border-border/60 focus:border-primary/50 focus:border-primary/50 focus:ring-primary/20 rounded-xl shadow-sm"
+                  className="pl-12 pr-12 h-10 text-white bg-background/80 border-border/60 focus:border-primary/50 focus:ring-primary/20 rounded-lg shadow-sm"
                 />
               </TooltipTrigger>
               <TooltipContent side="top">
@@ -98,9 +98,9 @@ export default function Filters({
                     variant="ghost"
                     size="sm"
                     onClick={handleClearSearch}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 hover:bg-muted text-foreground rounded-full"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-7 w-7 p-0 hover:bg-muted text-foreground rounded-full"
                   >
-                    <X className="h-4 w-4" />
+                    <X className="h-3.5 w-3.5" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="top">Clear search</TooltipContent>
@@ -108,14 +108,14 @@ export default function Filters({
             )}
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant="secondary"
                   size="sm"
                   onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-                  className="gap-2 rounded-xl border-border/70 hover:bg-primary/10 hover:text-primary transition"
+                  className="gap-2 rounded-lg border-border/70 hover:bg-primary/10 hover:text-primary transition"
                 >
                   <Filter className="h-4 w-4" />
                   Tags
@@ -141,7 +141,7 @@ export default function Filters({
                     variant="secondary"
                     size="sm"
                     onClick={handleClearAllFilters}
-                    className="gap-2 rounded-xl border-border/70 hover:bg-destructive/10 hover:text-destructive transition"
+                    className="gap-2 rounded-lg border-border/70 hover:bg-destructive/10 hover:text-destructive transition"
                   >
                     <X className="h-4 w-4" />
                     Clear All
@@ -164,7 +164,7 @@ export default function Filters({
               visible: { opacity: 1, height: "auto" },
             }}
             transition={{ duration: 0.3 }}
-            className="flex flex-wrap items-center gap-2 pt-3 border-t border-border overflow-hidden"
+            className="flex flex-wrap items-center gap-2 pt-2 border-t border-border overflow-hidden"
           >
             <span className="text-sm font-medium text-muted-foreground">
               Active filters:
@@ -180,7 +180,7 @@ export default function Filters({
               >
                 <Badge
                   variant="secondary"
-                  className="gap-1 rounded-full bg-primary/10 text-primary border-primary/20 px-3 py-1 text-sm shadow-sm"
+                  className="gap-1 rounded-full bg-primary/10 text-primary border-primary/20 px-2.5 py-0.5 text-sm shadow-sm"
                 >
                   Search: "{debouncedSearchQuery}"
                   <Tooltip>
@@ -213,7 +213,7 @@ export default function Filters({
               >
                 <Badge
                   variant="default"
-                  className="gap-1 rounded-full px-3 py-1 text-sm shadow-sm"
+                  className="gap-1 rounded-full px-2.5 py-0.5 text-sm shadow-sm"
                 >
                   {tag}
                   <Tooltip>
@@ -249,7 +249,7 @@ export default function Filters({
               transition={{ duration: 0.3 }}
               className="overflow-hidden"
             >
-              <CollapsibleContent className="pt-3 border-t">
+              <CollapsibleContent className="pt-2 border-t">
                 {allTags.length > 0 ? (
                   <TagSelector
                     allTags={allTags}
@@ -258,7 +258,7 @@ export default function Filters({
                     onClearAll={handleClearAllTags}
                   />
                 ) : (
-                  <div className="text-center py-4 text-muted-foreground">
+                  <div className="text-center py-3 text-muted-foreground">
                     No tags available
                   </div>
                 )}
@@ -275,7 +275,7 @@ export default function Filters({
             visible: { opacity: 1 },
           }}
           transition={{ duration: 0.3, delay: 0.2 }}
-          className="flex items-center justify-between border text-sm rounded-xl bg-muted/40 px-4 py-2"
+          className="flex items-center justify-between border text-sm rounded-lg bg-muted/40 px-3 py-1.5"
         >
           <Tooltip>
             <TooltipTrigger asChild>

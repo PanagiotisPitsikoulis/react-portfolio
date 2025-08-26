@@ -1,4 +1,10 @@
-// app/(sidebar)/_footer.tsx
+"use client";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 import { ScreenShare } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -61,6 +67,26 @@ const Footer = ({
   copyright = `© ${new Date().getFullYear()} My Next.js App. All rights reserved.`,
   legalLinks = defaultLegalLinks,
 }: FooterProps) => {
+  const images = [
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random14.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw9.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random11.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/landscape5.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random15.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw4.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw5.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw6.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw7.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw8.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/person1.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/person2.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/person3.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random1.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random11.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw1.jpeg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random3.jpeg",
+  ];
+
   // Define sections dynamically, including Projects and Blog
   const sections = [
     {
@@ -86,6 +112,29 @@ const Footer = ({
   return (
     <section className="pt-10 pb-5">
       <div className="page-container">
+        <div className="relative mx-auto -mt-20 flex items-center justify-center mb-10">
+          <Carousel
+            plugins={[Autoplay({ delay: 1500 })]}
+            opts={{ loop: true, align: "start" }}
+          >
+            <CarouselContent>
+              {images.map((image, index) => (
+                <CarouselItem
+                  key={index}
+                  className="translate-y-18 relative flex basis-1/2 cursor-grab justify-center active:cursor-grabbing sm:basis-1/4 md:basis-1/3 lg:basis-1/5"
+                >
+                  <div className="easeOut hover:-translate-y-18 mt-auto w-full overflow-hidden rounded-t-3xl border transition-all">
+                    <img
+                      src={image}
+                      alt={image}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        </div>
         <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left">
           <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
             {/* Logo */}
@@ -106,9 +155,9 @@ const Footer = ({
             <ul className="text-muted-foreground flex items-center space-x-6">
               {socialLinks.map((social, idx) => (
                 <li key={idx} className="hover:text-primary font-medium">
-                  <a href={social.href} aria-label={social.label}>
+                  <Link href={social.href} aria-label={social.label}>
                     {social.icon}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -123,7 +172,7 @@ const Footer = ({
                       key={linkIdx}
                       className="hover:text-primary font-medium"
                     >
-                      <a href={link.href}>{link.name}</a>
+                      <Link href={link.href}>{link.name}</Link>
                     </li>
                   ))}
                 </ul>
@@ -131,12 +180,13 @@ const Footer = ({
             ))}
           </div>
         </div>
+
         <div className="text-muted-foreground mt-8 flex flex-col justify-between gap-4 border-t py-8 text-xs font-medium md:flex-row md:items-center md:text-left">
           <p className="order-2 lg:order-1">{copyright}</p>
           <ul className="order-1 flex flex-col gap-2 md:order-2 md:flex-row">
             {legalLinks.map((link, idx) => (
               <li key={idx} className="hover:text-primary">
-                <a href={link.href}>{link.name}</a>
+                <Link href={link.href}>{link.name}</Link>
               </li>
             ))}
           </ul>
