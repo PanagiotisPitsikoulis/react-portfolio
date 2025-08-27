@@ -149,7 +149,7 @@ export default function PostViewer({
     debouncedSearchQuery.trim().length > 0 || selectedTags.length > 0;
 
   return (
-    <section className="flex flex-1 flex-col gap-10 page-container pb-24">
+    <section className="flex flex-1 flex-col gap-10 page-container pb-24 -mt-10">
       <SectionHeading>
         <>{title}</>
         <>{description}</>

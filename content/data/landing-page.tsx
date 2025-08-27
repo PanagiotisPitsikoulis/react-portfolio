@@ -92,20 +92,20 @@ export const landingPageData: LandingPageData = {
   },
   sectionHeadings: {
     features: {
-      title: "What I Do",
+      title: "What I Do as a Full-Stack Developer",
       subtitle:
         "Full-stack development with modern technologies and best practices",
     },
     carousel: {
-      title: "Featured Work",
+      title: "Some of my Featured Projects",
       subtitle: "A showcase of my latest projects and technical expertise",
     },
     blog: {
-      title: "Latest Insights",
+      title: "My Thoughts on the Latest Tech Developments",
       subtitle: "Thoughts on technology, development, and industry trends",
     },
     timeline: {
-      title: "My Journey",
+      title: "My Journey as a Full-Stack Developer",
       subtitle: "Professional milestones and growth over the years",
     },
   },

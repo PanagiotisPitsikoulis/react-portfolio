@@ -18,39 +18,40 @@ function PostCard({
       href={`/${contentType}/${post.slug}`}
       className="group flex flex-col h-full justify-between"
     >
-      <div className="mb-4 flex overflow-clip md:mb-5">
-        <div className="transition-opacity duration-300 group-hover:opacity-80">
-          <Image
-            height={400}
-            width={400}
-            src={post.frontmatter.cover || ""}
-            alt={post.frontmatter.title}
-            className="aspect-3/2 h-full w-full object-cover object-center rounded-3xl shadow"
-          />
-        </div>
+      <div className="transition-opacity duration-300 group-hover:opacity-80">
+        <Image
+          height={400}
+          width={400}
+          src={post.frontmatter.cover || ""}
+          alt={post.frontmatter.title}
+          className="w-full object-cover object-center aspect-video rounded-2xl"
+        />
       </div>
 
-      <div>
+      <div className="mt-2">
         {post?.frontmatter?.tags?.length && (
-          <Badge variant="secondary" className="capitalize">
+          <Badge
+            variant="secondary"
+            className="capitalize text-[10px] py-0.5 px-1.5"
+          >
             {post.frontmatter.tags?.join(", ")}
           </Badge>
         )}
       </div>
-      <div className="mb-2 line-clamp-3 break-words pt-4 text-lg font-medium md:mb-3 md:pt-4 md:text-2xl lg:pt-4 lg:text-2xl">
+      <div className="mb-1 line-clamp-2 break-words pt-2 text-base font-medium md:pt-2 md:text-lg lg:pt-2 lg:text-xl">
         {post.frontmatter.title}
       </div>
-      <div className="text-muted-foreground mb-4 line-clamp-2 text-sm md:mb-5 md:text-base">
+      <div className="text-muted-foreground mb-2 line-clamp-1 text-xs md:mb-3 md:text-sm">
         {post.frontmatter.summary}
       </div>
-      <div className="flex items-center gap-2">
-        <Avatar className="size-10">
+      <div className="flex items-center gap-1">
+        <Avatar className="size-8">
           <AvatarImage src={"/author.jpeg"} />
           <AvatarFallback>{author.name?.slice(0, 2)}</AvatarFallback>
         </Avatar>
         <div className="flex flex-col gap-px">
-          <span className="text-sm font-medium">{author.name}</span>
-          <span className="text-muted-foreground text-xs">
+          <span className="text-xs font-medium">{author.name}</span>
+          <span className="text-muted-foreground text-[10px]">
             {new Date(post.frontmatter.date as string).toLocaleDateString()}
           </span>
         </div>

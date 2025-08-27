@@ -13,7 +13,11 @@ interface HomePageProps {}
 const HomePage: React.FC<HomePageProps> = ({}) => {
   return (
     <>
-      <div className={cn("flex flex-1 flex-col gap-20 page-container pb-32")}>
+      <div
+        className={cn(
+          "flex flex-1 flex-col gap-20 page-container pb-32 -mt-20"
+        )}
+      >
         <Hero
           badgeText={landingPageData.hero.badgeText}
           badgeHref={landingPageData.hero.badgeHref}

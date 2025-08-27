@@ -1,6 +1,6 @@
 "use client";
-import { cn } from "@/lib/utils";
 import { useSidebar } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 
 export default function SidebarBody({
   children,
@@ -15,7 +15,7 @@ export default function SidebarBody({
       className={cn(
         "min-h-[100svh]",
         state === "expanded" ? "lg:max-w-[78svw]" : "lg:max-w-[95svw]",
-        className,
+        className
       )}
     >
       {children}
