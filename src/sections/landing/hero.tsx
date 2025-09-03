@@ -2,17 +2,17 @@
 
 import { ArrowRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 import "swiper/css";
 import "swiper/css/effect-cards";
+import "swiper/css/effect-coverflow";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 type HeroImage = { src: string; alt: string };
 type HeroCta = {
@@ -78,9 +78,20 @@ const Hero: React.FC<HeroProps> = ({
     bottom: 10px !important;
     width: 100% !important;
     left: 0% !important;
+    position: relative;
+    z-index: 20;
   }
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: hsl(var(--foreground) / 0.8);
+    border: 2px solid hsl(var(--background));
+    border-radius: 9999px;
+  }
+  
   .swiper-pagination-bullet-active {
-    background-color: var(--primary);
+    background-color: hsl(var(--primary));
+    border: 2px solid hsl(var(--background));
   }
 
   @media (min-width: 768px) {
@@ -188,7 +199,7 @@ const Hero: React.FC<HeroProps> = ({
             )}
           </div>
 
-          <div className="-z-1 bg-muted xl:h-155 xl:w-9/10 absolute right-0 top-0 h-full w-full rounded-3xl xl:top-1/2 xl:mt-4 xl:-translate-y-1/2" />
+          <div className="-z-10 bg-muted xl:h-155 xl:w-9/10 absolute right-0 top-0 h-full w-full rounded-3xl xl:top-1/2 xl:mt-4 xl:-translate-y-1/2" />
         </div>
       </div>
     </section>

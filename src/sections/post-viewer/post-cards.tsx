@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ContentItem, ContentType } from "@/lib/mdx";
+import { ContentItem, ContentType } from "@/lib/md/mdx";
 import PostCard from "./post-card";
 
 const PostCards = ({

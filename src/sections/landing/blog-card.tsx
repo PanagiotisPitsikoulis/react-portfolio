@@ -1,14 +1,14 @@
-import { ArrowRight, ArrowUpRight, ChevronRight } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { listContent } from "@/lib/mdx";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { listContent } from "@/lib/md/mdx";
+import { ArrowRight, ArrowUpRight, ChevronRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
 export interface BlogCardProps {
   sectionTitle: string;
@@ -98,7 +98,9 @@ const BlogCard = async ({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Link
-                    href={`/blog/${featured?.frontmatter.slug || featured?.slug || ""}`}
+                    href={`/blog/${
+                      featured?.frontmatter.slug || featured?.slug || ""
+                    }`}
                     className="inline-flex items-center gap-2"
                   >
                     <h1 className="text-2xl font-bold text-foreground md:text-3xl lg:text-4xl">
@@ -117,7 +119,9 @@ const BlogCard = async ({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link
-                  href={`/blog/${featured?.frontmatter.slug || featured?.slug || ""}`}
+                  href={`/blog/${
+                    featured?.frontmatter.slug || featured?.slug || ""
+                  }`}
                   className="mt-6 flex items-center gap-3 md:mt-8 md:gap-4"
                   aria-label="Open featured post"
                 >
@@ -132,7 +136,7 @@ const BlogCard = async ({
                     <span className="text-xs text-muted-foreground md:text-sm">
                       {featured?.frontmatter.date
                         ? new Date(
-                            featured.frontmatter.date,
+                            featured.frontmatter.date
                           ).toLocaleDateString()
                         : ""}
                     </span>

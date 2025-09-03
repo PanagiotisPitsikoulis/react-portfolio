@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { ContentItem, ContentType } from "@/lib/mdx";
+import { ContentItem, ContentType } from "@/lib/md/mdx";
 import Image from "next/image";
 import Link from "next/link";
 import { author } from "../../../content/data";
@@ -59,5 +59,4 @@ function PostCard({
     </Link>
   );
 }
-
 export default PostCard;

@@ -1,4 +1,4 @@
-import { listContent } from "@/lib/mdx";
+import { listContent } from "@/lib/md/mdx";
 import { siteMetadata } from "../../../content/data";
 
 export interface SitemapEntry {

@@ -3,8 +3,8 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { ContentItem, ContentType } from "@/lib/mdx";
-import { SimpleMDXContent } from "@/lib/render-mdx";
+import { ContentItem, ContentType } from "@/lib/md/mdx";
+import { SimpleMDXContent } from "@/lib/md/render-mdx";
 import Image from "next/image";
 import PostCard from "../post-viewer/post-card";
 

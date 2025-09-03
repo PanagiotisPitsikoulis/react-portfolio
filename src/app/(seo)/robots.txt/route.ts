@@ -14,6 +14,9 @@ export async function GET() {
 User-agent: *
 Allow: /
 
+# Allow OG images
+Allow: /api/images/*
+
 # Optimize crawling for blog content
 Allow: /blog/
 Allow: /blog/*.html

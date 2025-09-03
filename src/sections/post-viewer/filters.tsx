@@ -10,7 +10,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ContentItem, ContentType } from "@/lib/mdx";
+import { ContentItem, ContentType } from "@/lib/md/mdx";
 import { Filter, Search, X } from "lucide-react";
 import TagSelector from "./tag-selector";
 

@@ -1,4 +1,4 @@
-import { getContent, listContent } from "@/lib/mdx";
+import { getContent, listContent } from "@/lib/md/mdx";
 import { generateBlogPostMetadata, generateStructuredData } from "@/lib/seo";
 import PostPage from "@/sections/post-page";
 import { Metadata } from "next";

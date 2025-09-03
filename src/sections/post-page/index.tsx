@@ -1,4 +1,4 @@
-import { ContentType, getContent, getRelatedPosts } from "@/lib/mdx";
+import { ContentType, getContent, getRelatedPosts } from "@/lib/md/mdx";
 import { redirect } from "next/navigation";
 import PostPageClient from "./post-page-client";
 

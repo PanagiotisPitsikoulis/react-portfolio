@@ -20,7 +20,7 @@ const Features = ({
               className={cn("mt-0 flex flex-col border-l px-6 sm:mt-4 md:mt-6")}
             >
               {/* Masked Text */}
-              <div className="relative">
+              <div className="relative z-40">
                 <h1 className="mb-16 bg-linear-to-r from-white to-transparent bg-clip-text text-9xl">
                   0{index + 1}
                 </h1>

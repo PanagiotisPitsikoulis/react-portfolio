@@ -1,4 +1,4 @@
-import { ContentType, listContent } from "@/lib/mdx";
+import { ContentType, listContent } from "@/lib/md/mdx";
 import { Suspense } from "react";
 import PostViewerClient from "./post-viewer-client";
 

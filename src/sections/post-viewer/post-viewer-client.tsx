@@ -4,7 +4,7 @@ import SectionHeading from "@/components/section-heading";
 import { Button } from "@/components/ui/button";
 import { useDebounce } from "@/hooks/use-debounce";
 import { useSearchParamsState } from "@/hooks/use-search-params";
-import type { ContentItem, ContentType } from "@/lib/mdx";
+import type { ContentItem, ContentType } from "@/lib/md/mdx";
 import { Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 

@@ -2,7 +2,7 @@ import { AppSidebar, type ContentNavItem } from "@/sections/layout/app-sidebar";
 
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-import { listContent } from "@/lib/mdx";
+import { listContent } from "@/lib/md/mdx";
 import * as React from "react";
 import Footer from "../../sections/layout/footer";
 import Header from "../../sections/layout/header";

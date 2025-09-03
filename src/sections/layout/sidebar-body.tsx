@@ -1,5 +1,6 @@
 "use client";
 import { useSidebar } from "@/components/ui/sidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 
 export default function SidebarBody({
@@ -10,11 +11,14 @@ export default function SidebarBody({
   className?: string;
 }) {
   const { state } = useSidebar();
+  const isMobile = useIsMobile();
   return (
     <main
       className={cn(
-        "min-h-[100svh]",
-        state === "expanded" ? "lg:max-w-[78svw]" : "lg:max-w-[95svw]",
+        "min-h-[100svh] mx-auto",
+        state === "expanded" && !isMobile
+          ? "md:w-[calc(100svw-20rem)]"
+          : "md:w-[95svw]",
         className
       )}
     >
