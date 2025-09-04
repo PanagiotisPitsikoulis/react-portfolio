@@ -11,9 +11,9 @@ const Features = ({
 }) => {
   return (
     <section>
-      <div className="container">
+      <div>
         {/* Feature Cards Section */}
-        <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-4">
           {featuresData.map((feature, index) => (
             <div
               key={index}
@@ -21,13 +21,18 @@ const Features = ({
             >
               {/* Masked Text */}
               <div className="relative z-40">
-                <h1 className="mb-16 bg-linear-to-r from-white to-transparent bg-clip-text text-9xl">
+                <h1 className="mb-16 bg-linear-to-r from-background to-transparent bg-clip-text text-9xl">
                   0{index + 1}
                 </h1>
-                <div className="absolute inset-0 bg-linear-to-r from-white to-transparent opacity-100"></div>
+                <div className="absolute inset-0 bg-linear-to-r from-background to-transparent opacity-100"></div>
               </div>
 
-              <p className="text-md mt-4 mb-2 font-semibold">{feature.title}</p>
+              <div className="mt-4 mb-2 flex items-center gap-3">
+                <span className="inline-flex shrink-0 size-9 items-center justify-center rounded-full bg-muted ring-1 ring-border text-primary">
+                  {feature.icon}
+                </span>
+                <p className="text-md font-semibold">{feature.title}</p>
+              </div>
               <p className="text-md mb-6 text-muted-foreground">
                 {feature.description}
               </p>

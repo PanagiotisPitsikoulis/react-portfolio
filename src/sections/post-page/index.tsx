@@ -1,6 +1,10 @@
-import { ContentType, getContent, getRelatedPosts } from "@/lib/md/mdx";
+import { ContentType, getContent } from "@/lib/md/mdx";
+import { MDXContent } from "@/lib/md/render-mdx";
+import { serializeMDXServer } from "@/lib/md/ssr-serialize";
 import { redirect } from "next/navigation";
-import PostPageClient from "./post-page-client";
+import fs from "node:fs/promises";
+import path from "node:path";
+import PostHero from "./post-hero";
 
 const PostPage = async ({
   slug,
@@ -15,15 +19,61 @@ const PostPage = async ({
       throw new Error("Post not found");
     }
 
-    // Get related posts
-    const relatedPosts = await getRelatedPosts(post, 3);
+    const mdx = await serializeMDXServer(post.body);
 
+    async function getScreenshotOrCover(
+      slug: string,
+      cover?: string,
+      mobile?: boolean
+    ): Promise<string> {
+      const desktopName = `${slug}.png`;
+      const mobileName = `${slug}.mobile.png`;
+      const candidate = path.join(
+        process.cwd(),
+        "public",
+        "screenshots",
+        desktopName
+      );
+      try {
+        await fs.access(candidate);
+        return `/screenshots/${mobile ? mobileName : desktopName}`;
+      } catch {
+        return cover || "/images/window.png";
+      }
+    }
+
+    const isProject = post.type === "projects";
+    const heroImage = await getScreenshotOrCover(
+      post.slug,
+      post.frontmatter.cover,
+      false
+    );
+    const hasExternalUrl = Boolean(isProject && post.frontmatter.url);
+    const tags = [
+      ...(post.frontmatter.tags || []),
+      ...(post.frontmatter.categories || []),
+    ];
     return (
-      <PostPageClient
-        post={post}
-        contentType={contentType}
-        relatedPosts={relatedPosts}
-      />
+      <section className="page-container pb-5">
+        <div className="relative flex flex-col justify-between gap-6 lg:flex-row">
+          <article className="w-full">
+            <PostHero
+              title={post.frontmatter.title || post.slug}
+              subtitle={
+                post.frontmatter.summary ||
+                post.frontmatter.metaDescription ||
+                ""
+              }
+              imageSrc={heroImage}
+              url={isProject ? post.frontmatter.url : undefined}
+              isProject={isProject}
+              hasExternalUrl={hasExternalUrl}
+              tags={tags}
+            />
+            <MDXContent source={mdx} />
+          </article>
+        </div>
+      </section>
     );
   } catch (error) {
     redirect("/" + contentType);

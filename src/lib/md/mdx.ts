@@ -1,6 +1,6 @@
+import matter from "gray-matter";
 import fs from "node:fs/promises";
 import path from "node:path";
-import matter from "gray-matter";
 
 export type ContentType = "blog" | "projects";
 
@@ -10,6 +10,8 @@ export interface ContentFrontmatter {
   date?: string;
   summary?: string;
   cover?: string;
+  url?: string;
+  categories?: string[];
   published?: boolean;
   tags?: string[];
   tech?: string[];
@@ -61,18 +63,26 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
           console.error(`Error processing ${file.name}:`, error);
           return null;
         }
-      }),
+      })
     );
 
     // Filter out null items and sort
-    const validItems = items.filter((item): item is ContentItem => item !== null);
-    
+    const validItems = items.filter(
+      (item): item is ContentItem => item !== null
+    );
+
     // Sort desc by date if present, otherwise by title
     validItems.sort((a, b) => {
-      const ad = a.frontmatter.date ? new Date(a.frontmatter.date).getTime() : 0;
-      const bd = b.frontmatter.date ? new Date(b.frontmatter.date).getTime() : 0;
+      const ad = a.frontmatter.date
+        ? new Date(a.frontmatter.date).getTime()
+        : 0;
+      const bd = b.frontmatter.date
+        ? new Date(b.frontmatter.date).getTime()
+        : 0;
       if (ad !== 0 || bd !== 0) return bd - ad;
-      return (a.frontmatter.title || "").localeCompare(b.frontmatter.title || "");
+      return (a.frontmatter.title || "").localeCompare(
+        b.frontmatter.title || ""
+      );
     });
 
     console.log(`Successfully loaded ${validItems.length} ${type} items`);
@@ -85,12 +95,12 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
 
 export async function getContent(
   type: ContentType,
-  slug: string,
+  slug: string
 ): Promise<ContentItem | null> {
   try {
     const dir = typeDir(type);
     const tryNames = [`${slug}.mdx`, `${slug}.md`];
-    
+
     for (const name of tryNames) {
       const filePath = path.join(dir, name);
       try {
@@ -108,7 +118,7 @@ export async function getContent(
         console.log(`File ${name} not found or not readable`);
       }
     }
-    
+
     console.log(`No content found for ${type}/${slug}`);
     return null;
   } catch (error) {
@@ -123,14 +133,17 @@ export async function getRelatedPosts(
 ): Promise<ContentItem[]> {
   try {
     const allPosts = await listContent(currentPost.type);
-    
+
     // Filter out the current post and find posts with similar tags
     const relatedPosts = allPosts
-      .filter(post => post.slug !== currentPost.slug)
-      .filter(post => {
+      .filter((post) => post.slug !== currentPost.slug)
+      .filter((post) => {
         // If current post has tags, find posts with overlapping tags
-        if (currentPost.frontmatter.tags && currentPost.frontmatter.tags.length > 0) {
-          return post.frontmatter.tags?.some(tag => 
+        if (
+          currentPost.frontmatter.tags &&
+          currentPost.frontmatter.tags.length > 0
+        ) {
+          return post.frontmatter.tags?.some((tag) =>
             currentPost.frontmatter.tags?.includes(tag)
           );
         }
@@ -139,27 +152,33 @@ export async function getRelatedPosts(
       })
       .sort((a, b) => {
         // Sort by tag overlap count first, then by date
-        const aTagOverlap = currentPost.frontmatter.tags?.filter(tag => 
-          a.frontmatter.tags?.includes(tag)
-        ).length || 0;
-        const bTagOverlap = currentPost.frontmatter.tags?.filter(tag => 
-          b.frontmatter.tags?.includes(tag)
-        ).length || 0;
-        
+        const aTagOverlap =
+          currentPost.frontmatter.tags?.filter((tag) =>
+            a.frontmatter.tags?.includes(tag)
+          ).length || 0;
+        const bTagOverlap =
+          currentPost.frontmatter.tags?.filter((tag) =>
+            b.frontmatter.tags?.includes(tag)
+          ).length || 0;
+
         if (aTagOverlap !== bTagOverlap) {
           return bTagOverlap - aTagOverlap;
         }
-        
+
         // Then sort by date (newest first)
-        const aDate = a.frontmatter.date ? new Date(a.frontmatter.date).getTime() : 0;
-        const bDate = b.frontmatter.date ? new Date(b.frontmatter.date).getTime() : 0;
+        const aDate = a.frontmatter.date
+          ? new Date(a.frontmatter.date).getTime()
+          : 0;
+        const bDate = b.frontmatter.date
+          ? new Date(b.frontmatter.date).getTime()
+          : 0;
         return bDate - aDate;
       })
       .slice(0, limit);
-    
+
     return relatedPosts;
   } catch (error) {
-    console.error('Error getting related posts:', error);
+    console.error("Error getting related posts:", error);
     return [];
   }
 }

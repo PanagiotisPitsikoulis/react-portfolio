@@ -58,14 +58,16 @@ export default function Iphone15Pro({
       />
 
       {/* Black bar behind notch (realistic status area) */}
-      <rect
-        x="21.25"
-        y="19.25"
-        width="389.5"
-        height="72"
-        className="fill-black"
-        clipPath="url(#roundedCorners)"
-      />
+      {src && (
+        <rect
+          x="21.25"
+          y="19.25"
+          width="389.5"
+          height="72"
+          className="fill-black"
+          clipPath="url(#roundedCorners)"
+        />
+      )}
 
       {src && (
         <image
@@ -73,13 +75,13 @@ export default function Iphone15Pro({
           x="21.25"
           y="91"
           width="389.5"
-          height="772"
+          height="820"
           preserveAspectRatio="xMidYMid slice"
           clipPath="url(#roundedCorners)"
         />
       )}
       {videoSrc && (
-        <foreignObject x="21.25" y="91" width="389.5" height="772">
+        <foreignObject x="21.25" y="91" width="389.5" height="820">
           <video
             className="size-full overflow-hidden rounded-[55.75px] object-cover"
             src={videoSrc}

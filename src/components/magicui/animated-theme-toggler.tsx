@@ -60,7 +60,7 @@ export const AnimatedThemeToggler = ({ className }: props) => {
             aria-label="Toggle theme"
             className={cn(
               className,
-              "bg-sidebar dark:bg-sidebar dark:hover:bg-sidebar shadow"
+              "bg-sidebar dark:bg-sidebar dark:hover:bg-sidebar"
             )}
           >
             {isDarkMode ? (

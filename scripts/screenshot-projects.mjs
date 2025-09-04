@@ -47,7 +47,8 @@ async function takeScreenshots(projects, outDir) {
     const page = await browser.newPage();
 
     const viewports = [
-      { name: "desktop", width: 1280, height: 800, deviceScaleFactor: 1 },
+      // Use a higher desktop resolution (approx Tailwind 2xl width with 16:10 ratio)
+      { name: "desktop", width: 1536, height: 960, deviceScaleFactor: 1 },
       { name: "mobile", width: 390, height: 844, deviceScaleFactor: 2, isMobile: true },
     ];
 

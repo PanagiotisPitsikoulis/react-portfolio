@@ -97,10 +97,30 @@ export const sidebarData = {
 };
 
 export const backgroundImages = [
-  "/images/cactus.png",
-  "/images/chair.png",
-  "/images/chairs.png",
-  "/images/girl.png",
-  "/images/tennis.png",
-  "/images/window.png",
+  "/images/Silhouette Flower Art.png",
+  "/images/Matcha Mug on Table.png",
+  "/images/Colorful Juice Display.png",
+  "/images/Pouring Coconut Water.png",
+  "/images/Serene River Landscape.png",
+  "/images/Green Powder on Blue.png",
+  "/images/Serene Lakeside Scene.png",
+];
+
+export const socialLinks = [
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/panagiotis-pitsikoulis-47141733a/",
+    icon: "linkedin",
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/PanagiotisPitsikoulis",
+    icon: "github",
+  },
+  { label: "X/Twitter", href: "https://x.com/panos_dev_", icon: "twitter" },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/panospitsi",
+    icon: "instagram",
+  },
 ];

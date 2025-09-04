@@ -55,7 +55,7 @@ export default function CommandBar({
       <Button
         variant="outline"
         size="icon"
-        className="sm:hidden text-muted-foreground shadow bg-sidebar dark:hover:bg-sidebar dark:bg-sidebar"
+        className="sm:hidden text-muted-foreground bg-sidebar dark:hover:bg-sidebar dark:bg-sidebar"
         onClick={() => setOpen(true)}
         aria-label="Search"
       >
@@ -65,7 +65,7 @@ export default function CommandBar({
       <Button
         variant="outline"
         size="sm"
-        className="hidden h-9 w-[220px] justify-start shadow text-muted-foreground sm:flex dark:bg-sidebar bg-sidebar rounded-full dark:hover:bg-sidebar"
+        className="hidden h-9 w-[220px] justify-start text-muted-foreground sm:flex dark:bg-sidebar bg-sidebar rounded-full dark:hover:bg-sidebar"
         onClick={() => setOpen(true)}
       >
         <Search className="mr-2 size-4" />

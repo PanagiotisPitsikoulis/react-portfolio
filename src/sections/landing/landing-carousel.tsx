@@ -5,14 +5,12 @@ import { motion } from "framer-motion";
 import React, { useEffect, useMemo, useState } from "react";
 
 import { Safari } from "@/components/magicui/safari";
-import { Button } from "@/components/ui/button";
 import {
   Carousel,
   type CarouselApi,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { backgroundImages } from "../../../content/data";
@@ -43,7 +41,7 @@ const LandingCarousel: React.FC<LandingCarouselProps> = ({ items }) => {
   const dotCount = useMemo(() => items.length, [items.length]);
 
   return (
-    <section>
+    <section className="pt-16">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -73,7 +71,7 @@ const LandingCarousel: React.FC<LandingCarouselProps> = ({ items }) => {
                     className="group block"
                     rel="noopener noreferrer"
                   >
-                    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-md backdrop-blur-[2px] transition-transform duration-200 hover:-translate-y-1 dark:border-white/10 md:p-8">
+                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-md backdrop-blur-[2px] transition-transform duration-200 hover:-translate-y-1 dark:border-white/10 md:p-8">
                       <Image
                         src={backgroundImages[index]}
                         alt={img.title + " bg"}
@@ -82,29 +80,10 @@ const LandingCarousel: React.FC<LandingCarouselProps> = ({ items }) => {
                       />
                       <div className="relative z-10">
                         <Safari
-                          className="mx-auto h-full w-full max-md:mt-10 dark"
-                          imageSrc={img.image}
+                          className="mx-auto h-full w-full max-md:mt-10"
+                          // imageSrc={img.image}
                         />
                       </div>
-                      {/* bottom overlay title/desc/cta */}
-                      <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-4 md:p-6">
-                        <h3 className="line-clamp-1 text-lg font-semibold tracking-tight text-white md:text-xl">
-                          {img.title}
-                        </h3>
-                        <p className="line-clamp-2 text-xs text-white/80 md:text-sm">
-                          {img.description}
-                        </p>
-                        <div className="mt-3">
-                          <Button
-                            variant="default"
-                            className="text-xs group inline-flex items-center gap-2 rounded-full px-3 py-1 tracking-tight md:text-sm"
-                          >
-                            {img.ctaLabel}
-                            <ArrowRight className="size-4 -rotate-45 transition-all ease-out group-hover:ml-1.5 group-hover:rotate-0" />
-                          </Button>
-                        </div>
-                      </div>
-                      <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-white/10" />
                     </div>
                   </Link>
                 </div>

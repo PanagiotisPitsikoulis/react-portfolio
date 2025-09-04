@@ -3,14 +3,14 @@ import {
   ArcTimelineItem,
 } from "@/components/magicui/arc-timeline";
 import {
-  RocketIcon,
   CubeIcon,
-  LockClosedIcon,
-  GlobeIcon,
   GearIcon,
+  GlobeIcon,
   LightningBoltIcon,
-  StarIcon,
+  LockClosedIcon,
   MagicWandIcon,
+  RocketIcon,
+  StarIcon,
 } from "@radix-ui/react-icons";
 
 export interface TimelineCardProps {
@@ -24,6 +24,7 @@ export default function TimelineCard({
 }: TimelineCardProps) {
   return (
     <ArcTimeline
+      className="rounded-3xl border shadow bg-card dark mt-16 p-5"
       data={data}
       defaultActiveStep={{ time: defaultActiveTime, stepIndex: 0 }}
       arcConfig={{
@@ -47,4 +48,3 @@ export const TimelineIcons = {
   StarIcon,
   MagicWandIcon,
 };
-

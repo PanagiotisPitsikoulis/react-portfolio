@@ -1,6 +1,5 @@
 import type { ArcTimelineItem } from "@/components/magicui/arc-timeline";
 import type { HeroProps } from "@/sections/landing/hero";
-import type { LandingCarouselItem } from "@/sections/landing/landing-carousel";
 import { TimelineIcons } from "@/sections/landing/timeline-card";
 import { BadgeCheck, Pyramid, Sparkle, Zap } from "lucide-react";
 
@@ -30,27 +29,12 @@ export interface LandingPageData {
     image: string;
     icon: React.ReactNode;
   }[];
-  carousel: { items: LandingCarouselItem[] };
   timeline: { data: ArcTimelineItem[]; defaultActiveTime: string };
-  blogCard: {
-    sectionTitle: string;
-    sectionSubtitle: string;
-    readMoreLabel: string;
-    readMoreHref: string;
-    authorAvatarSrc: string;
-    labels: {
-      tooltipGoToBlog: string;
-      tooltipOpenPost: string;
-      tooltipViewPost: string;
-    };
-  };
 }
 
 export const landingPageData: LandingPageData = {
   hero: {
-    badgeText: "Available for freelance work",
-    badgeHref: "/contact",
-    title: "Web Developer Panos Pitsikoulis",
+    title: "Hi, I'm Panos Pitsikoulis",
     subtitle:
       "I build fast, accessible web apps with modern React, TypeScript, and Next.js.",
     primaryCta: {
@@ -92,9 +76,8 @@ export const landingPageData: LandingPageData = {
   },
   sectionHeadings: {
     features: {
-      title: "What I Do as a Full-Stack Developer",
-      subtitle:
-        "Full-stack development with modern technologies and best practices",
+      title: "Relevant Skills and Programming Languages",
+      subtitle: "Practical skills I use to ship reliable full‑stack products",
     },
     carousel: {
       title: "Some of my Featured Projects",
@@ -111,66 +94,38 @@ export const landingPageData: LandingPageData = {
   },
   featuresData: [
     {
-      title: "Seamless Integrations",
+      title: "Frontend (React + Next.js)",
       description:
-        "Connect your favorite tools and services effortlessly for a unified workflow.",
+        "React, Next.js App Router, TypeScript, Tailwind CSS, Radix UI, shadcn/ui",
       image:
         "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-1.svg",
       icon: <Zap className="size-5" />,
     },
     {
-      title: "Advanced Analytics",
+      title: "Backend & APIs",
       description:
-        "Gain deep insights with powerful analytics to make data-driven decisions.",
+        "Node.js, Next.js Route Handlers, REST, GraphQL, tRPC, Prisma",
       image:
         "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-2.svg",
+      icon: <BadgeCheck className="size-5" />,
+    },
+    {
+      title: "Data & Cloud",
+      description:
+        "PostgreSQL (SQL), Redis, ORMs (Prisma/Drizzle), Vercel, AWS basics",
+      image:
+        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-3.svg",
       icon: <Pyramid className="size-5" />,
     },
     {
-      title: "Smart Search & Filters",
+      title: "Tooling & Quality",
       description:
-        "Find exactly what you need with intelligent search and filtering options.",
-      image:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-3.svg",
-      icon: <Sparkle className="size-5" />,
-    },
-    {
-      title: "Enhanced Security",
-      description:
-        "Protect your data with top-notch security features and encryption.",
+        "Git, CI/CD (GitHub Actions), Jest/Playwright, Docker, Performance",
       image:
         "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-4.svg",
-      icon: <BadgeCheck className="size-5" />,
+      icon: <Sparkle className="size-5" />,
     },
   ],
-  carousel: {
-    items: [
-      {
-        image:
-          "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw12.jpeg",
-        title: "Next.js Apps",
-        description: "SSR, ISR, and full-stack APIs",
-        link: "/projects/nextjs",
-        ctaLabel: "See builds",
-      },
-      {
-        image:
-          "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw13.jpeg",
-        title: "Design Systems",
-        description: "Shadcn/UI, Tailwind, Radix",
-        link: "/projects/design-systems",
-        ctaLabel: "Explore",
-      },
-      {
-        image:
-          "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw14.jpeg",
-        title: "TypeScript Excellence",
-        description: "Type-safe, scalable codebases",
-        link: "/blog",
-        ctaLabel: "Read posts",
-      },
-    ],
-  },
   timeline: {
     defaultActiveTime: "2025 Q2",
     data: [
@@ -223,18 +178,5 @@ export const landingPageData: LandingPageData = {
         ],
       },
     ],
-  },
-  blogCard: {
-    sectionTitle: "Tech Insights",
-    sectionSubtitle:
-      "Exploring cutting-edge technologies shaping tomorrow's digital landscape",
-    readMoreLabel: "Read More",
-    readMoreHref: "/blog",
-    authorAvatarSrc: "/author.jpeg",
-    labels: {
-      tooltipGoToBlog: "Go to blog",
-      tooltipOpenPost: "Open post",
-      tooltipViewPost: "View post",
-    },
   },
 };

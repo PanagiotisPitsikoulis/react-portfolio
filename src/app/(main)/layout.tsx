@@ -3,6 +3,7 @@ import { AppSidebar, type ContentNavItem } from "@/sections/layout/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 import { listContent } from "@/lib/md/mdx";
+import { cookies } from "next/headers";
 import * as React from "react";
 import Footer from "../../sections/layout/footer";
 import Header from "../../sections/layout/header";
@@ -33,8 +34,12 @@ const MainLayout = async ({ children }: MainLayoutProps) => {
   const projects = toNav(projectsRaw);
   const blog = toNav(blogRaw);
 
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+
   return (
     <SidebarProvider
+      defaultOpen={defaultOpen}
       style={
         {
           "--sidebar-width": "20rem",
@@ -44,9 +49,11 @@ const MainLayout = async ({ children }: MainLayoutProps) => {
     >
       <AppSidebar projects={projects} blog={blog} />
       <SidebarInset>
-        <Header projects={projects} blog={blog} />
-        <SidebarBody>{children}</SidebarBody>
-        <Footer projects={projects} blog={blog} />
+        <SidebarBody>
+          <Header projects={projects} blog={blog} />
+          {children}
+          <Footer projects={projects} blog={blog} />
+        </SidebarBody>
       </SidebarInset>
     </SidebarProvider>
   );

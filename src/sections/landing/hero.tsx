@@ -12,9 +12,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import Iphone15Pro from "@/components/magicui/iphone-15-pro";
 import { Button } from "@/components/ui/button";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { backgroundImages } from "../../../content/data";
+import { FaGithub, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { backgroundImages, socialLinks } from "../../../content/data";
 
 type HeroImage = { src: string; alt: string };
 type HeroCta = {
@@ -24,8 +27,6 @@ type HeroCta = {
 };
 
 export interface HeroProps {
-  badgeText: string;
-  badgeHref: string;
   title: string;
   subtitle: string;
   primaryCta: HeroCta;
@@ -34,13 +35,11 @@ export interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({
-  badgeText,
   title,
   subtitle,
   primaryCta,
   secondaryCta,
   images,
-  badgeHref,
 }) => {
   const [domLoaded, setDomLoaded] = useState(false);
 
@@ -120,27 +119,45 @@ const Hero: React.FC<HeroProps> = ({
 
   `;
 
+  const isMobile = useIsMobile();
+
   return (
-    <section className="relative z-40">
+    <section className="relative z-40 -mb-20 py-10">
       <style>{css}</style>
       <div className="mt-4 flex flex-col items-center justify-center gap-4 overflow-hidden text-left xl:mt-14 xl:flex-row xl:overflow-visible">
-        <div className="w-full space-y-10 xl:w-1/2">
-          <Link href={badgeHref}>
-            <Button
-              variant="secondary"
-              className="items-left bg-muted/70 group flex w-fit justify-center gap-3 rounded-full px-5 py-1"
-            >
-              <span className="bg-foreground size-2.5 rounded-full" />
-              {badgeText}
-            </Button>
-          </Link>
-          <h1 className="text-foreground mt-12 text-5xl font-medium tracking-tight md:text-6xl">
+        <div className="w-full space-y-10 xl:w-1/2 xl:mr-10">
+          <div className="flex items-center gap-2 text-muted-foreground">
+            {socialLinks.map((s, i) => (
+              <Link
+                key={i}
+                href={s.href}
+                aria-label={s.label}
+                className="hover:text-primary p-2 rounded-full bg-muted border"
+              >
+                {(() => {
+                  const icon =
+                    (s as any).icon?.toLowerCase() || s.label.toLowerCase();
+                  if (icon.includes("github"))
+                    return <FaGithub className="size-4" />;
+                  if (icon.includes("twitter") || icon.includes("x"))
+                    return <FaTwitter className="size-4" />;
+                  if (icon.includes("linkedin"))
+                    return <FaLinkedin className="size-4" />;
+                  if (icon.includes("instagram"))
+                    return <FaInstagram className="size-4" />;
+                  return <FaLinkedin className="size-4" />;
+                })()}
+              </Link>
+            ))}
+          </div>
+
+          <h1 className="text-foreground -mt-3 text-5xl xl:text-6xl font-medium tracking-tight">
             {title}
           </h1>
           <p className="text-muted-foreground/90 mt-2 max-w-lg text-xl">
             {subtitle}
           </p>
-          <div className="flex gap-4 xl:mt-32">
+          <div className="flex gap-4">
             <Link href={secondaryCta.href}>
               <Button
                 variant={secondaryCta.variant ?? "secondary"}
@@ -162,7 +179,6 @@ const Hero: React.FC<HeroProps> = ({
           </div>
         </div>
         <div className="h-145 relative w-full xl:mt-0 xl:w-3/5">
-          {/* Minimal background wave pattern */}
           <div className="mx-auto flex h-full items-center justify-center overflow-hidden">
             {domLoaded && (
               <Swiper
@@ -210,7 +226,7 @@ const Hero: React.FC<HeroProps> = ({
                       <div className="relative z-10 p-5">
                         <Iphone15Pro
                           className="h-full w-full dark"
-                          src={image.src}
+                          // src={image.src}
                         />
                       </div>
                     </div>
@@ -219,8 +235,18 @@ const Hero: React.FC<HeroProps> = ({
               </Swiper>
             )}
           </div>
-
-          <div className="-z-10 bg-muted dark:bg-muted/30 xl:h-[30rem] xl:w-9/10 absolute right-0 top-0 h-full w-full rounded-3xl xl:top-1/2 xl:mt-4 xl:-translate-y-1/2" />
+          <div className="absolute inset-0 flex h-full w-full items-center justify-between -z-10 rounded-3xl overflow-clip">
+            {Array.from({ length: isMobile ? 8 : 18 }).map((_, index) => (
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                key={index}
+                className="to-muted/50 h-full w-10 bg-gradient-to-l from-transparent"
+              ></motion.div>
+            ))}
+          </div>
+          <div className="-z-10 bg-muted dark:bg-muted xl:h-[20rem] xl:w-9/10 absolute right-0 top-0 h-full w-full rounded-3xl xl:top-1/2 xl:mt-4 xl:-translate-y-1/2" />
         </div>
       </div>
     </section>

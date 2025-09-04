@@ -8,8 +8,18 @@ import Autoplay from "embla-carousel-autoplay";
 import { ScreenShare } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
-import { metadata } from "../../../content/data";
+import {
+  FaFacebook,
+  FaGithub,
+  FaInstagram,
+  FaLinkedin,
+  FaTwitter,
+} from "react-icons/fa";
+import {
+  backgroundImages,
+  socialLinks as dataSocialLinks,
+  metadata,
+} from "../../../content/data";
 import { ContentNavItem } from "./app-sidebar";
 
 interface FooterProps {
@@ -34,12 +44,22 @@ interface FooterProps {
   }>;
 }
 
-const defaultSocialLinks = [
-  { icon: <FaInstagram className="size-5" />, href: "#", label: "Instagram" },
-  { icon: <FaFacebook className="size-5" />, href: "#", label: "Facebook" },
-  { icon: <FaTwitter className="size-5" />, href: "#", label: "Twitter" },
-  { icon: <FaLinkedin className="size-5" />, href: "#", label: "LinkedIn" },
-];
+const mapIcon = (icon?: string, label?: string) => {
+  const l = (icon || label || "").toLowerCase();
+  if (l.includes("instagram")) return <FaInstagram className="size-5" />;
+  if (l.includes("facebook")) return <FaFacebook className="size-5" />;
+  if (l.includes("twitter") || l.includes("x"))
+    return <FaTwitter className="size-5" />;
+  if (l.includes("github")) return <FaGithub className="size-5" />;
+  if (l.includes("linkedin")) return <FaLinkedin className="size-5" />;
+  return <FaLinkedin className="size-5" />;
+};
+
+const defaultSocialLinks = dataSocialLinks.map((s) => ({
+  icon: mapIcon((s as any).icon, s.label),
+  href: s.href,
+  label: s.label,
+}));
 
 const defaultLegalLinks = [
   { name: "Terms and Conditions", href: "/terms" },
@@ -67,26 +87,6 @@ const Footer = ({
   copyright = `© ${new Date().getFullYear()} My Next.js App. All rights reserved.`,
   legalLinks = defaultLegalLinks,
 }: FooterProps) => {
-  const images = [
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random14.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw9.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random11.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/landscape5.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random15.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw4.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw5.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw6.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw7.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw8.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/person1.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/person2.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/person3.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random1.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random11.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/bw1.jpeg",
-    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/lummi/random3.jpeg",
-  ];
-
   // Define sections dynamically, including Projects and Blog
   const sections = [
     {
@@ -110,32 +110,9 @@ const Footer = ({
   ];
 
   return (
-    <section className="pt-10 pb-5">
-      <div className="page-container">
-        <div className="relative mx-auto -mt-20 flex items-center justify-center mb-10">
-          <Carousel
-            plugins={[Autoplay({ delay: 1500 })]}
-            opts={{ loop: true, align: "start" }}
-          >
-            <CarouselContent>
-              {images.map((image, index) => (
-                <CarouselItem
-                  key={index}
-                  className="translate-y-18 relative flex basis-1/2 cursor-grab justify-center active:cursor-grabbing sm:basis-1/4 md:basis-1/3 lg:basis-1/5"
-                >
-                  <div className="easeOut hover:-translate-y-18 mt-auto w-full overflow-hidden rounded-t-3xl border transition-all">
-                    <img
-                      src={image}
-                      alt={image}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
-        </div>
-        <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left">
+    <section className="pt-10 pb-5 page-container">
+      <div>
+        <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left border-t mt-2 pt-6">
           <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
             {/* Logo */}
             <Link href="/" className="flex flex-row gap-2">
@@ -181,7 +158,7 @@ const Footer = ({
           </div>
         </div>
 
-        <div className="text-muted-foreground mt-8 flex flex-col justify-between gap-4 border-t py-8 text-xs font-medium md:flex-row md:items-center md:text-left">
+        <div className="text-muted-foreground mt-8 flex flex-col justify-between gap-4 border-t pt-2 text-xs font-medium md:flex-row md:items-center md:text-left">
           <p className="order-2 lg:order-1">{copyright}</p>
           <ul className="order-1 flex flex-col gap-2 md:order-2 md:flex-row">
             {legalLinks.map((link, idx) => (
@@ -190,6 +167,29 @@ const Footer = ({
               </li>
             ))}
           </ul>
+        </div>
+        <div className="relative mx-auto flex items-center justify-center">
+          <Carousel
+            plugins={[Autoplay({ delay: 1500 })]}
+            opts={{ loop: true, align: "start" }}
+          >
+            <CarouselContent>
+              {backgroundImages.map((image, index) => (
+                <CarouselItem
+                  key={index}
+                  className="translate-y-18 relative flex basis-1/2 cursor-grab justify-center active:cursor-grabbing sm:basis-1/4 md:basis-1/3 lg:basis-1/5 h-[200px]"
+                >
+                  <div className="easeOut hover:-translate-y-18 mt-auto w-full overflow-hidden rounded-t-3xl border transition-all">
+                    <img
+                      src={image}
+                      alt={image}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </div>
       </div>
     </section>
