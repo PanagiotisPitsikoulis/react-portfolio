@@ -19,6 +19,7 @@ export default function SidebarBody({
         state === "expanded" && !isMobile
           ? "md:w-[calc(100svw-20rem)]"
           : "md:w-[95svw]",
+        isMobile && "w-full",
         className
       )}
     >

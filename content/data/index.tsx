@@ -95,3 +95,12 @@ export const sidebarData = {
     },
   ],
 };
+
+export const backgroundImages = [
+  "/images/cactus.png",
+  "/images/chair.png",
+  "/images/chairs.png",
+  "/images/girl.png",
+  "/images/tennis.png",
+  "/images/window.png",
+];

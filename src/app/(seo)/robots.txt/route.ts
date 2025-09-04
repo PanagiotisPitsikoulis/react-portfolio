@@ -24,7 +24,7 @@ Allow: /blog/*.md
 
 # Allow important pages
 Allow: /#about
-Allow: /#contact
+Allow: /contact
 Allow: /#testimonials
 
 # Prevent crawling of admin/private areas (if any)

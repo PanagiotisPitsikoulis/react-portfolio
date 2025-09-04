@@ -49,7 +49,7 @@ export interface LandingPageData {
 export const landingPageData: LandingPageData = {
   hero: {
     badgeText: "Available for freelance work",
-    badgeHref: "/#contact",
+    badgeHref: "/contact",
     title: "Web Developer Panos Pitsikoulis",
     subtitle:
       "I build fast, accessible web apps with modern React, TypeScript, and Next.js.",
@@ -60,7 +60,7 @@ export const landingPageData: LandingPageData = {
     },
     secondaryCta: {
       label: "Contact Me",
-      href: "/#contact",
+      href: "/contact",
       variant: "secondary",
     },
     images: [

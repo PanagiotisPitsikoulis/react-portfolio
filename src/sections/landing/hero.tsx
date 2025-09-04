@@ -10,9 +10,11 @@ import "swiper/css/pagination";
 import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import Iphone15Pro from "@/components/magicui/iphone-15-pro";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { backgroundImages } from "../../../content/data";
 
 type HeroImage = { src: string; alt: string };
 type HeroCta = {
@@ -57,15 +59,25 @@ const Hero: React.FC<HeroProps> = ({
   .mySwiperHero231 .swiper-slide {
     background-position: center;
     background-size: cover;
-    width: 240px;
+    width: 260px;
     margin-top: 24px;
-    height: 320px;
+    height: 360px; /* slightly less tall */
     position: relative;
   }
 
   .mySwiperHero231 .swiper-slide img {
     display: block;
     width: 100%;
+  }
+
+  /* Subtle card enhancements */
+  .mySwiperHero231 .swiper-slide .cardEnhance {
+    transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+    filter: saturate(.95);
+  }
+  .mySwiperHero231 .swiper-slide-active .cardEnhance {
+    transform: translateY(-4px) scale(1.02);
+    filter: saturate(1);
   }
 
   .swiper-3d .swiper-slide-shadow-left {
@@ -100,9 +112,9 @@ const Hero: React.FC<HeroProps> = ({
       left: 80% !important;
     }
     .mySwiperHero231 .swiper-slide {
-      width: 300px;
+      width: 340px; /* wider on desktop */
       margin-top: 60px;
-      height: 420px;
+      height: 460px; /* slightly less tall */
     }
   }
 
@@ -150,10 +162,11 @@ const Hero: React.FC<HeroProps> = ({
           </div>
         </div>
         <div className="h-145 relative w-full xl:mt-0 xl:w-3/5">
+          {/* Minimal background wave pattern */}
           <div className="mx-auto flex h-full items-center justify-center overflow-hidden">
             {domLoaded && (
               <Swiper
-                spaceBetween={20}
+                spaceBetween={28}
                 autoplay={{
                   delay: 1500,
                   disableOnInteraction: false,
@@ -162,7 +175,7 @@ const Hero: React.FC<HeroProps> = ({
                 grabCursor={true}
                 centeredSlides={true}
                 loop={true}
-                slidesPerView="auto"
+                slidesPerView={1.35}
                 coverflowEffect={{
                   rotate: 0,
                   stretch: 0,
@@ -186,20 +199,28 @@ const Hero: React.FC<HeroProps> = ({
                 }}
               >
                 {images.map((image, index) => (
-                  <SwiperSlide key={index}>
-                    <Image
-                      fill
-                      className="h-full w-full overflow-hidden rounded-3xl object-cover shadow-lg max-md:mt-20"
-                      src={image.src}
-                      alt={image.alt}
-                    />
+                  <SwiperSlide key={index} className="max-md:p-5 max-md:mt-20">
+                    <div className="cardEnhance relative overflow-hidden rounded-4xl shadow">
+                      <Image
+                        src={backgroundImages[index]}
+                        alt={image.alt + " bg"}
+                        fill
+                        className="object-cover relative -z-10"
+                      />
+                      <div className="relative z-10 p-5">
+                        <Iphone15Pro
+                          className="h-full w-full dark"
+                          src={image.src}
+                        />
+                      </div>
+                    </div>
                   </SwiperSlide>
                 ))}
               </Swiper>
             )}
           </div>
 
-          <div className="-z-10 bg-muted xl:h-155 xl:w-9/10 absolute right-0 top-0 h-full w-full rounded-3xl xl:top-1/2 xl:mt-4 xl:-translate-y-1/2" />
+          <div className="-z-10 bg-muted dark:bg-muted/30 xl:h-[30rem] xl:w-9/10 absolute right-0 top-0 h-full w-full rounded-3xl xl:top-1/2 xl:mt-4 xl:-translate-y-1/2" />
         </div>
       </div>
     </section>

@@ -2,9 +2,9 @@
 
 import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
 
+import { Safari } from "@/components/magicui/safari";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -12,6 +12,10 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { backgroundImages } from "../../../content/data";
 
 export type LandingCarouselItem = {
   image: string;
@@ -64,34 +68,45 @@ const LandingCarousel: React.FC<LandingCarouselProps> = ({ items }) => {
             {items.map((img, index) => (
               <CarouselItem key={index} className="w-full basis-[91%]">
                 <div className="p-1">
-                  <div className="h-166 bg-muted relative flex flex-col items-end justify-between p-8">
-                    <div className="pointer-events-none absolute left-0 top-0 h-full w-full">
-                      <img
-                        src={img.image}
-                        alt=""
-                        className="h-full w-full object-cover"
+                  <Link
+                    href={img.link}
+                    className="group block"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-md backdrop-blur-[2px] transition-transform duration-200 hover:-translate-y-1 dark:border-white/10 md:p-8">
+                      <Image
+                        src={backgroundImages[index]}
+                        alt={img.title + " bg"}
+                        fill
+                        className="object-cover relative -z-10"
                       />
+                      <div className="relative z-10">
+                        <Safari
+                          className="mx-auto h-full w-full max-md:mt-10 dark"
+                          imageSrc={img.image}
+                        />
+                      </div>
+                      {/* bottom overlay title/desc/cta */}
+                      <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-4 md:p-6">
+                        <h3 className="line-clamp-1 text-lg font-semibold tracking-tight text-white md:text-xl">
+                          {img.title}
+                        </h3>
+                        <p className="line-clamp-2 text-xs text-white/80 md:text-sm">
+                          {img.description}
+                        </p>
+                        <div className="mt-3">
+                          <Button
+                            variant="default"
+                            className="text-xs group inline-flex items-center gap-2 rounded-full px-3 py-1 tracking-tight md:text-sm"
+                          >
+                            {img.ctaLabel}
+                            <ArrowRight className="size-4 -rotate-45 transition-all ease-out group-hover:ml-1.5 group-hover:rotate-0" />
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-white/10" />
                     </div>
-                    <div className="mt-42 z-10 text-white">
-                      <h1 className="max-w-lg text-right text-6xl font-medium tracking-tight">
-                        {img.title}
-                      </h1>
-                      <p className="my-6 max-w-lg text-right text-lg">
-                        {img.description}
-                      </p>
-                    </div>
-                    <div className="bg-muted00 z-10 flex w-full justify-between">
-                      <a href={img.link}>
-                        <Button
-                          variant="outline"
-                          className="text-md group flex w-fit items-center justify-center gap-2 rounded-full px-4 py-1 tracking-tight"
-                        >
-                          {img.ctaLabel}
-                          <ArrowRight className="size-4 -rotate-45 transition-all ease-out group-hover:ml-3 group-hover:rotate-0" />
-                        </Button>
-                      </a>
-                    </div>
-                  </div>
+                  </Link>
                 </div>
               </CarouselItem>
             ))}

@@ -1,6 +1,8 @@
 import SectionHeading from "@/components/section-heading";
+import { listContent } from "@/lib/md/mdx";
 import { cn } from "@/lib/utils";
-import * as React from "react";
+import fs from "node:fs/promises";
+import path from "node:path";
 import { landingPageData } from "../../../content/data/landing-page";
 import BlogCard from "./blog-card";
 import Features from "./features";
@@ -8,14 +10,51 @@ import Hero from "./hero";
 import LandingCarousel from "./landing-carousel";
 import TimelineCard from "./timeline-card";
 
-interface HomePageProps {}
+async function getScreenshotOrCover(
+  slug: string,
+  cover?: string,
+  mobile?: boolean
+): Promise<string> {
+  const desktopName = `${slug}.png`;
+  const mobileName = `${slug}.mobile.png`;
+  const candidate = path.join(
+    process.cwd(),
+    "public",
+    "screenshots",
+    desktopName
+  );
+  try {
+    await fs.access(candidate);
+    return `/screenshots/${mobile ? mobileName : desktopName}`;
+  } catch {
+    return cover || "/images/window.png";
+  }
+}
 
-const HomePage: React.FC<HomePageProps> = ({}) => {
+export default async function HomePage() {
+  const projects = await listContent("projects");
+  const heroImages = await Promise.all(
+    projects.slice(0, 8).map(async (p) => ({
+      src: await getScreenshotOrCover(p.slug, p.frontmatter.cover, true),
+      alt: p.frontmatter.title || p.slug,
+    }))
+  );
+
+  const carouselItems = await Promise.all(
+    projects.slice(0, 6).map(async (p) => ({
+      image: await getScreenshotOrCover(p.slug, p.frontmatter.cover),
+      title: p.frontmatter.title || p.slug,
+      description: p.frontmatter.summary || "",
+      link: `/projects/${p.slug}`,
+      ctaLabel: "View project",
+    }))
+  );
+
   return (
     <>
       <div
         className={cn(
-          "flex flex-1 flex-col gap-20 page-container pb-32 -mt-20"
+          "flex flex-1 flex-col gap-20 page-container pb-32 lg:-mt-20"
         )}
       >
         <Hero
@@ -25,7 +64,7 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
           subtitle={landingPageData.hero.subtitle}
           primaryCta={landingPageData.hero.primaryCta}
           secondaryCta={landingPageData.hero.secondaryCta}
-          images={landingPageData.hero.images}
+          images={heroImages}
         />
 
         <SectionHeading>
@@ -40,7 +79,7 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
           <>{landingPageData.sectionHeadings.carousel.subtitle}</>
         </SectionHeading>
 
-        <LandingCarousel items={landingPageData.carousel.items} />
+        <LandingCarousel items={carouselItems} />
 
         <SectionHeading>
           <>{landingPageData.sectionHeadings.blog.title}</>
@@ -68,6 +107,4 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
       </div>
     </>
   );
-};
-
-export default HomePage;
+}

@@ -64,7 +64,7 @@ export async function GET() {
           name: "Book a Trip",
           short_name: "Book",
           description: "Book your fishing adventure",
-          url: "/#contact",
+          url: "/contact",
           icons: [
             {
               src: "/icon-96.png",
