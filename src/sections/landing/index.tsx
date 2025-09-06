@@ -1,5 +1,6 @@
 import { listContent } from "@/lib/md/mdx";
-import { cn, getScreenshotOrCover } from "@/lib/utils";
+import { getScreenshotOrCover } from "@/lib/server-files";
+import { cn } from "@/lib/utils";
 import { landingPageData } from "../../../content/data/landing-page";
 import Features from "./features";
 import Hero from "./hero";

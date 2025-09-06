@@ -5,26 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-// Resolve a project's screenshot or fall back to cover/default.
-export async function getScreenshotOrCover(
-  slug: string,
-  cover?: string,
-  options?: { mobile?: boolean }
-): Promise<string> {
-  const fs = await import("node:fs/promises");
-  const path = await import("node:path");
-  const desktopName = `${slug}.png`;
-  const mobileName = `${slug}.mobile.png`;
-  const fileName = options?.mobile ? mobileName : desktopName;
-  const candidate = path.join(process.cwd(), "public", "screenshots", fileName);
-  try {
-    await fs.access(candidate);
-    return `/screenshots/${fileName}`;
-  } catch {
-    return cover || "/default-cover.png";
-  }
-}
-
 // Evenly spread primary images with fallback images to a fixed length mosaic.
 export function buildMosaicImages(
   primaryImages: string[],

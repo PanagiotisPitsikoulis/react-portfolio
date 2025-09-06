@@ -1,7 +1,7 @@
 import { ContentType, getContent } from "@/lib/md/mdx";
 import { MDXContent } from "@/lib/md/render-mdx";
 import { serializeMDXServer } from "@/lib/md/ssr-serialize";
-import { getScreenshotOrCover } from "@/lib/utils";
+import { getScreenshotOrCover } from "@/lib/server-files";
 import { redirect } from "next/navigation";
 import PostCarousel from "./post-carousel";
 import PostHero from "./post-hero";
