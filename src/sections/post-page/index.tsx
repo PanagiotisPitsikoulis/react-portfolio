@@ -1,9 +1,9 @@
 import { ContentType, getContent } from "@/lib/md/mdx";
 import { MDXContent } from "@/lib/md/render-mdx";
 import { serializeMDXServer } from "@/lib/md/ssr-serialize";
+import { getScreenshotOrCover } from "@/lib/utils";
 import { redirect } from "next/navigation";
-import fs from "node:fs/promises";
-import path from "node:path";
+import PostCarousel from "./post-carousel";
 import PostHero from "./post-hero";
 
 const PostPage = async ({
@@ -21,32 +21,11 @@ const PostPage = async ({
 
     const mdx = await serializeMDXServer(post.body);
 
-    async function getScreenshotOrCover(
-      slug: string,
-      cover?: string,
-      mobile?: boolean
-    ): Promise<string> {
-      const desktopName = `${slug}.png`;
-      const mobileName = `${slug}.mobile.png`;
-      const candidate = path.join(
-        process.cwd(),
-        "public",
-        "screenshots",
-        desktopName
-      );
-      try {
-        await fs.access(candidate);
-        return `/screenshots/${mobile ? mobileName : desktopName}`;
-      } catch {
-        return cover || "/images/window.png";
-      }
-    }
-
     const isProject = post.type === "projects";
     const heroImage = await getScreenshotOrCover(
       post.slug,
       post.frontmatter.cover,
-      false
+      { mobile: false }
     );
     const hasExternalUrl = Boolean(isProject && post.frontmatter.url);
     const tags = [
@@ -69,8 +48,37 @@ const PostPage = async ({
               isProject={isProject}
               hasExternalUrl={hasExternalUrl}
               tags={tags}
+              date={
+                post.frontmatter.date
+                  ? String(post.frontmatter.date)
+                  : undefined
+              }
             />
-            <MDXContent source={mdx} />
+            {isProject &&
+            ((post.frontmatter as any).carousel?.length ||
+              (post.screenshots?.routes?.length || 0) > 0) ? (
+              <div className="mt-6">
+                {(() => {
+                  const title = post.frontmatter.title || post.slug;
+                  const routeImages = (post.screenshots?.routes || [])
+                    .map((r) => r.desktop)
+                    .filter(Boolean) as string[];
+                  const carouselImages = ((post.frontmatter as any).carousel ||
+                    []) as string[];
+                  const images = [...routeImages, ...carouselImages];
+                  if (images.length === 0) return null;
+                  return (
+                    <PostCarousel
+                      images={images}
+                      projectUrl={post.frontmatter.url}
+                    />
+                  );
+                })()}
+              </div>
+            ) : null}
+            <div className="max-w-2xl">
+              <MDXContent source={mdx} />
+            </div>
           </article>
         </div>
       </section>

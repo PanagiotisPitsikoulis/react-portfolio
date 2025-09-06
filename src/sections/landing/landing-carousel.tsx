@@ -71,7 +71,7 @@ const LandingCarousel: React.FC<LandingCarouselProps> = ({ items }) => {
                     className="group block"
                     rel="noopener noreferrer"
                   >
-                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-md backdrop-blur-[2px] transition-transform duration-200 hover:-translate-y-1 dark:border-white/10 md:p-8">
+                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-md backdrop-blur-[2px] transition-transform duration-200 hover:-translate-y-1 dark:border-white/10 p-4 lg:p-8">
                       <Image
                         src={backgroundImages[index]}
                         alt={img.title + " bg"}
@@ -80,8 +80,9 @@ const LandingCarousel: React.FC<LandingCarouselProps> = ({ items }) => {
                       />
                       <div className="relative z-10">
                         <Safari
-                          className="mx-auto h-full w-full max-md:mt-10"
-                          // imageSrc={img.image}
+                          url={img.link}
+                          className="mx-auto h-full w-full"
+                          imageSrc={img.image}
                         />
                       </div>
                     </div>

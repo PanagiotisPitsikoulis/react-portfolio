@@ -8,6 +8,7 @@ import type { ContentItem, ContentType } from "@/lib/md/mdx";
 import { Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
+import { SectionDivider } from "@/components/section-divider";
 import {
   Tooltip,
   TooltipContent,
@@ -16,6 +17,7 @@ import {
 import Filters from "./filters";
 import Pagination from "./pagination";
 import PostCards from "./post-cards";
+import PostViewerHero from "./post-viewer-hero";
 
 const POSTS_PER_PAGE = 6;
 
@@ -24,11 +26,13 @@ export default function PostViewer({
   description,
   posts,
   contentType,
+  heroImages,
 }: {
   title: string;
   description: string;
   posts: ContentItem[];
   contentType: ContentType;
+  heroImages: string[];
 }) {
   const { updateSearchParams, getParam } = useSearchParamsState();
   const [searchQuery, setSearchQuery] = useState(getParam("search") || "");
@@ -150,10 +154,15 @@ export default function PostViewer({
 
   return (
     <section className="flex flex-1 flex-col gap-10 page-container pb-24 -mt-10">
-      <SectionHeading>
-        <>{title}</>
-        <>{description}</>
-      </SectionHeading>
+      {/* Hero */}
+      <div>
+        <PostViewerHero
+          title={title}
+          description={description}
+          images={heroImages}
+        />
+      </div>
+      <SectionDivider label={contentType === "blog" ? "Posts" : "Projects"} />
 
       <Filters
         contentType={contentType}

@@ -3,7 +3,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
-import { InView } from "@/components/ui/in-view";
 import { Input } from "@/components/ui/input";
 import {
   Tooltip,
@@ -52,26 +51,10 @@ export default function Filters({
   currentPage: number;
 }) {
   return (
-    <InView
-      as="div"
-      variants={{
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0 },
-      }}
-      transition={{ duration: 0.4 }}
-      className="mt-3 bg-sidebar p-4 shadow border dark"
-    >
+    <div className="mt-3 py-2">
       <div className="space-y-4">
         {/* Search and Filter Controls */}
-        <InView
-          as="div"
-          variants={{
-            hidden: { opacity: 0, y: -10 },
-            visible: { opacity: 1, y: 0 },
-          }}
-          transition={{ duration: 0.4 }}
-          className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between"
-        >
+        <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
           <div className="relative flex-1 max-w-lg">
             <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Tooltip>
@@ -83,7 +66,7 @@ export default function Filters({
                   }...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 pr-12 h-10 text-white bg-background/80 border-border/60 focus:border-primary/50 focus:ring-primary/20 rounded-lg shadow-sm"
+                  className="pl-12 pr-12 h-10 bg-transparent border-border/50 focus:border-primary/50 focus:ring-0 rounded-md"
                 />
               </TooltipTrigger>
               <TooltipContent side="top">
@@ -98,7 +81,7 @@ export default function Filters({
                     variant="ghost"
                     size="sm"
                     onClick={handleClearSearch}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-7 w-7 p-0 hover:bg-muted text-foreground rounded-full"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-7 w-7 p-0 hover:bg-muted/30 rounded-full"
                   >
                     <X className="h-3.5 w-3.5" />
                   </Button>
@@ -112,16 +95,16 @@ export default function Filters({
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
-                  variant="secondary"
+                  variant="outline"
                   size="sm"
                   onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-                  className="gap-2 rounded-lg border-border/70 hover:bg-primary/10 hover:text-primary transition"
+                  className="gap-2 rounded-md border-border/60 hover:bg-muted/30 transition"
                 >
                   <Filter className="h-4 w-4" />
                   Tags
                   {selectedTags.length > 0 && (
                     <Badge
-                      variant="default"
+                      variant="secondary"
                       className="rounded-full text-xs px-2 py-0.5"
                     >
                       {selectedTags.length}
@@ -138,10 +121,10 @@ export default function Filters({
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
-                    variant="secondary"
+                    variant="outline"
                     size="sm"
                     onClick={handleClearAllFilters}
-                    className="gap-2 rounded-lg border-border/70 hover:bg-destructive/10 hover:text-destructive transition"
+                    className="gap-2 rounded-md border-border/60 hover:bg-destructive/10 hover:text-destructive transition"
                   >
                     <X className="h-4 w-4" />
                     Clear All
@@ -153,43 +136,28 @@ export default function Filters({
               </Tooltip>
             )}
           </div>
-        </InView>
+        </div>
 
         {/* Active Filters Display */}
         {hasActiveFilters && (
-          <InView
-            as="div"
-            variants={{
-              hidden: { opacity: 0, height: 0 },
-              visible: { opacity: 1, height: "auto" },
-            }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-wrap items-center gap-2 pt-2 border-t border-border overflow-hidden"
-          >
+          <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-border overflow-hidden">
             <span className="text-sm font-medium text-muted-foreground">
               Active filters:
             </span>
             {debouncedSearchQuery && (
-              <InView
-                as="div"
-                variants={{
-                  hidden: { opacity: 0, scale: 0.8 },
-                  visible: { opacity: 1, scale: 1 },
-                }}
-                transition={{ duration: 0.2 }}
-              >
+              <div>
                 <Badge
                   variant="secondary"
-                  className="gap-1 rounded-full bg-primary/10 text-primary border-primary/20 px-2.5 py-0.5 text-sm shadow-sm"
+                  className="gap-1 rounded-full bg-muted/30 text-foreground border-border/60 px-2.5 py-0.5 text-sm"
                 >
                   Search: "{debouncedSearchQuery}"
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
-                        variant="secondary"
+                        variant="ghost"
                         size="sm"
                         onClick={handleClearSearch}
-                        className="h-4 w-4 p-0 hover:bg-primary/20 rounded-full"
+                        className="h-4 w-4 p-0 hover:bg-muted/30 rounded-full"
                       >
                         <X className="h-3 w-3" />
                       </Button>
@@ -199,21 +167,13 @@ export default function Filters({
                     </TooltipContent>
                   </Tooltip>
                 </Badge>
-              </InView>
+              </div>
             )}
             {selectedTags.map((tag) => (
-              <InView
-                key={tag}
-                as="div"
-                variants={{
-                  hidden: { opacity: 0, scale: 0.8 },
-                  visible: { opacity: 1, scale: 1 },
-                }}
-                transition={{ duration: 0.2 }}
-              >
+              <div key={tag}>
                 <Badge
-                  variant="default"
-                  className="gap-1 rounded-full px-2.5 py-0.5 text-sm shadow-sm"
+                  variant="secondary"
+                  className="gap-1 rounded-full px-2.5 py-0.5 text-sm"
                 >
                   {tag}
                   <Tooltip>
@@ -222,7 +182,7 @@ export default function Filters({
                         variant="ghost"
                         size="sm"
                         onClick={() => handleTagToggle(tag)}
-                        className="h-4 w-4 p-0 hover:bg-primary/20 rounded-full"
+                        className="h-4 w-4 p-0 hover:bg-muted/30 rounded-full"
                       >
                         <X className="h-3 w-3" />
                       </Button>
@@ -232,23 +192,15 @@ export default function Filters({
                     </TooltipContent>
                   </Tooltip>
                 </Badge>
-              </InView>
+              </div>
             ))}
-          </InView>
+          </div>
         )}
 
         {/* Collapsible Tag Selector */}
         <Collapsible open={isFiltersOpen} onOpenChange={setIsFiltersOpen}>
           {isFiltersOpen && (
-            <InView
-              as="div"
-              variants={{
-                hidden: { height: 0, opacity: 0 },
-                visible: { height: "auto", opacity: 1 },
-              }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden"
-            >
+            <div className="overflow-hidden">
               <CollapsibleContent className="pt-2 border-t">
                 {allTags.length > 0 ? (
                   <TagSelector
@@ -263,20 +215,12 @@ export default function Filters({
                   </div>
                 )}
               </CollapsibleContent>
-            </InView>
+            </div>
           )}
         </Collapsible>
 
         {/* Results Summary */}
-        <InView
-          as="div"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1 },
-          }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-          className="flex items-center justify-between border text-sm rounded-lg bg-muted/40 px-3 py-1.5"
-        >
+        <div className="flex items-center justify-between border-0 border-t border-border/60 text-sm px-0 py-2">
           <Tooltip>
             <TooltipTrigger asChild>
               <div className="text-muted-foreground">
@@ -331,8 +275,8 @@ export default function Filters({
               </TooltipContent>
             </Tooltip>
           )}
-        </InView>
+        </div>
       </div>
-    </InView>
+    </div>
   );
 }

@@ -19,7 +19,7 @@ import Link from "next/link";
 import { FaGithub, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { backgroundImages, socialLinks } from "../../../content/data";
 
-type HeroImage = { src: string; alt: string };
+type HeroImage = { src: string; alt: string; href?: string };
 type HeroCta = {
   label: string;
   href: string;
@@ -215,22 +215,48 @@ const Hero: React.FC<HeroProps> = ({
                 }}
               >
                 {images.map((image, index) => (
-                  <SwiperSlide key={index} className="max-md:p-5 max-md:mt-20">
-                    <div className="cardEnhance relative overflow-hidden rounded-4xl shadow">
-                      <Image
-                        src={backgroundImages[index]}
-                        alt={image.alt + " bg"}
-                        fill
-                        className="object-cover relative -z-10"
-                      />
-                      <div className="relative z-10 p-5">
-                        <Iphone15Pro
-                          className="h-full w-full dark"
-                          // src={image.src}
-                        />
-                      </div>
-                    </div>
-                  </SwiperSlide>
+                  <>
+                    {image.src && (
+                      <SwiperSlide
+                        key={index}
+                        className="max-md:p-5 max-md:mt-20"
+                      >
+                        <div className="cardEnhance relative overflow-hidden rounded-4xl shadow">
+                          <Image
+                            src={
+                              backgroundImages.length
+                                ? backgroundImages[
+                                    index % backgroundImages.length
+                                  ]
+                                : backgroundImages[0]
+                            }
+                            alt={image.alt + " bg"}
+                            fill
+                            className="object-cover relative -z-10"
+                          />
+                          <div className="relative z-10 p-5">
+                            {image.href ? (
+                              <Link
+                                href={image.href}
+                                aria-label={image.alt}
+                                prefetch={false}
+                              >
+                                <Iphone15Pro
+                                  className="h-full w-full dark"
+                                  src={image.src}
+                                />
+                              </Link>
+                            ) : (
+                              <Iphone15Pro
+                                className="h-full w-full dark"
+                                src={image.src}
+                              />
+                            )}
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                    )}
+                  </>
                 ))}
               </Swiper>
             )}

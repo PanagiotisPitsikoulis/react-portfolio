@@ -1,11 +1,7 @@
 "use client";
+import { AppIcon } from "@/components/app-icon";
 import { useCurrentRoute } from "@/components/current-route-context";
-import {
-  ChevronDown,
-  ChevronRight,
-  MoreHorizontal,
-  ScreenShare,
-} from "lucide-react";
+import { ChevronDown, ChevronRight, MoreHorizontal } from "lucide-react";
 import * as React from "react";
 import { useMemo, useState } from "react";
 import { metadata, sidebarData } from "../../../content/data";
@@ -76,9 +72,7 @@ export function AppSidebar({
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild>
                 <Link href="/">
-                  <div className="bg-black dark:bg-white text-white dark:text-black flex aspect-square size-8 items-center justify-center rounded-full">
-                    <ScreenShare className="size-4" />
-                  </div>
+                  <AppIcon />
                   <div className="flex flex-col gap-0.5 leading-none">
                     <span className="font-medium">
                       {metadata.title as string}

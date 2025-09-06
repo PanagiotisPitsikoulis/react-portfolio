@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Sidekick is the codebase behind this portfolio—a modern, MDX‑powered template built with Next.js 15 and React Server Components. It ships with a beautiful UI, first‑class SEO, and a streamlined writing workflow for blog posts and project pages.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Highlights
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **MDX content engine**: Author posts and projects from `content/blog` and `content/projects` with frontmatter.
+- **Post viewer UX**: Filters, tags, and pagination for browsing content efficiently.
+- **SEO out of the box**: `robots.txt`, `sitemap.xml`, and `feed.xml` routes preconfigured.
+- **Social previews**: Automatic Open Graph images via image generation endpoints.
+- **Refined UI**: shadcn/ui + Radix primitives, responsive Tailwind design, dark/light themes.
+- **Command bar**: Fast navigation and actions from anywhere on the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Content & Routing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Blog: `src/app/(main)/blog` with dynamic `[slug]` routes
+- Projects: `src/app/(main)/projects` with dynamic `[slug]` routes
+- MDX parsing/rendering with custom components and typography
 
-## Learn More
+## SEO & Social
 
-To learn more about Next.js, take a look at the following resources:
+- Routes: `src/app/(seo)/robots.txt`, `sitemap.xml`, `feed.xml`, `site.webmanifest`
+- Metadata helpers and Open Graph image generation using `ImageResponse`
+- Share‑ready cards for blog posts and projects
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Post Viewer Experience
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Faceted filters, tag selection, and pagination
 
-## Deploy on Vercel
+## Theming & Components
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- shadcn/ui + Radix for accessible primitives
+- Animated theme toggler, command bar, and utility components
+- Tailwind CSS for rapid iteration and consistent scales
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Technical
+
+- Next.js 15 App Router with React Server Components
+- Minimal client surfaces, Suspense boundaries, and dynamic loading where it matters
+- Open Graph image generation endpoints and utilities

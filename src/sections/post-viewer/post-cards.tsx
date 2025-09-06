@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ContentItem, ContentType } from "@/lib/md/mdx";
+import Link from "next/link";
 import PostCard from "./post-card";
 
 const PostCards = ({
@@ -18,8 +19,15 @@ const PostCards = ({
           ))}
         </div>
         <div className="mt-8 flex flex-col items-center py-2 md:hidden">
-          <Button className="w-full sm:w-fit">
-            View all {contentType === "blog" ? "posts" : "projects"}
+          <Button asChild className="w-full sm:w-fit">
+            <Link
+              href={contentType === "blog" ? "/blog" : "/projects"}
+              aria-label={
+                contentType === "blog" ? "View all posts" : "View all projects"
+              }
+            >
+              View all {contentType === "blog" ? "posts" : "projects"}
+            </Link>
           </Button>
         </div>
       </div>

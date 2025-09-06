@@ -1,0 +1,65 @@
+---
+title: "Blink Calendar"
+date: "2025-02-12"
+summary: "A modern appointment platform for tattoo studios with QR check‑ins and calendar sync."
+tags: [
+  "Next.js 14",
+  "TypeScript",
+  "Tailwind CSS",
+  "shadcn/ui",
+  "SSR",
+  "ISR",
+  "OAuth",
+  "Google Calendar",
+  "ICS",
+  "QR Codes",
+  "React Context"
+]
+metaTitle: "Blink — Modern, QR‑Powered Booking for Artists and Clients"
+metaDescription: "Appointment scheduling for tattoo studios with live calendar sync, role‑based dashboards, dark mode, and QR check‑ins."
+url: "https://blink-calendar.vercel.app/"
+routes: []
+featured: false
+cover: ''
+github: 'https://github.com/PanagiotisPitsikoulis/blink-calendar'
+---
+
+## Overview
+
+Volunteer project for [Blink Tattoo](https://www.blinktattoo.gr/).
+
+Blink is an appointment‑scheduling platform purpose‑built for Blink Tattoo, a tattoo studio in Thessaloniki, Greece. Powered by Next.js, styled with Tailwind CSS, and polished with shadcn/ui, it combines an intuitive UI with automatic QR‑code check‑ins and real‑time calendar sync.
+
+## Why Blink exists
+
+Phone calls, DMs, and notebooks invite double bookings and missed reminders. Blink was shaped by conversations with artists who needed a tool as flexible as their workflow—but as reliable as a professional calendar. The goal: remove admin overhead so artists focus on design, not logistics.
+
+## Key user‑facing benefits
+
+### Appointment visibility & management
+A self‑serve portal shows upcoming sessions with date, time, and notes—reducing no‑shows.
+
+### Google & Apple calendar integration
+Studio bookings sync to artists’ calendars via secure OAuth (Google Calendar) or downloadable ICS.
+
+### Dark & light modes
+Theme switcher supports bright studios and dim environments with clear, accessible contrast.
+
+## Technical architecture
+
+### Next.js foundations
+Server‑side rendering for fast loads and SEO. ISR keeps marketing pages fresh while APIs remain real‑time.
+
+### Tailwind CSS & shadcn/ui
+Utility‑first styles with accessible, consistent components—buttons, date pickers, dialogs, and more.
+
+### State management strategy
+Lightweight React context orchestrates calendars, forms, and modal flows. Memoized hooks keep date logic snappy on mobile.
+
+## QR codes: bridging online booking with in‑studio check‑in
+
+Each booking generates a unique QR that embeds the appointment ID. On arrival, a quick scan surfaces the record in the admin panel and marks the client as Checked‑In—no paper forms or manual searches.
+
+## Solving real studio pain points
+
+By unifying visual scheduling, reminders, calendar sync, and QR verification, Blink eliminates double bookings, missed appointments, and miscommunication—returning time to artists and a polished experience to clients.

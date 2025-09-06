@@ -1,4 +1,5 @@
 "use client";
+import { AppIcon } from "@/components/app-icon";
 import CommandBar from "@/components/command-bar";
 import { useCurrentRoute } from "@/components/current-route-context";
 import { AnimatedThemeToggler } from "@/components/magicui/animated-theme-toggler";
@@ -22,7 +23,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { ChevronDown, ScreenShare } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 import { metadata } from "../../../content/data";
@@ -57,9 +58,9 @@ const Header: React.FC<HeaderProps> = ({ projects = [], blog = [] }) => {
       className="flex h-16 shrink-0 items-center sticky gap-2 px-6 lg:px-4 w-full justify-between top-0 z-50 bg-background"
     >
       <div className="flex flex-row items-center gap-2">
-        <div className="bg-black dark:bg-white text-white dark:text-black flex aspect-square size-8 items-center justify-center rounded-full">
-          <ScreenShare className="size-4" />
-        </div>
+        <Link href="/">
+          <AppIcon />
+        </Link>
         <div className="w-fit flex flex-row items-center bg-sidebar h-9 px-4 py-2 rounded-full border overflow-hidden">
           <Tooltip>
             <TooltipTrigger asChild>

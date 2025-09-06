@@ -1,0 +1,76 @@
+---
+title: "Sidekick — Portfolio Template"
+date: "2025-02-12"
+summary: "A polished, fast portfolio starter with MDX blog, projects, and first‑class SEO."
+tags: [
+  "Next.js 14",
+  "App Router",
+  "React Server Components",
+  "TypeScript",
+  "Tailwind CSS",
+  "shadcn/ui",
+  "Radix UI",
+  "MDX",
+  "SEO",
+  "RSS",
+  "Sitemap",
+  "Robots.txt",
+  "Open Graph",
+  "ImageResponse",
+  "nuqs",
+  "Suspense",
+  "Vercel"
+]
+metaTitle: "Sidekick — Developer Portfolio Template"
+metaDescription: "Modern, MDX‑powered portfolio with blog, projects, command bar, and built‑in SEO."
+url: "https://www.panagiotispitsikoulis.gr"
+routes: ["https://www.panagiotispitsikoulis.gr",
+ "https://www.panagiotispitsikoulis.gr/projects", 
+"https://www.panagiotispitsikoulis.gr/blog", 
+"https://www.panagiotispitsikoulis.gr/contact"
+]
+featured: true
+cover: ''
+github: 'https://github.com/PanagiotisPitsikoulis/react-portfolio'
+---
+
+## Overview
+
+Sidekick is the codebase behind this portfolio—a modern, MDX‑powered template built with Next.js 14 and React Server Components. It ships with a beautiful UI, first‑class SEO, and a streamlined writing workflow for blog posts and project pages.
+
+## Highlights
+
+- **MDX content engine**: Author posts and projects from `content/blog` and `content/projects` with frontmatter.
+- **Post viewer UX**: Filters, tags, and pagination for browsing content efficiently.
+- **SEO out of the box**: `robots.txt`, `sitemap.xml`, and `feed.xml` routes preconfigured.
+- **Social previews**: Automatic Open Graph images via image generation endpoints.
+- **Refined UI**: shadcn/ui + Radix primitives, responsive Tailwind design, dark/light themes.
+- **Command bar**: Fast navigation and actions from anywhere on the site.
+
+## Content & Routing
+
+- Blog: `src/app/(main)/blog` with dynamic `[slug]` routes
+- Projects: `src/app/(main)/projects` with dynamic `[slug]` routes
+- MDX parsing/rendering with custom components and typography
+
+## SEO & Social
+
+- Routes: `src/app/(seo)/robots.txt`, `sitemap.xml`, `feed.xml`, `site.webmanifest`
+- Metadata helpers and Open Graph image generation using `ImageResponse`
+- Share‑ready cards for blog posts and projects
+
+## Post Viewer Experience
+
+- Faceted filters, tag selection, and pagination
+
+## Theming & Components
+
+- shadcn/ui + Radix for accessible primitives
+- Animated theme toggler, command bar, and utility components
+- Tailwind CSS for rapid iteration and consistent scales
+
+## Technical
+
+- Next.js 15 App Router with React Server Components
+- Minimal client surfaces, Suspense boundaries, and dynamic loading where it matters
+- Open Graph image generation endpoints and utilities

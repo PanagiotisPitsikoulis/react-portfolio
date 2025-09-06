@@ -1,0 +1,49 @@
+---
+title: "C-ESG Compass"
+date: "2025-02-12"
+summary: "Unlocking Sustainability Through Data: A Look Inside C-ESG Compass"
+tags: [
+  "Next.js 14",
+  "App Router",
+  "Server Actions",
+  "React Server Components",
+  "Supabase",
+  "Postgres",
+  "Row Level Security",
+  "Realtime",
+  "WebSockets",
+  "Tailwind CSS",
+  "NextUI",
+  "i18n",
+  "Vercel",
+]
+metaTitle: "C-ESG Compass"
+metaDescription: "Unlocking Sustainability Through Data: A Look Inside C-ESG Compass"
+url: "https://c-esg-compass.vercel.app/en"
+routes: ["https://c-esg-compass.vercel.app/en/protected/forms","https://c-esg-compass.vercel.app/en/contact","https://c-esg-compass.vercel.app/en/login"]
+featured: true
+cover: ''
+github: ''
+---
+
+Internship project for [Culture for Climate Actions](https://cultureforclimateactions.eu/).
+
+Building a culture-first ESG platform on Supabase + Next.js 14. C‑ESG Compass blends environmental, social, governance, and cultural data into a single, real-time dashboard with bilingual support and strong compliance guarantees.
+
+## Core runtime: Next.js 14 (App Router + Server Actions)
+At the heart of Compass sits Next.js 14. The app router handles layouts, streaming, and React Server Components (RSC). We rely on Server Actions for secure, stateless logic—saving ESG submissions, refreshing Supabase queries, and generating PDFs—without a separate REST layer. Co-locating these actions with UI keeps latency low and types shared.
+
+### Incremental static regeneration for public pages
+Marketing pages (pricing, methodology, docs) ship as static HTML and revalidate in the background when content changes in Supabase, keeping TTFB low while serving fresh content.
+
+## Data layer: Supabase (Postgres + Realtime)
+Supabase provides Postgres, auth, row-level security, storage, and Realtime—managed from one place. KPI snapshots, audit logs, and profiles live in Postgres; CSV imports and culture survey PDFs go to Storage with signed URLs. Realtime listeners stream metric deltas over WebSockets directly into the dashboard.
+
+### Row-level security (RLS) and policies
+Tenant isolation is enforced by Postgres RLS that maps Supabase auth UIDs to organization IDs, enabling multi-tenant safety with audit-grade guarantees.
+
+## Styling and components: Tailwind CSS + NextUI
+Tailwind handles spacing, tokens, and responsive behavior. NextUI supplies accessible primitives (tables, tabs, analytics cards) that match the design system without heavy theming. The outcome is cohesive yet tweakable UI, dark-mode ready.
+
+## Internationalization (Greek ↔ English)
+My custom internationalization middleware powers translations in Server Components. A small middleware reads `Accept-Language` and a persisted user setting, then rewrites to `/el` or `/en`. Server Actions respect the same locale so emails and PDF exports are consistent end-to-end.

@@ -1,0 +1,90 @@
+---
+title: "SimplyDrive.gr"
+date: "2024-09-01"
+summary: "Explore the tech behind SimplyDrive.gr—AI, offline access, and real-time tools for driving test prep."
+tags: [
+  "Next.js 14",
+  "App Router",
+  "Server Actions",
+  "TypeScript",
+  "Tailwind CSS",
+  "Prisma",
+  "PostgreSQL",
+  "SWR",
+  "Background Sync",
+  "OpenAI",
+  "Custom Auth",
+  "JWT",
+  "Helmet",
+  "ISR",
+  "PPR",
+  "Vercel",
+  "GitHub Actions"
+]
+metaTitle: "SimplyDrive.gr: Architecture Notes from the Developer’s Desk"
+metaDescription: "How Next.js 14, Prisma, and PostgreSQL power AI explanations, offline mode, and real-time UX."
+url: "https://www.simplydrive.gr"
+routes: []
+featured: true
+cover: ''
+github: ''
+---
+
+## Overview
+
+SimplyDrive.gr exists for a single reason: to give Greek learner‑drivers the quickest, smartest way to master Κ.Ο.Κ. road‑sign theory. Below is the tech‑stack rundown of how I engineered high‑speed loads, AI explanations, and progress‑safe offline mode using Next.js 14, Prisma, and PostgreSQL.
+
+## 1. Runtime Backbone — Next.js 14 App Router
+
+### 1.1 Partial Prerendering (PPR)
+All public pages stream a static shell in well under a second, then hydrate quiz data on the fly. Users feel native‑app speed even on 3G.
+
+### 1.2 Server Actions
+Mutations like `submitAnswer()` run as Server Actions—no separate REST layer. The action writes via Prisma and returns the updated score bar in a single round‑trip.
+
+## 2. Data Layer — Prisma ORM + PostgreSQL
+
+Schema highlights:
+
+- **User** — UUID primary key, unique email, password hash, relation to answers
+- **Question** — auto‑increment ID, text prompt, correct answer reference
+- **Answer** — tracks user‑selected choice, correctness flag, timestamp; indexed by userId + questionId
+
+The database sits behind PgBouncer in transaction mode to survive the parallelism of Server Actions, while `prisma migrate deploy` handles schema changes inside the Vercel build.
+
+## 3. User Accounts & Security
+
+- NextAuth v5 (Credentials provider) with Argon2id‑hashed passwords
+- HTTP‑only, SameSite=Lax cookies store JWT sessions—never exposed to client JS
+- All Prisma queries filtered by the current user’s ID to prevent horizontal privilege escalation
+- `middleware.ts` injects CSP, X‑Frame‑Options, and Referrer‑Policy headers via Helmet
+
+## 4. Real‑Time & Offline UX
+
+### 4.1 Optimistic SWR Store
+A lightweight custom SWR hook shows instant UI feedback; server diffs reconcile automatically.
+
+### 4.2 Service Worker
+- Cache‑first strategy for static assets (JS, CSS, SVG road signs)
+- Background Sync queues failed submissions and replays them when connectivity returns
+- Last 50 answers kept in localStorage for crash recovery
+
+## 5. AI‑Powered Explanations
+
+Server‑side calls to OpenAI create ~75‑word Greek explanations for each question. Results cache in Postgres for 24 hours to stay within rate limits.
+
+## 6. Observability & CI/CD
+
+- GitHub Actions: ESLint, Vitest, and Playwright run on every pull request
+- Automatic preview deployments on Vercel complete in < 90 seconds
+- Structured logs shipped to Logtail; Web Vitals tracked via Vercel Analytics (target ≥ 90)
+
+## 7. Roadmap
+
+- Edge‑cache pre‑warming once Partial Prerendering leaves beta
+- Progress import/export via QR codes (PWA share‑target)
+- Redis‑backed leaderboard for friendly competition
+
+## 8. Final Thoughts
+
+SimplyDrive.gr demonstrates how a lean stack—Next.js streaming, Prisma + Postgres, and targeted AI—can turn rote exam prep into an engaging experience that never loses a learner’s progress.

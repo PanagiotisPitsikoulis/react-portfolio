@@ -1,47 +1,38 @@
-import SectionHeading from "@/components/section-heading";
 import { listContent } from "@/lib/md/mdx";
-import { cn } from "@/lib/utils";
-import fs from "node:fs/promises";
-import path from "node:path";
+import { cn, getScreenshotOrCover } from "@/lib/utils";
 import { landingPageData } from "../../../content/data/landing-page";
 import Features from "./features";
 import Hero from "./hero";
 import LandingCarousel from "./landing-carousel";
+import { Section } from "./section";
 import TimelineCard from "./timeline-card";
-
-async function getScreenshotOrCover(
-  slug: string,
-  cover?: string,
-  mobile?: boolean
-): Promise<string> {
-  const desktopName = `${slug}.png`;
-  const mobileName = `${slug}.mobile.png`;
-  const candidate = path.join(
-    process.cwd(),
-    "public",
-    "screenshots",
-    desktopName
-  );
-  try {
-    await fs.access(candidate);
-    return `/screenshots/${mobile ? mobileName : desktopName}`;
-  } catch {
-    return cover || "/images/window.png";
-  }
-}
 
 export default async function HomePage() {
   const projects = await listContent("projects");
-  const heroImages = await Promise.all(
-    projects.slice(0, 8).map(async (p) => ({
-      src: await getScreenshotOrCover(p.slug, p.frontmatter.cover, true),
-      alt: p.frontmatter.title || p.slug,
-    }))
+  const featuredProjects = projects.filter((p) =>
+    Boolean(p.frontmatter.featured)
   );
+  // Build hero images: one mobile screenshot per featured project
+  const heroImages = (
+    await Promise.all(
+      featuredProjects.map(async (p) => {
+        const src = await getScreenshotOrCover(p.slug, p.frontmatter.cover, {
+          mobile: true,
+        });
+        return {
+          src,
+          alt: p.frontmatter.title || p.slug,
+          href: `/projects/${p.slug}`,
+        } as { src: string; alt: string; href?: string };
+      })
+    )
+  ).slice(0, 24);
 
   const carouselItems = await Promise.all(
-    projects.slice(0, 6).map(async (p) => ({
-      image: await getScreenshotOrCover(p.slug, p.frontmatter.cover),
+    featuredProjects.slice(0, 6).map(async (p) => ({
+      image: await getScreenshotOrCover(p.slug, p.frontmatter.cover, {
+        mobile: false,
+      }),
       title: p.frontmatter.title || p.slug,
       description: p.frontmatter.summary || "",
       link: `/projects/${p.slug}`,
@@ -64,60 +55,35 @@ export default async function HomePage() {
           images={heroImages}
         />
 
-        {/* Divider: Skills */}
-        <div className="my-6">
-          <div className="flex items-center gap-3 text-muted-foreground">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-xs uppercase tracking-wide">Skills</span>
-            <div className="h-px flex-1 bg-border" />
-          </div>
-        </div>
-
-        <div>
-          <SectionHeading>
-            <>{landingPageData.sectionHeadings.features.title}</>
-            <>{landingPageData.sectionHeadings.features.subtitle}</>
-          </SectionHeading>
+        <Section
+          id="skills"
+          label="Skills"
+          title={landingPageData.sectionHeadings.features.title}
+          subtitle={landingPageData.sectionHeadings.features.subtitle}
+        >
           <Features featuresData={landingPageData.featuresData} />
-        </div>
+        </Section>
 
-        {/* Divider: Projects */}
-        <div className="my-6">
-          <div className="flex items-center gap-3 text-muted-foreground">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-xs uppercase tracking-wide">Projects</span>
-            <div className="h-px flex-1 bg-border" />
-          </div>
-        </div>
-
-        <div>
-          <SectionHeading>
-            <>{landingPageData.sectionHeadings.carousel.title}</>
-            <>{landingPageData.sectionHeadings.carousel.subtitle}</>
-          </SectionHeading>
+        <Section
+          id="projects"
+          label="Projects"
+          title={landingPageData.sectionHeadings.carousel.title}
+          subtitle={landingPageData.sectionHeadings.carousel.subtitle}
+        >
           <LandingCarousel items={carouselItems} />
-        </div>
+        </Section>
 
-        {/* Divider: Timeline */}
-        <div className="my-6">
-          <div className="flex items-center gap-3 text-muted-foreground">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-xs uppercase tracking-wide">Timeline</span>
-            <div className="h-px flex-1 bg-border" />
-          </div>
-        </div>
-
-        <div>
-          <SectionHeading>
-            <>{landingPageData.sectionHeadings.timeline.title}</>
-            <>{landingPageData.sectionHeadings.timeline.subtitle}</>
-          </SectionHeading>
-
+        <Section
+          id="timeline"
+          label="Timeline"
+          title={landingPageData.sectionHeadings.timeline.title}
+          subtitle={landingPageData.sectionHeadings.timeline.subtitle}
+        >
           <TimelineCard
             data={landingPageData.timeline.data}
             defaultActiveTime={landingPageData.timeline.defaultActiveTime}
           />
-        </div>
+        </Section>
       </div>
     </>
   );

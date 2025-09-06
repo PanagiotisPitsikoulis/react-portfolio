@@ -11,14 +11,18 @@ export interface ContentFrontmatter {
   summary?: string;
   cover?: string;
   url?: string;
+  routes?: string[];
+  carousel?: string[];
   categories?: string[];
   published?: boolean;
+  featured?: boolean;
   tags?: string[];
   tech?: string[];
   authorName?: string;
   authorAvatar?: string;
   metaTitle?: string;
   metaDescription?: string;
+  hidden?: boolean;
 }
 
 export interface ContentItem {
@@ -27,12 +31,57 @@ export interface ContentItem {
   frontmatter: ContentFrontmatter;
   body: string;
   filePath: string;
+  screenshots?: {
+    desktop?: string;
+    mobile?: string;
+    routes?: Array<{ key: string; desktop?: string; mobile?: string }>;
+  };
 }
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
 function typeDir(type: ContentType) {
   return path.join(CONTENT_DIR, type);
+}
+
+function screenshotPath(slug: string, routeKey?: string, mobile?: boolean) {
+  const base = routeKey && routeKey !== "home" ? `${slug}.${routeKey}` : slug;
+  const suffix = mobile ? ".mobile" : "";
+  return `/screenshots/${base}${suffix}.png`;
+}
+
+function deriveRouteKey(input: string) {
+  try {
+    const u = new URL(input, "https://example.local");
+    const pathname = u.pathname || "/";
+    const segment =
+      pathname === "/" ? "home" : pathname.replace(/^\/+|\/+$/g, "");
+    return segment.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "home";
+  } catch {
+    return (
+      String(input || "route")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-") || "route"
+    );
+  }
+}
+
+async function collectScreenshots(slug: string, fm?: ContentFrontmatter) {
+  const routes = Array.isArray(fm?.routes) ? fm!.routes : [];
+  const carousel = Array.isArray(fm?.carousel) ? fm!.carousel : [];
+  const result: ContentItem["screenshots"] = {
+    desktop: screenshotPath(slug),
+    mobile: screenshotPath(slug, undefined, true),
+    routes: routes.map((r) => {
+      const key = deriveRouteKey(r);
+      return {
+        key,
+        desktop: screenshotPath(slug, key),
+        mobile: screenshotPath(slug, key, true),
+      };
+    }),
+  };
+  return result;
 }
 
 export async function listContent(type: ContentType): Promise<ContentItem[]> {
@@ -44,7 +93,7 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
     console.log(`Found ${files.length} ${type} files in ${dir}`);
 
     const items = await Promise.all(
-      files.map(async (file) => {
+      files.map(async (file): Promise<ContentItem | null> => {
         try {
           const filePath = path.join(dir, file.name);
           const raw = await fs.readFile(filePath, "utf8");
@@ -52,12 +101,19 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
           const fm = (data || {}) as ContentFrontmatter;
           const slug = fm.slug || file.name.replace(/\.(md|mdx)$/i, "");
 
+          // Derive screenshots only for projects
+          const screenshots =
+            type === "projects"
+              ? await collectScreenshots(slug, fm)
+              : undefined;
+
           return {
             type,
             slug,
             frontmatter: { ...fm, slug },
             body: content,
             filePath,
+            screenshots,
           } satisfies ContentItem;
         } catch (error) {
           console.error(`Error processing ${file.name}:`, error);
@@ -66,13 +122,20 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
       })
     );
 
-    // Filter out null items and sort
-    const validItems = items.filter(
-      (item): item is ContentItem => item !== null
-    );
+    // Filter out null items and items marked as hidden
+    const validItems = items.filter(Boolean) as ContentItem[];
+    const visibleItems = validItems.filter((i) => !i.frontmatter.hidden);
 
-    // Sort desc by date if present, otherwise by title
-    validItems.sort((a, b) => {
+    // Sort: (projects without URL last) → featured first → date desc → title
+    visibleItems.sort((a, b) => {
+      if (a.type === "projects" && b.type === "projects") {
+        const aHasUrl = Boolean(a.frontmatter.url);
+        const bHasUrl = Boolean(b.frontmatter.url);
+        if (aHasUrl !== bHasUrl) return aHasUrl ? -1 : 1; // items with URL first
+      }
+      const af = a.frontmatter.featured ? 1 : 0;
+      const bf = b.frontmatter.featured ? 1 : 0;
+      if (af !== bf) return bf - af;
       const ad = a.frontmatter.date
         ? new Date(a.frontmatter.date).getTime()
         : 0;
@@ -85,8 +148,8 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
       );
     });
 
-    console.log(`Successfully loaded ${validItems.length} ${type} items`);
-    return validItems;
+    console.log(`Successfully loaded ${visibleItems.length} ${type} items`);
+    return visibleItems;
   } catch (error) {
     console.error(`Error loading ${type} content:`, error);
     return [];
@@ -107,12 +170,15 @@ export async function getContent(
         const raw = await fs.readFile(filePath, "utf8");
         const { data, content } = matter(raw);
         const fm = (data || {}) as ContentFrontmatter;
+        const screenshots =
+          type === "projects" ? await collectScreenshots(slug, fm) : undefined;
         return {
           type,
           slug: fm.slug || slug,
           frontmatter: { ...fm, slug: fm.slug || slug },
           body: content,
           filePath,
+          screenshots,
         };
       } catch (error) {
         console.log(`File ${name} not found or not readable`);

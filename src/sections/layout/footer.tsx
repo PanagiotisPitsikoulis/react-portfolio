@@ -1,11 +1,11 @@
 "use client";
+import { AppIcon } from "@/components/app-icon";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { ScreenShare } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import {
@@ -16,6 +16,7 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 import {
+  author,
   backgroundImages,
   socialLinks as dataSocialLinks,
   metadata,
@@ -62,8 +63,8 @@ const defaultSocialLinks = dataSocialLinks.map((s) => ({
 }));
 
 const defaultLegalLinks = [
-  { name: "Terms and Conditions", href: "/terms" },
-  { name: "Privacy Policy", href: "/privacy" },
+  { name: "Terms and Conditions", href: "/blog/terms" },
+  { name: "Privacy Policy", href: "/blog/privacy" },
 ];
 
 const defaultCompanyLinks = [
@@ -84,7 +85,9 @@ const Footer = ({
   blog = [],
   description = "A collection of projects and blog posts for your inspiration.",
   socialLinks = defaultSocialLinks,
-  copyright = `© ${new Date().getFullYear()} My Next.js App. All rights reserved.`,
+  copyright = `© ${new Date().getFullYear()} ${
+    author.name
+  }. All rights reserved.`,
   legalLinks = defaultLegalLinks,
 }: FooterProps) => {
   // Define sections dynamically, including Projects and Blog
@@ -116,9 +119,7 @@ const Footer = ({
           <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
             {/* Logo */}
             <Link href="/" className="flex flex-row gap-2">
-              <div className="bg-black dark:bg-white text-white dark:text-black flex aspect-square size-8 items-center justify-center rounded-full">
-                <ScreenShare className="size-4" />
-              </div>
+              <AppIcon />
               <div className="flex flex-col gap-0.5 leading-none">
                 <span className="font-medium">{metadata.title as string}</span>
                 <span className="text-muted-foreground/90 text-sm">

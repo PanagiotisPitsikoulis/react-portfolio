@@ -141,7 +141,7 @@ export function Safari({
           <image
             href={imageSrc}
             width="1200"
-            height="700"
+            height="760"
             x="1"
             y="52"
             preserveAspectRatio="xMidYMid slice"
