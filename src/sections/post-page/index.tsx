@@ -1,3 +1,4 @@
+import { SectionDivider } from "@/components/section-divider";
 import { ContentType, getContent } from "@/lib/md/mdx";
 import { MDXContent } from "@/lib/md/render-mdx";
 import { serializeMDXServer } from "@/lib/md/ssr-serialize";
@@ -20,54 +21,21 @@ const PostPage = async ({
 
     const mdx = await serializeMDXServer(post.body);
 
-    const isProject = (post as any).postType
-      ? (post as any).postType === "project"
+    const isProject = post.postType
+      ? post.postType === "project"
       : post.type === "projects";
-    const heroImage =
-      (post as any).heroImageDesktop ||
-      post.frontmatter.cover ||
-      "/images/window.png";
-    const hasExternalUrl = Boolean(isProject && post.frontmatter.url);
-    const tags = (post as any).mergedTags || [
-      ...(post.frontmatter.tags || []),
-      ...(post.frontmatter.categories || []),
-    ];
+
     return (
       <section className="page-container pb-5">
         <div className="relative flex flex-col justify-between gap-6 lg:flex-row">
           <article className="w-full max-w-5xl mx-auto">
-            <PostHero
-              title={post.frontmatter.title || post.slug}
-              subtitle={
-                post.frontmatter.summary ||
-                post.frontmatter.metaDescription ||
-                ""
-              }
-              imageSrc={heroImage}
-              url={isProject ? post.frontmatter.url : undefined}
-              isProject={isProject}
-              hasExternalUrl={hasExternalUrl}
-              tags={tags}
-              date={
-                post.frontmatter.date
-                  ? String(post.frontmatter.date)
-                  : undefined
-              }
-            />
+            <PostHero post={post} />
             {isProject && (post.imagesDesktop?.length || 0) > 0 ? (
               <div className="mt-6">
-                {(() => {
-                  const images = (post.imagesDesktop || []).filter(Boolean);
-                  if (images.length === 0) return null;
-                  return (
-                    <PostCarousel
-                      images={images}
-                      projectUrl={post.frontmatter.url}
-                    />
-                  );
-                })()}
+                <PostCarousel post={post} />
               </div>
             ) : null}
+            <SectionDivider label={post.frontmatter.title} />
             <div className="max-w-2xl">
               <MDXContent source={mdx} />
             </div>

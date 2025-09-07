@@ -43,16 +43,17 @@ function PostCard({
     >
       <div
         className={
-          "relative overflow-hidden rounded-2xl border border-muted bg-gradient-to-b from-muted/50 to-background p-3 transition-all duration-300 hover:opacity-90 dark:bg-transparent dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
+          "relative overflow-hidden rounded-3xl transition-all duration-300 hover:opacity-90"
         }
       >
-        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-black">
+        <div className="relative w-full bg-black">
           <Image
             src={imageSrc}
             alt={post.frontmatter.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover object-center"
+            width={400}
+            height={600}
+            sizes="(max-width: 768px) 100vw, 400px"
+            className="object-cover object-top aspect-video"
             draggable={false}
             priority={false}
           />

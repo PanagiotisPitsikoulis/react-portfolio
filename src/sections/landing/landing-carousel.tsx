@@ -11,20 +11,13 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { ContentItem } from "@/lib/md/mdx";
 import Image from "next/image";
 import Link from "next/link";
 import { backgroundImages } from "../../../content/data";
 
-export type LandingCarouselItem = {
-  image: string;
-  title: string;
-  description: string;
-  link: string;
-  ctaLabel: string;
-};
-
 export interface LandingCarouselProps {
-  items: LandingCarouselItem[];
+  items: ContentItem[];
 }
 
 const LandingCarousel: React.FC<LandingCarouselProps> = ({ items }) => {
@@ -63,26 +56,30 @@ const LandingCarousel: React.FC<LandingCarouselProps> = ({ items }) => {
           ]}
         >
           <CarouselContent className="flex w-full gap-4">
-            {items.map((img, index) => (
+            {items.map((project, index) => (
               <CarouselItem key={index} className="w-full basis-[91%]">
                 <div className="p-1">
                   <Link
-                    href={img.link}
+                    href={`/projects/${project.slug}`}
                     className="group block"
                     rel="noopener noreferrer"
                   >
-                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-md backdrop-blur-[2px] transition-transform duration-200 hover:-translate-y-1 dark:border-white/10 p-4 lg:p-8">
+                    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-md backdrop-blur-[2px] transition-transform duration-200 hover:-translate-y-1 dark:border-white/10 md:p-8">
                       <Image
-                        src={backgroundImages[index]}
-                        alt={img.title + " bg"}
+                        src={backgroundImages[index % backgroundImages.length]}
+                        alt={`${project.frontmatter.title} bg`}
                         fill
-                        className="object-cover relative -z-10 "
+                        className="object-cover -z-10"
                       />
                       <div className="relative z-10">
                         <Safari
-                          url={img.link}
-                          className="mx-auto h-full w-full"
-                          imageSrc={img.image}
+                          className="mx-auto h-full w-full max-md:mt-10 max-md:-mx-10"
+                          imageSrc={
+                            (project as any).heroImageDesktop ||
+                            project.frontmatter.cover ||
+                            "/images/window.png"
+                          }
+                          url={project.frontmatter.url}
                         />
                       </div>
                     </div>

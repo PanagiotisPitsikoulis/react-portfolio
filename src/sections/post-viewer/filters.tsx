@@ -66,7 +66,7 @@ export default function Filters({
                   }...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 pr-12 h-10 bg-transparent border-border/50 focus:border-primary/50 focus:ring-0 rounded-md"
+                  className="pl-12 pr-12 h-10 bg-transparent border-border/50 focus:border-primary/50 focus:ring-0 shadow-none"
                 />
               </TooltipTrigger>
               <TooltipContent side="top">
@@ -98,14 +98,14 @@ export default function Filters({
                   variant="outline"
                   size="sm"
                   onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-                  className="gap-2 rounded-md border-border/60 hover:bg-muted/30 transition"
+                  className="gap-2 border-border/60 hover:bg-muted/30 transition text-muted-foreground"
                 >
                   <Filter className="h-4 w-4" />
                   Tags
                   {selectedTags.length > 0 && (
                     <Badge
                       variant="secondary"
-                      className="rounded-full text-xs px-2 py-0.5"
+                      className="rounded-full text-xs px-2 py-0.5 shadow-none"
                     >
                       {selectedTags.length}
                     </Badge>

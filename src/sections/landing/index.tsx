@@ -27,7 +27,11 @@ export default async function HomePage() {
           primaryCta={landingPageData.hero.primaryCta}
           secondaryCta={landingPageData.hero.secondaryCta}
           images={featuredProjects.map((p) => ({
-            src: p.heroImageMobile || "",
+            src:
+              p.heroImageMobile ||
+              (p as any).heroImageDesktop ||
+              p.frontmatter.cover ||
+              "/images/window.png",
             alt: p.frontmatter.title,
             href: `/projects/${p.slug}`,
           }))}
@@ -48,15 +52,7 @@ export default async function HomePage() {
           title={landingPageData.sectionHeadings.carousel.title}
           subtitle={landingPageData.sectionHeadings.carousel.subtitle}
         >
-          <LandingCarousel
-            items={featuredProjects.map((p) => ({
-              image: p.heroImageDesktop || "",
-              title: p.frontmatter.title,
-              description: p.frontmatter.summary || "",
-              link: `/projects/${p.slug}`,
-              ctaLabel: "View project",
-            }))}
-          />
+          <LandingCarousel items={featuredProjects} />
         </Section>
 
         <Section

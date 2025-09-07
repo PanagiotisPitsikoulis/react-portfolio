@@ -156,11 +156,7 @@ export default function PostViewer({
     <section className="flex flex-1 flex-col gap-10 page-container pb-24 -mt-10">
       {/* Hero */}
       <div>
-        <PostViewerHero
-          title={title}
-          description={description}
-          images={heroImages}
-        />
+        <PostViewerHero title={title} description={description} posts={posts} />
       </div>
       <SectionDivider label={contentType === "blog" ? "Posts" : "Projects"} />
 

@@ -48,6 +48,13 @@ export interface ContentItem {
 }
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
+const SCREENSHOTS_DIR = path.join(process.cwd(), "public", "screenshots");
+
+interface ScreenshotsInfo {
+  desktop?: string;
+  mobile?: string;
+  routes?: Array<{ key: string; desktop?: string; mobile?: string }>;
+}
 
 function typeDir(type: ContentType) {
   return path.join(CONTENT_DIR, type);
@@ -75,13 +82,79 @@ function deriveRouteKey(input: string) {
   }
 }
 
-async function collectScreenshots(slug: string, fm?: ContentFrontmatter) {
-  const routes = Array.isArray(fm?.routes) ? fm!.routes : [];
-  const carousel = Array.isArray(fm?.carousel) ? fm!.carousel : [];
-  const result: ContentItem["screenshots"] = {
+async function collectScreenshots(
+  slug: string,
+  fm?: ContentFrontmatter
+): Promise<ScreenshotsInfo> {
+  // Prefer scanning actual generated screenshots; fallback to derived paths
+  async function scanDir(): Promise<ScreenshotsInfo> {
+    try {
+      const entries = await fs.readdir(SCREENSHOTS_DIR, {
+        withFileTypes: true,
+      });
+      const files = entries
+        .filter(
+          (e) =>
+            e.isFile() && e.name.startsWith(`${slug}`) && /\.png$/i.test(e.name)
+        )
+        .map((e) => e.name);
+
+      const routesMap = new Map<
+        string,
+        { key: string; desktop?: string; mobile?: string }
+      >();
+      let homeDesktop: string | undefined;
+      let homeMobile: string | undefined;
+
+      for (const name of files) {
+        if (name === `${slug}.png`) {
+          homeDesktop = `/screenshots/${name}`;
+          continue;
+        }
+        if (name === `${slug}.mobile.png`) {
+          homeMobile = `/screenshots/${name}`;
+          continue;
+        }
+        if (!name.startsWith(`${slug}.`)) continue;
+        // slug.<key>[.mobile].png
+        const withoutSlug = name.slice(slug.length + 1); // drop '<slug>.'
+        const base = withoutSlug.replace(/\.png$/i, "");
+        const isMobile = base.endsWith(".mobile");
+        const key = (isMobile ? base.slice(0, -7) : base) || "home";
+        if (!routesMap.has(key)) routesMap.set(key, { key });
+        const item = routesMap.get(key)!;
+        const url = `/screenshots/${name}`;
+        if (isMobile) item.mobile = url;
+        else item.desktop = url;
+      }
+
+      const scanned: ScreenshotsInfo = {
+        desktop: homeDesktop,
+        mobile: homeMobile,
+        routes: Array.from(routesMap.values()).filter((r) => r.key !== "home"),
+      };
+      return scanned;
+    } catch {
+      // Directory may not exist in dev
+      return { desktop: undefined, mobile: undefined, routes: [] };
+    }
+  }
+
+  const scanned = await scanDir();
+  if (
+    Boolean(scanned.desktop) ||
+    Boolean(scanned.mobile) ||
+    Boolean(scanned.routes && scanned.routes.length > 0)
+  ) {
+    return scanned;
+  }
+
+  // Fallback to deterministic paths from frontmatter
+  const routes = Array.isArray(fm?.routes) ? (fm!.routes as string[]) : [];
+  const result: ScreenshotsInfo = {
     desktop: screenshotPath(slug),
     mobile: screenshotPath(slug, undefined, true),
-    routes: routes.map((r) => {
+    routes: routes.map((r: string) => {
       const key = deriveRouteKey(r);
       return {
         key,
@@ -116,7 +189,7 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
               ? await collectScreenshots(slug, fm)
               : undefined;
 
-          // Aggregate images for simpler consumers
+          // Aggregate images for simpler consumers (prefer existing files)
           const imagesDesktop: string[] = [];
           const imagesMobile: string[] = [];
           if (type === "projects") {
@@ -235,14 +308,67 @@ export async function getContent(
         const fm = (data || {}) as ContentFrontmatter;
         const screenshots =
           type === "projects" ? await collectScreenshots(slug, fm) : undefined;
+
+        // Aggregate images (same logic as listContent)
+        const imagesDesktop: string[] = [];
+        const imagesMobile: string[] = [];
+        if (type === "projects") {
+          if (screenshots?.desktop) imagesDesktop.push(screenshots.desktop);
+          if (screenshots?.mobile) imagesMobile.push(screenshots.mobile);
+          (screenshots?.routes || []).forEach((r) => {
+            if (r.desktop) imagesDesktop.push(r.desktop);
+            if (r.mobile) imagesMobile.push(r.mobile);
+          });
+          if (Array.isArray(fm.carousel))
+            imagesDesktop.push(...(fm.carousel.filter(Boolean) as string[]));
+          if (fm.cover) imagesDesktop.push(fm.cover);
+        } else {
+          if (fm.cover) imagesDesktop.push(fm.cover);
+        }
+        const dedupe = (arr: string[]) =>
+          Array.from(new Set(arr.filter(Boolean)));
+        const inferMobile = (desktop: string) =>
+          desktop?.startsWith("/screenshots/") && desktop.endsWith(".png")
+            ? desktop.replace(/\.png$/, ".mobile.png")
+            : undefined;
+        const inferredMobile = imagesDesktop
+          .map(inferMobile)
+          .filter(Boolean) as string[];
+        imagesMobile.push(...inferredMobile);
+        const allDesktop = dedupe(imagesDesktop);
+        const allMobile = dedupe(imagesMobile);
+
+        const isProject = type === "projects";
+        const hasExternalUrl = Boolean(fm.url && isProject);
+        const mergedTags = dedupe([
+          ...(fm.tags || []),
+          ...(fm.categories || []),
+        ]);
+        const heroImageDesktop = isProject
+          ? screenshots?.desktop || fm.cover || allDesktop[0]
+          : fm.cover || allDesktop[0];
+        const heroImageMobile = isProject
+          ? screenshots?.mobile || fm.cover || allMobile[0]
+          : fm.cover || allMobile[0];
+        const canonicalPath = `/${type}/${slug}`;
+
         return {
           type,
+          postType: type === "projects" ? "project" : "blog",
           slug: fm.slug || slug,
           frontmatter: { ...fm, slug: fm.slug || slug },
           body: content,
           filePath,
           screenshots,
-        };
+          imagesDesktop: allDesktop,
+          imagesMobile: allMobile,
+          heroImageDesktop,
+          heroImageMobile,
+          isProject,
+          hasExternalUrl,
+          mergedTags,
+          canonicalPath,
+        } satisfies ContentItem;
       } catch (error) {
         console.warn(`Skipped ${type}/${name}: not found or unreadable`);
       }

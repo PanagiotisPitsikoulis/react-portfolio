@@ -1,22 +1,27 @@
 "use client";
 import { ThreeDMarquee } from "@/components/ui/3d-marquee";
+import type { ContentItem } from "@/lib/md/mdx";
 import { buildMosaicImages } from "@/lib/utils";
+import Image from "next/image";
 import { backgroundImages } from "../../../content/data";
 
 export interface PostViewerHeroProps {
   title: string;
   description: string;
-  images: string[];
+  posts: ContentItem[];
 }
 
-const PostViewerHero = ({
-  title,
-  description,
-  images,
-}: PostViewerHeroProps) => {
+const PostViewerHero = ({ title, description, posts }: PostViewerHeroProps) => {
+  const images = posts
+    .flatMap((p) => {
+      const src = (p as any).heroImageDesktop || p.frontmatter.cover;
+      return src ? [src] : [];
+    })
+    .slice(0, 30);
   return (
     <section className="relative pt-20">
-      <img
+      <Image
+        fill
         alt="background"
         src="/square-alt-grid.svg"
         className="absolute  inset-0 z-0 select-none [mask-image:radial-gradient(75%_75%_at_center,white,transparent)] opacity-90"

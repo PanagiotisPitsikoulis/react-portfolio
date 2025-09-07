@@ -13,36 +13,39 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import type { ContentItem } from "@/lib/md/mdx";
 import Image from "next/image";
 
 interface PostHeroProps {
-  title: string;
-  subtitle?: string;
-  imageSrc: string;
-  url?: string;
-  isProject: boolean;
-  hasExternalUrl: boolean;
-  tags?: string[];
-  date?: string;
+  post: ContentItem;
 }
 
-export default function PostHero({
-  title,
-  subtitle,
-  imageSrc,
-  url,
-  isProject,
-  hasExternalUrl,
-  tags,
-  date,
-}: PostHeroProps) {
+export default function PostHero({ post }: PostHeroProps) {
   const isMobile = useIsMobile();
+  const title = post.frontmatter.title || post.slug;
+  const subtitle =
+    post.frontmatter.summary || post.frontmatter.metaDescription || "";
+  const isProject = post.postType
+    ? post.postType === "project"
+    : post.type === "projects";
+  const imageSrc =
+    post.screenshots?.desktop || post.frontmatter.cover || "/images/window.png";
+  console.log(post);
+  const hasExternalUrl = Boolean(isProject && post.frontmatter.url);
+  const url = isProject ? post.frontmatter.url : undefined;
+  const tags = post.mergedTags || [
+    ...(post.frontmatter.tags || []),
+    ...(post.frontmatter.categories || []),
+  ];
+  const date = post.frontmatter.date
+    ? String(post.frontmatter.date)
+    : undefined;
 
   const hasButton = isProject && hasExternalUrl;
-  const primaryCtaHref = isProject && hasExternalUrl ? url : undefined;
+  const primaryCtaHref = hasButton ? url : undefined;
 
   return (
-    <section className="relative grid overflow-hidden pt-5 rounded-t-3xl my-5 w-full">
+    <section className="relative grid overflow-hidden pt-5 my-5 w-full">
       <div className="relative z-10 h-full grid-cols-1 items-center justify-center gap-6">
         <div className="flex flex-col items-center justify-center text-center">
           <div className="bg-muted-foreground/5 text-muted-foreground mb-10 flex items-center flex-wrap justify-center gap-2 rounded-full p-1 pr-3 text-sm font-medium tracking-tight">
@@ -131,30 +134,29 @@ export default function PostHero({
         </div>
         <div className="relative mt-10 flex w-full items-center justify-center overflow-hidden p-4">
           {isProject ? (
-            <Safari
-              className="mx-auto h-full w-full aspect-video"
-              imageSrc={imageSrc}
-              url={url}
-            />
+            <Safari imageSrc={imageSrc} width={1400} height={900} url={url} />
           ) : (
             <Image
-              fill
+              width={1400}
+              height={900}
               src={imageSrc}
               alt={title}
               className="mx-auto h-full w-full rounded-xl border bg-background object-cover aspect-video"
+              sizes="(max-width: 768px) 100vw, 1203px"
+              priority={false}
               draggable={false}
             />
           )}
         </div>
       </div>
       <div className="absolute inset-0 flex h-full w-full items-center justify-between">
-        {Array.from({ length: isMobile ? 8 : 18 }).map((_, index) => (
+        {Array.from({ length: 8 }).map((_, index) => (
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: index * 0.05 }}
             key={index}
-            className="to-muted/50 h-full w-10 bg-gradient-to-l from-transparent"
+            className="to-muted/50 dark:to-muted/20 h-full w-10 bg-gradient-to-l from-transparent"
           ></motion.div>
         ))}
       </div>
