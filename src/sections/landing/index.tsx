@@ -1,5 +1,4 @@
 import { listContent } from "@/lib/md/mdx";
-import { getScreenshotOrCover } from "@/lib/server-files";
 import { cn } from "@/lib/utils";
 import { landingPageData } from "../../../content/data/landing-page";
 import Features from "./features";
@@ -10,35 +9,9 @@ import TimelineCard from "./timeline-card";
 
 export default async function HomePage() {
   const projects = await listContent("projects");
+
   const featuredProjects = projects.filter((p) =>
     Boolean(p.frontmatter.featured)
-  );
-
-  const heroImages = (
-    await Promise.all(
-      featuredProjects.map(async (p) => {
-        const src = await getScreenshotOrCover(p.slug, p.frontmatter.cover, {
-          mobile: true,
-        });
-        return {
-          src,
-          alt: p.frontmatter.title || p.slug,
-          href: `/projects/${p.slug}`,
-        } as { src: string; alt: string; href?: string };
-      })
-    )
-  ).slice(0, 24);
-
-  const carouselItems = await Promise.all(
-    featuredProjects.slice(0, 6).map(async (p) => ({
-      image: await getScreenshotOrCover(p.slug, p.frontmatter.cover, {
-        mobile: false,
-      }),
-      title: p.frontmatter.title || p.slug,
-      description: p.frontmatter.summary || "",
-      link: `/projects/${p.slug}`,
-      ctaLabel: "View project",
-    }))
   );
 
   return (
@@ -53,7 +26,11 @@ export default async function HomePage() {
           subtitle={landingPageData.hero.subtitle}
           primaryCta={landingPageData.hero.primaryCta}
           secondaryCta={landingPageData.hero.secondaryCta}
-          images={heroImages}
+          images={featuredProjects.map((p) => ({
+            src: p.heroImageMobile || "",
+            alt: p.frontmatter.title,
+            href: `/projects/${p.slug}`,
+          }))}
         />
 
         <Section
@@ -71,7 +48,15 @@ export default async function HomePage() {
           title={landingPageData.sectionHeadings.carousel.title}
           subtitle={landingPageData.sectionHeadings.carousel.subtitle}
         >
-          <LandingCarousel items={carouselItems} />
+          <LandingCarousel
+            items={featuredProjects.map((p) => ({
+              image: p.heroImageDesktop || "",
+              title: p.frontmatter.title,
+              description: p.frontmatter.summary || "",
+              link: `/projects/${p.slug}`,
+              ctaLabel: "View project",
+            }))}
+          />
         </Section>
 
         <Section
