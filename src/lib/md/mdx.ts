@@ -72,7 +72,13 @@ function deriveRouteKey(input: string) {
     const pathname = u.pathname || "/";
     const segment =
       pathname === "/" ? "home" : pathname.replace(/^\/+|\/+$/g, "");
-    return segment.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "home";
+    const baseKey = segment.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "home";
+    const hash = (u.hash || "").replace(/^#/, "");
+    if (hash) {
+      const hashKey = hash.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+      return hashKey ? `${baseKey}.${hashKey}` : baseKey;
+    }
+    return baseKey;
   } catch {
     return (
       String(input || "route")

@@ -28,10 +28,14 @@ export default function PostHero({ post }: PostHeroProps) {
   const isProject = post.postType
     ? post.postType === "project"
     : post.type === "projects";
-  const imageSrc =
-    post.screenshots?.desktop || post.frontmatter.cover || "/images/window.png";
-  console.log(post);
   const hasExternalUrl = Boolean(isProject && post.frontmatter.url);
+  const imageSrc = hasExternalUrl
+    ? post.screenshots?.desktop ||
+      post.frontmatter.cover ||
+      "/images/window.png"
+    : post.frontmatter.cover ||
+      post.screenshots?.desktop ||
+      "/images/window.png";
   const url = isProject ? post.frontmatter.url : undefined;
   const tags = post.mergedTags || [
     ...(post.frontmatter.tags || []),
@@ -133,7 +137,7 @@ export default function PostHero({ post }: PostHeroProps) {
           )}
         </div>
         <div className="relative mt-10 flex w-full items-center justify-center overflow-hidden p-4">
-          {isProject ? (
+          {isProject && hasExternalUrl ? (
             <Safari imageSrc={imageSrc} width={1400} height={900} url={url} />
           ) : (
             <Image

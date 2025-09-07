@@ -28,36 +28,6 @@ export function Safari({
   return (
     <>
       <div
-        className="block lg:hidden relative overflow-hidden lg:rounded-2xl lg:border border-black/10 dark:border-white/10 bg-background"
-        style={{
-          width: "100%",
-          maxWidth: width,
-          aspectRatio: `${width}/${height}`,
-        }}
-      >
-        {imageSrc ? (
-          <Image
-            src={imageSrc}
-            alt={url || "safari-preview"}
-            fill
-            sizes="100vw"
-            priority={false}
-            draggable={false}
-            className="object-cover object-top"
-          />
-        ) : videoSrc ? (
-          <video
-            className="size-full object-cover"
-            src={videoSrc}
-            autoPlay
-            loop
-            muted
-            playsInline
-          />
-        ) : null}
-      </div>
-
-      <div
         className={cn(
           "hidden lg:block relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-background",
           className
