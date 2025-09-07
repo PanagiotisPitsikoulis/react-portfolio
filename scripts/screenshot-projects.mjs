@@ -88,13 +88,13 @@ async function takeScreenshots(projects, outDir) {
   const browser = await puppeteer.launch({ headless: true });
   try {
     const viewports = [
-      // Tiny bump for desktop viewport (keep 16:10 aspect)
+      // Desktop viewport (16:10)
       { name: "desktop", width: 1440, height: 900, deviceScaleFactor: 1 },
-      // Slightly larger mobile viewport for better capture
+      // iPhone 15 Pro logical viewport
       {
         name: "mobile",
-        width: 430,
-        height: 932,
+        width: 393,
+        height: 852,
         deviceScaleFactor: 3,
         isMobile: true,
       },

@@ -23,11 +23,12 @@ export function Safari({
   className,
   ...props
 }: SafariProps) {
-  const topBarHeight = 52;
+  const topBarHeight = 40;
+  const contentTop = Math.max(0, topBarHeight - 6);
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-background shadow-sm",
+        "relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-background",
         className
       )}
       style={{
@@ -39,7 +40,7 @@ export function Safari({
     >
       <div
         className="absolute left-0 right-0"
-        style={{ top: topBarHeight, bottom: 0 }}
+        style={{ top: contentTop, bottom: 0 }}
       >
         <div className="size-full overflow-hidden rounded-b-xl bg-background">
           {imageSrc ? (
@@ -50,7 +51,7 @@ export function Safari({
               sizes="100vw"
               priority={false}
               draggable={false}
-              className="object-cover"
+              className="object-cover object-top"
             />
           ) : videoSrc ? (
             <video

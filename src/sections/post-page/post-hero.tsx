@@ -13,6 +13,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import Image from "next/image";
 
 interface PostHeroProps {
   title: string;
@@ -136,7 +137,8 @@ export default function PostHero({
               url={url}
             />
           ) : (
-            <img
+            <Image
+              fill
               src={imageSrc}
               alt={title}
               className="mx-auto h-full w-full rounded-xl border bg-background object-cover aspect-video"

@@ -18,11 +18,11 @@ export default function Iphone15Pro({
   style,
   ...props
 }: Iphone15ProProps) {
-  const inset = 8;
+  const inset = 12;
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-3xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#262626] shadow-sm",
+        "relative overflow-hidden rounded-4xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#262626] shadow-sm",
         className
       )}
       style={{
@@ -34,11 +34,11 @@ export default function Iphone15Pro({
       {...props}
     >
       {/* Bezel inner glow */}
-      <div className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-black/5 dark:ring-white/10" />
+      <div className="pointer-events-none absolute inset-0 rounded-4xl ring-1 ring-black/5 dark:ring-white/10" />
 
       {/* Screen */}
       <div
-        className="absolute overflow-hidden bg-black"
+        className="absolute overflow-hidden bg-black rounded-4xl"
         style={{
           top: inset,
           bottom: inset,
@@ -55,7 +55,7 @@ export default function Iphone15Pro({
             sizes="(max-width: 768px) 100vw, 389px"
             priority={false}
             draggable={false}
-            className="object-cover"
+            className="object-cover p-1 bg-black"
           />
         ) : videoSrc ? (
           <video
