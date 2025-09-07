@@ -158,7 +158,7 @@ const Hero: React.FC<HeroProps> = ({
           <div className="mx-auto flex h-full items-center justify-center">
             <HeroCarousel images={images} />
           </div>
-          <div className="absolute inset-0 flex h-full w-full items-center justify-between -z-10 rounded-3xl overflow-clip">
+          <div className="absolute inset-0 flex h-full w-full items-center justify-between -z-10">
             {Array.from({ length: isMobile ? 8 : 10 }).map((_, index) => (
               <motion.div
                 initial={{ opacity: 0 }}
