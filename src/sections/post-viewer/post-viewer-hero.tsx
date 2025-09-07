@@ -1,3 +1,4 @@
+"use client";
 import { ThreeDMarquee } from "@/components/ui/3d-marquee";
 import { buildMosaicImages } from "@/lib/utils";
 import { backgroundImages } from "../../../content/data";

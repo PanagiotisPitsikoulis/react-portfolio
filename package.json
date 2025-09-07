@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prebuild:screenshots": "node ./scripts/screenshot-projects.mjs"
+    "screenshots": "node ./scripts/screenshot-projects.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

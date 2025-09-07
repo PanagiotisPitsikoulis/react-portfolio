@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { SVGProps } from "react";
 
 type SafariMode = "default" | "simple";
@@ -138,15 +139,27 @@ export function Safari({
           </>
         ) : null}
         {imageSrc && (
-          <image
-            href={imageSrc}
-            width="1200"
-            height="760"
+          <foreignObject
             x="1"
             y="52"
-            preserveAspectRatio="xMidYMid slice"
+            width="1200"
+            height="800"
             clipPath="url(#roundedBottom)"
-          />
+          >
+            <div
+              style={{ width: "100%", height: "100%", position: "relative" }}
+            >
+              <Image
+                src={imageSrc}
+                alt={url || "safari-preview"}
+                fill
+                sizes="100vw"
+                priority={false}
+                draggable={false}
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+          </foreignObject>
         )}
         {videoSrc && (
           <foreignObject
