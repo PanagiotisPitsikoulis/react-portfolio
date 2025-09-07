@@ -1,7 +1,6 @@
 import { ContentType, getContent } from "@/lib/md/mdx";
 import { MDXContent } from "@/lib/md/render-mdx";
 import { serializeMDXServer } from "@/lib/md/ssr-serialize";
-import { getScreenshotOrCover } from "@/lib/server-files";
 import { redirect } from "next/navigation";
 import PostCarousel from "./post-carousel";
 import PostHero from "./post-hero";
@@ -21,21 +20,22 @@ const PostPage = async ({
 
     const mdx = await serializeMDXServer(post.body);
 
-    const isProject = post.type === "projects";
-    const heroImage = await getScreenshotOrCover(
-      post.slug,
-      post.frontmatter.cover,
-      { mobile: false }
-    );
+    const isProject = (post as any).postType
+      ? (post as any).postType === "project"
+      : post.type === "projects";
+    const heroImage =
+      (post as any).heroImageDesktop ||
+      post.frontmatter.cover ||
+      "/images/window.png";
     const hasExternalUrl = Boolean(isProject && post.frontmatter.url);
-    const tags = [
+    const tags = (post as any).mergedTags || [
       ...(post.frontmatter.tags || []),
       ...(post.frontmatter.categories || []),
     ];
     return (
       <section className="page-container pb-5">
         <div className="relative flex flex-col justify-between gap-6 lg:flex-row">
-          <article className="w-full">
+          <article className="w-full max-w-5xl mx-auto">
             <PostHero
               title={post.frontmatter.title || post.slug}
               subtitle={

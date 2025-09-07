@@ -17,42 +17,52 @@ function PostCard({
   post: ContentItem;
   contentType: ContentType;
 }) {
+  const isProject = (post as any).postType
+    ? (post as any).postType === "project"
+    : post.type === "projects";
+
+  const mergedTags = (post as any).mergedTags || post.frontmatter.tags || [];
+
+  const baseImage =
+    (post as any).heroImageDesktop ||
+    post.screenshots?.desktop ||
+    post.frontmatter.cover ||
+    "/images/window.png";
+
+  const imageSrc = isProject
+    ? post.frontmatter.url
+      ? baseImage
+      : post.frontmatter.cover || "/images/window.png"
+    : post.frontmatter.cover || "/images/window.png";
+
   return (
     <Link
       key={post.slug}
       href={`/${contentType}/${post.slug}`}
-      className="group flex flex-col h-full justify-between"
+      className="group flex h-full flex-col justify-between"
     >
-      <div className="transition-opacity duration-300 group-hover:opacity-80">
-        {post.type === "projects" ? (
+      <div
+        className={
+          "relative overflow-hidden rounded-2xl border border-muted bg-gradient-to-b from-muted/50 to-background p-3 transition-all duration-300 hover:opacity-90 dark:bg-transparent dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]"
+        }
+      >
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl bg-black">
           <Image
-            height={400}
-            width={800}
-            src={
-              post.frontmatter.url
-                ? post.screenshots?.desktop ||
-                  post.frontmatter.cover ||
-                  "/default-cover.png"
-                : post.frontmatter.cover || "/default-cover.png"
-            }
+            src={imageSrc}
             alt={post.frontmatter.title}
-            className="w-full object-cover object-center rounded-3xl shadow"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover object-center"
+            draggable={false}
+            priority={false}
           />
-        ) : (
-          <Image
-            height={400}
-            width={800}
-            src={post.frontmatter.cover || "/default-cover.png"}
-            alt={post.frontmatter.title}
-            className="w-full object-contain object-center rounded-3xl shadow aspect-video h-full"
-          />
-        )}
+        </div>
       </div>
 
       <div className="mt-2">
-        {post?.frontmatter?.tags?.length
+        {mergedTags?.length
           ? (() => {
-              const tags = post.frontmatter.tags || [];
+              const tags = mergedTags as string[];
               const visible = tags.slice(0, 3);
               const hidden = tags.slice(3);
               return (

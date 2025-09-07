@@ -3,23 +3,19 @@
 import { ArrowRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import "swiper/css";
-import "swiper/css/effect-cards";
-import "swiper/css/effect-coverflow";
-import "swiper/css/navigation";
+import "swiper/css/autoplay";
+import "swiper/css/effect-creative";
 import "swiper/css/pagination";
-import { Autoplay, EffectCoverflow, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 
-import Iphone15Pro from "@/components/magicui/iphone-15-pro";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import { FaGithub, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
-import { backgroundImages, socialLinks } from "../../../content/data";
+import { socialLinks } from "../../../content/data";
+import HeroCarousel from "./hero-carousel";
 
-type HeroImage = { src: string; alt: string; href?: string };
+export type HeroImage = { src: string; alt: string; href?: string };
 type HeroCta = {
   label: string;
   href: string;
@@ -51,40 +47,22 @@ const Hero: React.FC<HeroProps> = ({
   .mySwiperHero231 {
     width: 100%;
     height: 100%;
-    padding-bottom: 50px;
+    padding-bottom: 40px;
     overflow: visible;
   }
 
   .mySwiperHero231 .swiper-slide {
     background-position: center;
     background-size: cover;
-    width: 260px;
+    width: 280px;
     margin-top: 24px;
-    height: 360px; /* slightly less tall */
+    height: 380px;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .mySwiperHero231 .swiper-slide img {
-    display: block;
-    width: 100%;
-  }
-
-  /* Subtle card enhancements */
-  .mySwiperHero231 .swiper-slide .cardEnhance {
-    transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
-    filter: saturate(.95);
-  }
-  .mySwiperHero231 .swiper-slide-active .cardEnhance {
-    transform: translateY(-4px) scale(1.02);
-    filter: saturate(1);
-  }
-
-  .swiper-3d .swiper-slide-shadow-left {
-    background-image: none;
-  }
-  .swiper-3d .swiper-slide-shadow-right{
-    background: none;
-  }
   .swiper-pagination {
     bottom: 10px !important;
     width: 100% !important;
@@ -93,13 +71,12 @@ const Hero: React.FC<HeroProps> = ({
     z-index: 20;
   }
   .swiper-pagination-bullet {
-    width: 10px;
-    height: 10px;
-    background-color: hsl(var(--foreground) / 0.8);
+    width: 8px;
+    height: 8px;
+    background-color: hsl(var(--foreground) / 0.6);
     border: 2px solid hsl(var(--background));
     border-radius: 9999px;
   }
-  
   .swiper-pagination-bullet-active {
     background-color: hsl(var(--primary));
     border: 2px solid hsl(var(--background));
@@ -111,12 +88,11 @@ const Hero: React.FC<HeroProps> = ({
       left: 80% !important;
     }
     .mySwiperHero231 .swiper-slide {
-      width: 340px; /* wider on desktop */
+      width: 340px;
       margin-top: 60px;
-      height: 460px; /* slightly less tall */
+      height: 460px;
     }
   }
-
   `;
 
   const isMobile = useIsMobile();
@@ -178,101 +154,21 @@ const Hero: React.FC<HeroProps> = ({
             </Link>
           </div>
         </div>
-        <div className="h-145 relative w-full xl:mt-0 xl:w-3/5">
-          <div className="mx-auto flex h-full items-center justify-center overflow-hidden">
-            {domLoaded && (
-              <Swiper
-                spaceBetween={28}
-                autoplay={{
-                  delay: 1500,
-                  disableOnInteraction: false,
-                }}
-                effect="coverflow"
-                grabCursor={true}
-                centeredSlides={true}
-                loop={true}
-                slidesPerView={1.35}
-                coverflowEffect={{
-                  rotate: 0,
-                  stretch: 0,
-                  depth: 100,
-                  modifier: 1.5,
-                }}
-                className="mySwiperHero231"
-                modules={[EffectCoverflow, Autoplay, Pagination]}
-                pagination={{ clickable: true }}
-                breakpoints={{
-                  768: {
-                    slidesPerView: 2.438,
-                    spaceBetween: 50,
-                    coverflowEffect: {
-                      rotate: 0,
-                      stretch: 0,
-                      depth: 100,
-                      modifier: 2.5,
-                    },
-                  },
-                }}
-              >
-                {images.map((image, index) => (
-                  <>
-                    {image.src && (
-                      <SwiperSlide
-                        key={index}
-                        className="max-md:p-5 max-md:mt-20"
-                      >
-                        <div className="cardEnhance relative overflow-hidden rounded-4xl shadow">
-                          <Image
-                            src={
-                              backgroundImages.length
-                                ? backgroundImages[
-                                    index % backgroundImages.length
-                                  ]
-                                : backgroundImages[0]
-                            }
-                            alt={image.alt + " bg"}
-                            fill
-                            className="object-cover relative -z-10 "
-                          />
-                          <div className="relative z-10 p-3">
-                            {image.href ? (
-                              <Link
-                                href={image.href}
-                                aria-label={image.alt}
-                                prefetch={false}
-                              >
-                                <Iphone15Pro
-                                  className="h-full w-full dark"
-                                  src={image.src}
-                                />
-                              </Link>
-                            ) : (
-                              <Iphone15Pro
-                                className="h-full w-full dark"
-                                src={image.src}
-                              />
-                            )}
-                          </div>
-                        </div>
-                      </SwiperSlide>
-                    )}
-                  </>
-                ))}
-              </Swiper>
-            )}
+        <div className="min-h-145 relative w-full xl:mt-0 xl:w-3/5">
+          <div className="mx-auto flex h-full items-center justify-center">
+            <HeroCarousel images={images} />
           </div>
           <div className="absolute inset-0 flex h-full w-full items-center justify-between -z-10 rounded-3xl overflow-clip">
-            {Array.from({ length: isMobile ? 8 : 18 }).map((_, index) => (
+            {Array.from({ length: isMobile ? 8 : 10 }).map((_, index) => (
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 key={index}
-                className="to-muted/50 h-full w-10 bg-gradient-to-l from-transparent"
+                className="to-muted/60 dark:to-muted/20 h-full w-10 bg-gradient-to-l from-transparent"
               ></motion.div>
             ))}
           </div>
-          <div className="-z-10 bg-muted dark:bg-muted xl:h-[20rem] xl:w-9/10 absolute right-0 top-0 h-full w-full rounded-3xl xl:top-1/2 xl:mt-4 xl:-translate-y-1/2" />
         </div>
       </div>
     </section>

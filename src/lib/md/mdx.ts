@@ -27,6 +27,7 @@ export interface ContentFrontmatter {
 
 export interface ContentItem {
   type: ContentType;
+  postType?: "project" | "blog";
   slug: string;
   frontmatter: ContentFrontmatter;
   body: string;
@@ -38,6 +39,12 @@ export interface ContentItem {
   };
   imagesDesktop?: string[];
   imagesMobile?: string[];
+  heroImageDesktop?: string;
+  heroImageMobile?: string;
+  isProject?: boolean;
+  hasExternalUrl?: boolean;
+  mergedTags?: string[];
+  canonicalPath?: string;
 }
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
@@ -92,7 +99,7 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
     const entries = await fs.readdir(dir, { withFileTypes: true });
     const files = entries.filter((e) => e.isFile() && /\.mdx?$/.test(e.name));
 
-    console.log(`Found ${files.length} ${type} files in ${dir}`);
+    // files discovered
 
     const items = await Promise.all(
       files.map(async (file): Promise<ContentItem | null> => {
@@ -129,11 +136,35 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
           // de-duplicate while preserving order
           const dedupe = (arr: string[]) =>
             Array.from(new Set(arr.filter(Boolean)));
+          // Add inferred mobile variants for screenshots without explicit mobile
+          const inferMobile = (desktop: string) =>
+            desktop?.startsWith("/screenshots/") && desktop.endsWith(".png")
+              ? desktop.replace(/\.png$/, ".mobile.png")
+              : undefined;
+          const inferredMobile = imagesDesktop
+            .map(inferMobile)
+            .filter(Boolean) as string[];
+          imagesMobile.push(...inferredMobile);
           const allDesktop = dedupe(imagesDesktop);
           const allMobile = dedupe(imagesMobile);
 
+          const isProject = type === "projects";
+          const hasExternalUrl = Boolean(fm.url && isProject);
+          const mergedTags = dedupe([
+            ...(fm.tags || []),
+            ...(fm.categories || []),
+          ]);
+          const heroImageDesktop = isProject
+            ? screenshots?.desktop || fm.cover || allDesktop[0]
+            : fm.cover || allDesktop[0];
+          const heroImageMobile = isProject
+            ? screenshots?.mobile || fm.cover || allMobile[0]
+            : fm.cover || allMobile[0];
+          const canonicalPath = `/${type}/${slug}`;
+
           return {
             type,
+            postType: type === "projects" ? "project" : "blog",
             slug,
             frontmatter: { ...fm, slug },
             body: content,
@@ -141,6 +172,12 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
             screenshots,
             imagesDesktop: allDesktop,
             imagesMobile: allMobile,
+            heroImageDesktop,
+            heroImageMobile,
+            isProject,
+            hasExternalUrl,
+            mergedTags,
+            canonicalPath,
           } satisfies ContentItem;
         } catch (error) {
           console.error(`Error processing ${file.name}:`, error);
@@ -175,7 +212,6 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
       );
     });
 
-    console.log(`Successfully loaded ${visibleItems.length} ${type} items`);
     return visibleItems;
   } catch (error) {
     console.error(`Error loading ${type} content:`, error);
@@ -208,11 +244,11 @@ export async function getContent(
           screenshots,
         };
       } catch (error) {
-        console.log(`File ${name} not found or not readable`);
+        console.warn(`Skipped ${type}/${name}: not found or unreadable`);
       }
     }
 
-    console.log(`No content found for ${type}/${slug}`);
+    console.warn(`No content found for ${type}/${slug}`);
     return null;
   } catch (error) {
     console.error(`Error getting content for ${type}/${slug}:`, error);
