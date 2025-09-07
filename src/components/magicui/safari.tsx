@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { SVGProps } from "react";
 
 type SafariMode = "default" | "simple";
@@ -149,14 +148,11 @@ export function Safari({
             <div
               style={{ width: "100%", height: "100%", position: "relative" }}
             >
-              <Image
+              <img
                 src={imageSrc}
                 alt={url || "safari-preview"}
-                fill
-                sizes="100vw"
-                priority={false}
                 draggable={false}
-                style={{ objectFit: "cover" }}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
             </div>
           </foreignObject>

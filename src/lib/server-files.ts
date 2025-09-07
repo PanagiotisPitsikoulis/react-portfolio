@@ -8,12 +8,25 @@ export async function getScreenshotOrCover(
   const path = await import("node:path");
   const desktopName = `${slug}.png`;
   const mobileName = `${slug}.mobile.png`;
-  const fileName = options?.mobile ? mobileName : desktopName;
-  const candidate = path.join(process.cwd(), "public", "screenshots", fileName);
+  const primaryName = options?.mobile ? mobileName : desktopName;
+  const fallbackName = options?.mobile ? desktopName : mobileName;
+  const screenshotsDir = path.join(process.cwd(), "public", "screenshots");
+
+  const primaryPath = path.join(screenshotsDir, primaryName);
+  const fallbackPath = path.join(screenshotsDir, fallbackName);
+
+  // Try primary
   try {
-    await fs.access(candidate);
-    return `/screenshots/${fileName}`;
-  } catch {
-    return cover || "/default-cover.png";
-  }
+    await fs.access(primaryPath);
+    return `/screenshots/${primaryName}`;
+  } catch {}
+
+  // Try fallback variant (desktop<->mobile)
+  try {
+    await fs.access(fallbackPath);
+    return `/screenshots/${fallbackName}`;
+  } catch {}
+
+  // Finally, fallback to cover or a known local placeholder
+  return cover || "/images/window.png";
 }

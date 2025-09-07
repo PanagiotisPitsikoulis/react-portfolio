@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { SVGProps } from "react";
 
 export interface Iphone15ProProps extends SVGProps<SVGSVGElement> {
@@ -75,14 +74,11 @@ export default function Iphone15Pro({
               overflow: "hidden",
             }}
           >
-            <Image
+            <img
               src={src}
               alt="iphone-preview"
-              fill
-              sizes="(max-width: 768px) 100vw, 389px"
-              priority={false}
               draggable={false}
-              style={{ objectFit: "cover" }}
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
           </div>
         </foreignObject>
