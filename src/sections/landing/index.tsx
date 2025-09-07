@@ -13,7 +13,7 @@ export default async function HomePage() {
   const featuredProjects = projects.filter((p) =>
     Boolean(p.frontmatter.featured)
   );
-  // Build hero images: one mobile screenshot per featured project
+
   const heroImages = (
     await Promise.all(
       featuredProjects.map(async (p) => {

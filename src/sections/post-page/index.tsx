@@ -54,18 +54,10 @@ const PostPage = async ({
                   : undefined
               }
             />
-            {isProject &&
-            ((post.frontmatter as any).carousel?.length ||
-              (post.screenshots?.routes?.length || 0) > 0) ? (
+            {isProject && (post.imagesDesktop?.length || 0) > 0 ? (
               <div className="mt-6">
                 {(() => {
-                  const title = post.frontmatter.title || post.slug;
-                  const routeImages = (post.screenshots?.routes || [])
-                    .map((r) => r.desktop)
-                    .filter(Boolean) as string[];
-                  const carouselImages = ((post.frontmatter as any).carousel ||
-                    []) as string[];
-                  const images = [...routeImages, ...carouselImages];
+                  const images = (post.imagesDesktop || []).filter(Boolean);
                   if (images.length === 0) return null;
                   return (
                     <PostCarousel

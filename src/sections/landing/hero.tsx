@@ -232,9 +232,9 @@ const Hero: React.FC<HeroProps> = ({
                             }
                             alt={image.alt + " bg"}
                             fill
-                            className="object-cover relative -z-10"
+                            className="object-cover relative -z-10 saturate-0"
                           />
-                          <div className="relative z-10 p-5">
+                          <div className="relative z-10 p-3">
                             {image.href ? (
                               <Link
                                 href={image.href}

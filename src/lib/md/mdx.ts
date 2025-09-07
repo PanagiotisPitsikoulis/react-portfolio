@@ -36,6 +36,8 @@ export interface ContentItem {
     mobile?: string;
     routes?: Array<{ key: string; desktop?: string; mobile?: string }>;
   };
+  imagesDesktop?: string[];
+  imagesMobile?: string[];
 }
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
@@ -107,6 +109,29 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
               ? await collectScreenshots(slug, fm)
               : undefined;
 
+          // Aggregate images for simpler consumers
+          const imagesDesktop: string[] = [];
+          const imagesMobile: string[] = [];
+          if (type === "projects") {
+            if (screenshots?.desktop) imagesDesktop.push(screenshots.desktop);
+            if (screenshots?.mobile) imagesMobile.push(screenshots.mobile);
+            (screenshots?.routes || []).forEach((r) => {
+              if (r.desktop) imagesDesktop.push(r.desktop);
+              if (r.mobile) imagesMobile.push(r.mobile);
+            });
+            // include explicit carousel and cover at the end
+            if (Array.isArray(fm.carousel))
+              imagesDesktop.push(...(fm.carousel.filter(Boolean) as string[]));
+            if (fm.cover) imagesDesktop.push(fm.cover);
+          } else {
+            if (fm.cover) imagesDesktop.push(fm.cover);
+          }
+          // de-duplicate while preserving order
+          const dedupe = (arr: string[]) =>
+            Array.from(new Set(arr.filter(Boolean)));
+          const allDesktop = dedupe(imagesDesktop);
+          const allMobile = dedupe(imagesMobile);
+
           return {
             type,
             slug,
@@ -114,6 +139,8 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
             body: content,
             filePath,
             screenshots,
+            imagesDesktop: allDesktop,
+            imagesMobile: allMobile,
           } satisfies ContentItem;
         } catch (error) {
           console.error(`Error processing ${file.name}:`, error);
