@@ -115,6 +115,7 @@ const CarouselIphoneSingle = ({
                 <Image
                   width={250}
                   height={480}
+                  priority={index === 0}
                   className="h-full w-full object-top object-cover bg-black p-2"
                   src={
                     item.heroImageMobile ||
@@ -127,6 +128,7 @@ const CarouselIphoneSingle = ({
               <Image
                 width={250}
                 height={480}
+                priority={index === 0}
                 className="h-full w-full object-top object-cover bg-black p-2"
                 src={
                   item.heroImageMobile ||

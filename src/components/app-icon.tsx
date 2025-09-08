@@ -15,6 +15,7 @@ export function AppIcon({ className, iconClassName }: AppIconProps) {
       )}
     >
       <ScreenShare className={cn("size-4", iconClassName)} />
+      <span className="sr-only">Back to Home</span>
     </div>
   );
 }

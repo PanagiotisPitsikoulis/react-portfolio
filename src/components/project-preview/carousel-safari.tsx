@@ -45,6 +45,7 @@ const CarouselSafariSingle: React.FC<
             <RenderConditionally condition={isLink}>
               <Link href={`/projects/${item.slug}`}>
                 <Safari
+                  priority={index === 0}
                   className="mx-auto h-full w-full max-md:mt-10 max-md:-mx-10"
                   imageSrc={
                     item.heroImageDesktop ||
@@ -55,6 +56,7 @@ const CarouselSafariSingle: React.FC<
                 />
               </Link>
               <Safari
+                priority={index === 0}
                 className="mx-auto h-full w-full max-md:mt-10 max-md:-mx-10"
                 imageSrc={
                   item.heroImageDesktop ||

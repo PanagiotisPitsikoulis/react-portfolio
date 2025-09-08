@@ -8,6 +8,7 @@ export interface SafariProps extends React.HTMLAttributes<HTMLDivElement> {
   url?: string;
   imageSrc?: string;
   videoSrc?: string;
+  priority?: boolean;
   width?: number;
   height?: number;
   mode?: SafariMode;
@@ -17,6 +18,7 @@ export function Safari({
   imageSrc,
   videoSrc,
   url,
+  priority = false,
   width = 1203,
   height = 753,
   mode = "default",
@@ -50,7 +52,7 @@ export function Safari({
                 alt={url || "safari-preview"}
                 fill
                 sizes="100vw"
-                priority={false}
+                priority={priority}
                 draggable={false}
                 className="object-cover object-top"
               />
