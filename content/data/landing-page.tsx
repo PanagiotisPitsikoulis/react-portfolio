@@ -2,7 +2,7 @@ import type { ArcTimelineItem } from "@/components/magicui/arc-timeline";
 import type { HeroProps } from "@/sections/landing/hero";
 
 export interface LandingPageData {
-  hero: HeroProps;
+  hero: Omit<HeroProps, "items">;
   sectionHeadings: {
     features: {
       title: string;
