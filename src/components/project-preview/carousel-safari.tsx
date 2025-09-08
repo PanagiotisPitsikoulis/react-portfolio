@@ -18,16 +18,16 @@ import { backgroundImages } from "../../../content/data";
 import RenderConditionally from "../misc/render-conditionally";
 import { ProjectPreviewProps } from "./index";
 
-export interface CarouselDesktopProps {
+export interface CarouselSafariProps {
   items: ContentItem[];
 }
 
-export interface CarouselDesktopPropsSingle {
+export interface CarouselSafariPropsSingle {
   item: ContentItem;
   index?: number;
 }
 
-const CarouselDesktopSingle: React.FC<CarouselDesktopPropsSingle> = ({
+const CarouselSafariSingle: React.FC<CarouselSafariPropsSingle> = ({
   item,
   index,
 }) => {
@@ -62,7 +62,7 @@ const CarouselDesktopSingle: React.FC<CarouselDesktopPropsSingle> = ({
   );
 };
 
-const CarouselDesktopMany: React.FC<CarouselDesktopProps> = ({ items }) => {
+const CarouselSafariMany: React.FC<CarouselSafariProps> = ({ items }) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -76,7 +76,7 @@ const CarouselDesktopMany: React.FC<CarouselDesktopProps> = ({ items }) => {
   const dotCount = useMemo(() => items.length, [items.length]);
 
   return (
-    <section className="pt-16">
+    <section className="pt-6">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -100,7 +100,7 @@ const CarouselDesktopMany: React.FC<CarouselDesktopProps> = ({ items }) => {
           <CarouselContent className="flex w-full gap-4">
             {items.map((project, index) => (
               <CarouselItem key={index} className="w-full basis-[91%]">
-                <CarouselDesktopSingle item={project} index={index} />
+                <CarouselSafariSingle item={project} index={index} />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -125,13 +125,13 @@ const CarouselDesktopMany: React.FC<CarouselDesktopProps> = ({ items }) => {
   );
 };
 
-const CarouselDesktop: React.FC<ProjectPreviewProps> = ({ items }) => {
+const CarouselSafari: React.FC<ProjectPreviewProps> = ({ items }) => {
   return (
     <RenderConditionally condition={Array.isArray(items)}>
-      <CarouselDesktopMany items={items as ContentItem[]} />
-      <CarouselDesktopSingle item={items as ContentItem} />
+      <CarouselSafariMany items={items as ContentItem[]} />
+      <CarouselSafariSingle item={items as ContentItem} />
     </RenderConditionally>
   );
 };
 
-export default CarouselDesktop;
+export default CarouselSafari;

@@ -1,9 +1,9 @@
+import ProjectPreview from "@/components/project-preview";
 import { listContent } from "@/lib/md/mdx";
 import { cn } from "@/lib/utils";
 import { landingPageData } from "../../../content/data/landing-page";
 import Features from "./features";
 import Hero from "./hero";
-import LandingCarousel from "./landing-carousel";
 import { Section } from "./section";
 import TimelineCard from "./timeline-card";
 
@@ -26,15 +26,7 @@ export default async function HomePage() {
           subtitle={landingPageData.hero.subtitle}
           primaryCta={landingPageData.hero.primaryCta}
           secondaryCta={landingPageData.hero.secondaryCta}
-          images={featuredProjects.map((p) => ({
-            src:
-              p.heroImageMobile ||
-              (p as any).heroImageDesktop ||
-              p.frontmatter.cover ||
-              "/images/window.png",
-            alt: p.frontmatter.title,
-            href: `/projects/${p.slug}`,
-          }))}
+          items={featuredProjects}
         />
 
         <Section
@@ -52,7 +44,7 @@ export default async function HomePage() {
           title={landingPageData.sectionHeadings.carousel.title}
           subtitle={landingPageData.sectionHeadings.carousel.subtitle}
         >
-          <LandingCarousel items={featuredProjects} />
+          <ProjectPreview className="mt-10" items={featuredProjects} />
         </Section>
 
         <Section

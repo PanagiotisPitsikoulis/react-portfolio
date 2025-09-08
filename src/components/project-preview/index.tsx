@@ -1,24 +1,26 @@
 "use client";
 import { ContentItem } from "@/lib/md/mdx";
 import RenderResponsively from "../misc/render-responsively";
-import CarouselDesktop from "./carousel-desktop";
-import CarouselMobile from "./carousel-mobile";
+import CarouselIphone from "./carousel-iphone";
+import CarouselSafari from "./carousel-safari";
 
 export type ProjectPreviewItems = ContentItem[] | ContentItem;
 
 export type ProjectPreviewProps = {
   items: ProjectPreviewItems;
   forceMobile?: boolean;
+  className?: string;
 };
 
 export default function ProjectPreview({
   items,
   forceMobile,
+  className,
 }: ProjectPreviewProps) {
   return (
-    <RenderResponsively forceMobile={forceMobile}>
-      <CarouselMobile items={items} />
-      <CarouselDesktop items={items} />
+    <RenderResponsively forceMobile={forceMobile} className={className}>
+      <CarouselIphone items={items} />
+      <CarouselSafari items={items} />
     </RenderResponsively>
   );
 }

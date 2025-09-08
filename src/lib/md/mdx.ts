@@ -234,10 +234,14 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
             ...(fm.categories || []),
           ]);
           const heroImageDesktop = isProject
-            ? screenshots?.desktop || fm.cover || allDesktop[0]
+            ? hasExternalUrl
+              ? screenshots?.desktop || fm.cover || allDesktop[0]
+              : fm.cover || screenshots?.desktop || allDesktop[0]
             : fm.cover || allDesktop[0];
           const heroImageMobile = isProject
-            ? screenshots?.mobile || fm.cover || allMobile[0]
+            ? hasExternalUrl
+              ? screenshots?.mobile || fm.cover || allMobile[0]
+              : fm.cover || screenshots?.mobile || allMobile[0]
             : fm.cover || allMobile[0];
           const canonicalPath = `/${type}/${slug}`;
 

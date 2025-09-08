@@ -75,7 +75,7 @@ const LandingCarousel: React.FC<LandingCarouselProps> = ({ items }) => {
                         <Safari
                           className="mx-auto h-full w-full max-md:mt-10 max-md:-mx-10"
                           imageSrc={
-                            (project as any).heroImageDesktop ||
+                            project.heroImageDesktop ||
                             project.frontmatter.cover ||
                             "/images/window.png"
                           }

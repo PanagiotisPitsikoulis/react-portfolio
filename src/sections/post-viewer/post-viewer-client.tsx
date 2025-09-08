@@ -26,13 +26,11 @@ export default function PostViewer({
   description,
   posts,
   contentType,
-  heroImages,
 }: {
   title: string;
   description: string;
   posts: ContentItem[];
   contentType: ContentType;
-  heroImages: string[];
 }) {
   const { updateSearchParams, getParam } = useSearchParamsState();
   const [searchQuery, setSearchQuery] = useState(getParam("search") || "");
@@ -156,7 +154,12 @@ export default function PostViewer({
     <section className="flex flex-1 flex-col gap-10 page-container pb-24 -mt-10">
       {/* Hero */}
       <div>
-        <PostViewerHero title={title} description={description} posts={posts} />
+        <PostViewerHero
+          title={title}
+          description={description}
+          posts={posts}
+          contentType={contentType}
+        />
       </div>
       <SectionDivider label={contentType === "blog" ? "Posts" : "Projects"} />
 

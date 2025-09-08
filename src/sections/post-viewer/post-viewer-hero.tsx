@@ -1,6 +1,6 @@
 "use client";
 import { ThreeDMarquee } from "@/components/ui/3d-marquee";
-import type { ContentItem } from "@/lib/md/mdx";
+import type { ContentItem, ContentType } from "@/lib/md/mdx";
 import { buildMosaicImages } from "@/lib/utils";
 import Image from "next/image";
 import { backgroundImages } from "../../../content/data";
@@ -9,13 +9,19 @@ export interface PostViewerHeroProps {
   title: string;
   description: string;
   posts: ContentItem[];
+  contentType: ContentType;
 }
 
-const PostViewerHero = ({ title, description, posts }: PostViewerHeroProps) => {
+const PostViewerHero = ({
+  title,
+  description,
+  posts,
+  contentType,
+}: PostViewerHeroProps) => {
   const images = posts
     .flatMap((p) => {
-      const src = (p as any).heroImageDesktop || p.frontmatter.cover;
-      return src ? [src] : [];
+      const src = p.heroImageDesktop || p.frontmatter.cover;
+      return src || [];
     })
     .slice(0, 30);
   return (

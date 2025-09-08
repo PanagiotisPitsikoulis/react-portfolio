@@ -7,13 +7,14 @@ import "swiper/css/autoplay";
 import "swiper/css/effect-creative";
 import "swiper/css/pagination";
 
+import ProjectPreview from "@/components/project-preview";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { ContentItem } from "@/lib/md/mdx";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FaGithub, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { socialLinks } from "../../../content/data";
-import HeroCarousel from "./hero-carousel";
 
 export type HeroImage = { src: string; alt: string; href?: string };
 type HeroCta = {
@@ -27,7 +28,7 @@ export interface HeroProps {
   subtitle: string;
   primaryCta: HeroCta;
   secondaryCta: HeroCta;
-  images: HeroImage[];
+  items: ContentItem[];
 }
 
 const Hero: React.FC<HeroProps> = ({
@@ -35,7 +36,7 @@ const Hero: React.FC<HeroProps> = ({
   subtitle,
   primaryCta,
   secondaryCta,
-  images,
+  items,
 }) => {
   const [domLoaded, setDomLoaded] = useState(false);
 
@@ -156,7 +157,7 @@ const Hero: React.FC<HeroProps> = ({
         </div>
         <div className="min-h-145 relative w-full xl:mt-0 xl:w-3/5">
           <div className="mx-auto flex h-full items-center justify-center">
-            <HeroCarousel images={images} />
+            <ProjectPreview items={items} forceMobile />
           </div>
           <div className="absolute inset-0 flex h-full w-full items-center justify-between -z-10">
             {Array.from({ length: isMobile ? 8 : 10 }).map((_, index) => (
