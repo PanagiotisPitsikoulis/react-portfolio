@@ -20,6 +20,7 @@ import { ProjectPreviewProps } from "./index";
 
 export interface CarouselSafariProps {
   items: ContentItem[];
+  isLink?: boolean;
 }
 
 export interface CarouselSafariPropsSingle {
@@ -27,42 +28,53 @@ export interface CarouselSafariPropsSingle {
   index?: number;
 }
 
-const CarouselSafariSingle: React.FC<CarouselSafariPropsSingle> = ({
-  item,
-  index,
-}) => {
+const CarouselSafariSingle: React.FC<
+  CarouselSafariPropsSingle & { isLink?: boolean }
+> = ({ item, index, isLink = false }) => {
   return (
     <div className="p-1">
-      <Link
-        href={`/projects/${item.slug}`}
-        className="group block"
-        rel="noopener noreferrer"
-      >
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-md backdrop-blur-[2px] transition-transform duration-200 hover:-translate-y-1 dark:border-white/10 md:p-8">
+      <div className="group block">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] transition-transform duration-200 hover:-translate-y-1 dark:border-white/10 md:p-8">
           <Image
-            src={backgroundImages[index ?? 0 % backgroundImages.length]}
+            src={backgroundImages[index ?? 5 % backgroundImages.length]}
             alt={`${item.frontmatter.title} bg`}
             fill
             className="object-cover -z-10"
           />
           <div className="relative z-10">
-            <Safari
-              className="mx-auto h-full w-full max-md:mt-10 max-md:-mx-10"
-              imageSrc={
-                item.heroImageDesktop ||
-                item.frontmatter.cover ||
-                "/images/window.png"
-              }
-              url={item.frontmatter.url}
-            />
+            <RenderConditionally condition={isLink}>
+              <Link href={`/projects/${item.slug}`}>
+                <Safari
+                  className="mx-auto h-full w-full max-md:mt-10 max-md:-mx-10"
+                  imageSrc={
+                    item.heroImageDesktop ||
+                    item.frontmatter.cover ||
+                    "/images/Silhouette Flower Art.png"
+                  }
+                  url={item.frontmatter.url}
+                />
+              </Link>
+              <Safari
+                className="mx-auto h-full w-full max-md:mt-10 max-md:-mx-10"
+                imageSrc={
+                  item.heroImageDesktop ||
+                  item.frontmatter.cover ||
+                  "/images/Silhouette Flower Art.png"
+                }
+                url={item.frontmatter.url}
+              />
+            </RenderConditionally>
           </div>
         </div>
-      </Link>
+      </div>
     </div>
   );
 };
 
-const CarouselSafariMany: React.FC<CarouselSafariProps> = ({ items }) => {
+const CarouselSafariMany: React.FC<CarouselSafariProps> = ({
+  items,
+  isLink = false,
+}) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -100,7 +112,11 @@ const CarouselSafariMany: React.FC<CarouselSafariProps> = ({ items }) => {
           <CarouselContent className="flex w-full gap-4">
             {items.map((project, index) => (
               <CarouselItem key={index} className="w-full basis-[91%]">
-                <CarouselSafariSingle item={project} index={index} />
+                <CarouselSafariSingle
+                  item={project}
+                  index={index}
+                  isLink={isLink}
+                />
               </CarouselItem>
             ))}
           </CarouselContent>
@@ -125,11 +141,20 @@ const CarouselSafariMany: React.FC<CarouselSafariProps> = ({ items }) => {
   );
 };
 
-const CarouselSafari: React.FC<ProjectPreviewProps> = ({ items }) => {
+const CarouselSafari: React.FC<ProjectPreviewProps & { isLink?: boolean }> = ({
+  items,
+  isLink = false,
+}) => {
   return (
-    <RenderConditionally condition={Array.isArray(items)}>
-      <CarouselSafariMany items={items as ContentItem[]} />
-      <CarouselSafariSingle item={items as ContentItem} />
+    <RenderConditionally condition={Array.isArray(items) && items.length > 1}>
+      <CarouselSafariMany
+        items={Array.isArray(items) ? items : [items]}
+        isLink={isLink}
+      />
+      <CarouselSafariSingle
+        item={Array.isArray(items) ? items[0] : items}
+        isLink={isLink}
+      />
     </RenderConditionally>
   );
 };

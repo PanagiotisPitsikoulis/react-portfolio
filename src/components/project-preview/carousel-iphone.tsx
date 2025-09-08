@@ -9,11 +9,18 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import { ContentItem } from "@/lib/md/mdx";
 import Image from "next/image";
+import Link from "next/link";
 import { ProjectPreviewProps } from ".";
 import { backgroundImages } from "../../../content/data";
 import RenderConditionally from "../misc/render-conditionally";
 
-const CarouselIphoneMany = ({ items }: { items: ContentItem[] }) => {
+const CarouselIphoneMany = ({
+  items,
+  isLink = false,
+}: {
+  items: ContentItem[];
+  isLink?: boolean;
+}) => {
   const css = `
   .swiper {
   width: 400px;
@@ -62,7 +69,7 @@ const CarouselIphoneMany = ({ items }: { items: ContentItem[] }) => {
       >
         {items.map((item, i) => (
           <SwiperSlide className="-mt-14" key={i}>
-            <CarouselIphoneSingle item={item} index={i} />
+            <CarouselIphoneSingle item={item} index={i} isLink={isLink} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -73,9 +80,11 @@ const CarouselIphoneMany = ({ items }: { items: ContentItem[] }) => {
 const CarouselIphoneSingle = ({
   item,
   index,
+  isLink = false,
 }: {
   item: ContentItem;
   index?: number;
+  isLink?: boolean;
 }) => {
   return (
     <div className="relative -mt-10">
@@ -101,17 +110,32 @@ const CarouselIphoneSingle = ({
           <div className="h-[46px] w-[3px] bg-stone-950 dark:bg-stone-700 absolute -start-[17px] top-[178px] rounded-s-lg"></div>
           <div className="h-[64px] w-[3px] bg-stone-950 dark:bg-stone-700 absolute -end-[17px] top-[142px] rounded-e-lg"></div>
           <div className="rounded-[2rem] overflow-hidden w-[250px] h-[480px] bg-white dark:bg-stone-900">
-            <Image
-              width={250}
-              height={480}
-              className="h-full w-full object-top object-cover bg-black p-2"
-              src={
-                item.heroImageMobile ||
-                item.frontmatter.cover ||
-                "/images/window.png"
-              }
-              alt={item.frontmatter.title || ""}
-            />
+            <RenderConditionally condition={isLink}>
+              <Link href={`/projects/${item.slug}`}>
+                <Image
+                  width={250}
+                  height={480}
+                  className="h-full w-full object-top object-cover bg-black p-2"
+                  src={
+                    item.heroImageMobile ||
+                    item.frontmatter.cover ||
+                    "/images/Silhouette Flower Art.png"
+                  }
+                  alt={item.frontmatter.title || ""}
+                />
+              </Link>
+              <Image
+                width={250}
+                height={480}
+                className="h-full w-full object-top object-cover bg-black p-2"
+                src={
+                  item.heroImageMobile ||
+                  item.frontmatter.cover ||
+                  "/images/Silhouette Flower Art.png"
+                }
+                alt={item.frontmatter.title || ""}
+              />
+            </RenderConditionally>
           </div>
         </div>
       </div>
@@ -119,11 +143,23 @@ const CarouselIphoneSingle = ({
   );
 };
 
-const CarouselIphone: React.FC<ProjectPreviewProps> = ({ items }) => {
+const CarouselIphone: React.FC<ProjectPreviewProps & { isLink?: boolean }> = ({
+  items,
+  isLink = false,
+}) => {
   return (
-    <RenderConditionally condition={Array.isArray(items)} className="dark">
-      <CarouselIphoneMany items={items as ContentItem[]} />
-      <CarouselIphoneSingle item={items as ContentItem} />
+    <RenderConditionally
+      condition={Array.isArray(items) && items.length > 1}
+      className="dark"
+    >
+      <CarouselIphoneMany
+        items={Array.isArray(items) ? items : [items]}
+        isLink={isLink}
+      />
+      <CarouselIphoneSingle
+        item={Array.isArray(items) ? items[0] : items}
+        isLink={isLink}
+      />
     </RenderConditionally>
   );
 };

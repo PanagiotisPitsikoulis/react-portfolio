@@ -27,13 +27,13 @@ function PostCard({
     (post as any).heroImageDesktop ||
     post.screenshots?.desktop ||
     post.frontmatter.cover ||
-    "/images/window.png";
+    "/images/Silhouette Flower Art.png";
 
   const imageSrc = isProject
     ? post.frontmatter.url
       ? baseImage
-      : post.frontmatter.cover || "/images/window.png"
-    : post.frontmatter.cover || "/images/window.png";
+      : post.frontmatter.cover || "/images/Silhouette Flower Art.png"
+    : post.frontmatter.cover || "/images/Silhouette Flower Art.png";
 
   return (
     <Link

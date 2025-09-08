@@ -44,7 +44,7 @@ export default async function HomePage() {
           title={landingPageData.sectionHeadings.carousel.title}
           subtitle={landingPageData.sectionHeadings.carousel.subtitle}
         >
-          <ProjectPreview className="mt-10" items={featuredProjects} />
+          <ProjectPreview className="mt-10" items={featuredProjects} isLink />
         </Section>
 
         <Section

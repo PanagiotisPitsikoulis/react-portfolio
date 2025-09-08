@@ -5,7 +5,7 @@ import { ExternalLink } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 
-import { Safari } from "@/components/magicui/safari";
+import ProjectPreview from "@/components/project-preview";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,10 +32,10 @@ export default function PostHero({ post }: PostHeroProps) {
   const imageSrc = hasExternalUrl
     ? post.screenshots?.desktop ||
       post.frontmatter.cover ||
-      "/images/window.png"
+      "/images/Silhouette Flower Art.png"
     : post.frontmatter.cover ||
       post.screenshots?.desktop ||
-      "/images/window.png";
+      "/images/Silhouette Flower Art.png";
   const url = isProject ? post.frontmatter.url : undefined;
   const tags = post.mergedTags || [
     ...(post.frontmatter.tags || []),
@@ -136,16 +136,16 @@ export default function PostHero({ post }: PostHeroProps) {
             </div>
           )}
         </div>
-        <div className="relative mt-10 flex w-full items-center justify-center overflow-hidden p-4">
+        <div className="relative mt-10 flex items-center justify-center overflow-hidden w-full">
           {isProject && hasExternalUrl ? (
-            <Safari imageSrc={imageSrc} width={1400} height={900} url={url} />
+            <ProjectPreview items={post} className="w-full" />
           ) : (
             <Image
               width={1400}
               height={900}
               src={imageSrc}
               alt={title}
-              className="mx-auto h-full w-full rounded-xl border bg-background object-cover aspect-video"
+              className="h-full w-full rounded-xl border bg-background object-cover aspect-video"
               sizes="(max-width: 768px) 100vw, 1203px"
               priority={false}
               draggable={false}

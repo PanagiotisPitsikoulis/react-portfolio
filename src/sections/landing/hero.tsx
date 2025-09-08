@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/effect-creative";
@@ -9,7 +9,6 @@ import "swiper/css/pagination";
 
 import ProjectPreview from "@/components/project-preview";
 import { Button } from "@/components/ui/button";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { ContentItem } from "@/lib/md/mdx";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -38,69 +37,8 @@ const Hero: React.FC<HeroProps> = ({
   secondaryCta,
   items,
 }) => {
-  const [domLoaded, setDomLoaded] = useState(false);
-
-  useEffect(() => {
-    setDomLoaded(true);
-  }, []);
-
-  const css = `
-  .mySwiperHero231 {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 40px;
-    overflow: visible;
-  }
-
-  .mySwiperHero231 .swiper-slide {
-    background-position: center;
-    background-size: cover;
-    width: 280px;
-    margin-top: 24px;
-    height: 380px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .swiper-pagination {
-    bottom: 10px !important;
-    width: 100% !important;
-    left: 0% !important;
-    position: relative;
-    z-index: 20;
-  }
-  .swiper-pagination-bullet {
-    width: 8px;
-    height: 8px;
-    background-color: hsl(var(--foreground) / 0.6);
-    border: 2px solid hsl(var(--background));
-    border-radius: 9999px;
-  }
-  .swiper-pagination-bullet-active {
-    background-color: hsl(var(--primary));
-    border: 2px solid hsl(var(--background));
-  }
-
-  @media (min-width: 768px) {
-    .swiper-pagination {
-      width: fit-content !important;
-      left: 80% !important;
-    }
-    .mySwiperHero231 .swiper-slide {
-      width: 340px;
-      margin-top: 60px;
-      height: 460px;
-    }
-  }
-  `;
-
-  const isMobile = useIsMobile();
-
   return (
     <section className="relative z-40 -mb-20 py-10">
-      <style>{css}</style>
       <div className="mt-4 flex flex-col items-center justify-center gap-4 overflow-hidden text-left xl:mt-14 xl:flex-row xl:overflow-visible">
         <div className="w-full space-y-10 xl:w-1/2 xl:mr-10">
           <div className="flex items-center gap-2 text-muted-foreground">
@@ -157,10 +95,10 @@ const Hero: React.FC<HeroProps> = ({
         </div>
         <div className="min-h-145 relative w-full xl:mt-0 xl:w-3/5">
           <div className="mx-auto flex h-full items-center justify-center">
-            <ProjectPreview items={items} forceMobile />
+            <ProjectPreview items={items} forceMobile isLink />
           </div>
           <div className="absolute inset-0 flex h-full w-full items-center justify-between -z-10">
-            {Array.from({ length: isMobile ? 8 : 10 }).map((_, index) => (
+            {Array.from({ length: 10 }).map((_, index) => (
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}

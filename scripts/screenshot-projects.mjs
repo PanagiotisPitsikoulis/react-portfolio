@@ -8,12 +8,6 @@ async function ensureDir(dir) {
   } catch {}
 }
 
-async function clearDir(dir) {
-  try {
-    await fs.rm(dir, { recursive: true, force: true });
-  } catch {}
-}
-
 async function readProjectFiles(projectsDir) {
   const entries = await fs.readdir(projectsDir, { withFileTypes: true });
   const files = entries
@@ -160,6 +154,22 @@ async function takeScreenshots(projects, outDir) {
     const captureOne = async ({ slug, url, routeKey, isSlowWebsite, vp }) => {
       const page = await browser.newPage();
       try {
+        // Compute output path early for skip-if-exists
+        const suffix = vp.name === "desktop" ? "" : ".mobile";
+        const keyPart = routeKey && routeKey !== "home" ? `.${routeKey}` : "";
+        const outPath = path.join(outDir, `${slug}${keyPart}${suffix}.png`);
+
+        // If output already exists, skip taking screenshot
+        let shouldSkip = false;
+        try {
+          await fs.access(outPath);
+          shouldSkip = true;
+        } catch {}
+        if (shouldSkip) {
+          console.log(`⏭️  Skipping existing ${outPath}`);
+          await page.close().catch(() => {});
+          return;
+        }
         // Harden timeouts and UA to reduce blocks/timeouts
         const MAX_NAV_TIMEOUT = 100000;
         const PRIMARY_SETTLE_DELAY_MS = isSlowWebsite ? 6000 : 800; // initial settle after load
@@ -469,9 +479,6 @@ async function takeScreenshots(projects, outDir) {
           })`
         );
 
-        const suffix = vp.name === "desktop" ? "" : ".mobile";
-        const keyPart = routeKey && routeKey !== "home" ? `.${routeKey}` : "";
-        const outPath = path.join(outDir, `${slug}${keyPart}${suffix}.png`);
         await page.screenshot({ path: outPath, fullPage: false });
         console.log(`📸 Saved ${outPath}`);
       } catch (err) {
@@ -502,8 +509,7 @@ async function main() {
   const projectsDir = path.join(root, "content", "projects");
   const outDir = path.join(root, "public", "screenshots");
 
-  // Start clean: remove previous screenshots and recreate the directory
-  await clearDir(outDir);
+  // Ensure screenshots directory exists; do not clear existing files
   await ensureDir(outDir);
 
   const projects = await parseProjects(projectsDir);

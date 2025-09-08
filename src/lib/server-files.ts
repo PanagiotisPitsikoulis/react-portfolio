@@ -28,5 +28,5 @@ export async function getScreenshotOrCover(
   } catch {}
 
   // Finally, fallback to cover or a known local placeholder
-  return cover || "/images/window.png";
+  return cover || "/images/Silhouette Flower Art.png";
 }
