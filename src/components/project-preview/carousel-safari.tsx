@@ -40,6 +40,8 @@ const CarouselSafariSingle: React.FC<
             alt={`${item.frontmatter.title} bg`}
             fill
             className="object-cover -z-10"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            priority={false}
           />
           <div className="relative z-10">
             <RenderConditionally condition={isLink}>
@@ -50,7 +52,7 @@ const CarouselSafariSingle: React.FC<
                   imageSrc={
                     item.heroImageDesktop ||
                     item.frontmatter.cover ||
-                    "/images/Silhouette Flower Art.png"
+                    "/images/Silhouette Flower Art.webp"
                   }
                   url={item.frontmatter.url}
                 />
@@ -61,7 +63,7 @@ const CarouselSafariSingle: React.FC<
                 imageSrc={
                   item.heroImageDesktop ||
                   item.frontmatter.cover ||
-                  "/images/Silhouette Flower Art.png"
+                  "/images/Silhouette Flower Art.webp"
                 }
                 url={item.frontmatter.url}
               />

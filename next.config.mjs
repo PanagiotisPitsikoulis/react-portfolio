@@ -4,6 +4,8 @@ import createMDX from "@next/mdx";
 const nextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 60 * 60 * 24 * 7,
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "images.pexels.com" },
@@ -15,7 +17,7 @@ const nextConfig = {
     reactCompiler: true,
     viewTransition: true,
   },
-  
+
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },

@@ -157,7 +157,7 @@ async function takeScreenshots(projects, outDir) {
         // Compute output path early for skip-if-exists
         const suffix = vp.name === "desktop" ? "" : ".mobile";
         const keyPart = routeKey && routeKey !== "home" ? `.${routeKey}` : "";
-        const outPath = path.join(outDir, `${slug}${keyPart}${suffix}.png`);
+        const outPath = path.join(outDir, `${slug}${keyPart}${suffix}.webp`);
 
         // If output already exists, skip taking screenshot
         let shouldSkip = false;
@@ -314,6 +314,31 @@ async function takeScreenshots(projects, outDir) {
             : "⌛ Stability wait timed out after load."
         );
 
+        // Wait for lazy-loaded images to finish loading
+        const imagesOk1 = await page.evaluate(
+          async (timeoutMs) => {
+            const start = Date.now();
+            async function allImagesLoaded() {
+              const imgs = Array.from(document.images);
+              const pending = imgs.filter(
+                (img) => !(img.complete && img.naturalWidth > 0)
+              );
+              return pending.length === 0;
+            }
+            while (Date.now() - start < timeoutMs) {
+              if (await allImagesLoaded()) return true;
+              await new Promise((r) => setTimeout(r, 200));
+            }
+            return false;
+          },
+          isSlowWebsite ? 12000 : 4000
+        );
+        console.log(
+          imagesOk1
+            ? "🖼️ All images loaded after load."
+            : "⏱️ Image wait timed out after load."
+        );
+
         // If base URL (no anchor), ensure we are at the very top after settle
         if (!anchorFragment) {
           await page.evaluate(() => {
@@ -462,6 +487,31 @@ async function takeScreenshots(projects, outDir) {
               ? "🧘 Layout stable after anchor scroll."
               : "⌛ Stability wait timed out after anchor scroll."
           );
+
+          // Ensure images are loaded after anchor scroll
+          const imagesOk2 = await page.evaluate(
+            async (timeoutMs) => {
+              const start = Date.now();
+              async function allImagesLoaded() {
+                const imgs = Array.from(document.images);
+                const pending = imgs.filter(
+                  (img) => !(img.complete && img.naturalWidth > 0)
+                );
+                return pending.length === 0;
+              }
+              while (Date.now() - start < timeoutMs) {
+                if (await allImagesLoaded()) return true;
+                await new Promise((r) => setTimeout(r, 200));
+              }
+              return false;
+            },
+            isSlowWebsite ? 8000 : 3000
+          );
+          console.log(
+            imagesOk2
+              ? "🖼️ All images loaded after anchor scroll."
+              : "⏱️ Image wait timed out after anchor scroll."
+          );
         }
 
         // Secondary delay so entrance animations can complete
@@ -479,7 +529,12 @@ async function takeScreenshots(projects, outDir) {
           })`
         );
 
-        await page.screenshot({ path: outPath, fullPage: false });
+        await page.screenshot({
+          path: outPath,
+          fullPage: false,
+          type: "webp",
+          quality: 90,
+        });
         console.log(`📸 Saved ${outPath}`);
       } catch (err) {
         console.warn(

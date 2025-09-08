@@ -97,13 +97,13 @@ export const sidebarData = {
 };
 
 export const backgroundImages = [
-  "/images/Silhouette Flower Art.png",
-  "/images/Matcha Mug on Table.png",
-  "/images/Colorful Juice Display.png",
-  "/images/Pouring Coconut Water.png",
-  "/images/Serene River Landscape.png",
-  "/images/Green Powder on Blue.png",
-  "/images/Serene Lakeside Scene.png",
+  "/images/Silhouette Flower Art.webp",
+  "/images/Matcha Mug on Table.webp",
+  "/images/Colorful Juice Display.webp",
+  "/images/Pouring Coconut Water.webp",
+  "/images/Serene River Landscape.webp",
+  "/images/Green Powder on Blue.webp",
+  "/images/Serene Lakeside Scene.webp",
 ];
 
 export const socialLinks = [

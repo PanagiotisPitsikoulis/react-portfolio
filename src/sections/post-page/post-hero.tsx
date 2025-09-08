@@ -32,10 +32,10 @@ export default function PostHero({ post }: PostHeroProps) {
   const imageSrc = hasExternalUrl
     ? post.screenshots?.desktop ||
       post.frontmatter.cover ||
-      "/images/Silhouette Flower Art.png"
+      "/images/Silhouette Flower Art.webp"
     : post.frontmatter.cover ||
       post.screenshots?.desktop ||
-      "/images/Silhouette Flower Art.png";
+      "/images/Silhouette Flower Art.webp";
   const url = isProject ? post.frontmatter.url : undefined;
   const tags = post.mergedTags || [
     ...(post.frontmatter.tags || []),

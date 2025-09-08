@@ -43,7 +43,7 @@ export default function ProjectPreview({
     const mobileList = (
       single.imagesMobile && single.imagesMobile.length > 0
         ? single.imagesMobile
-        : [single.frontmatter.cover || "/images/Silhouette Flower Art.png"]
+        : [single.frontmatter.cover || "/images/Silhouette Flower Art.webp"]
     ).filter(Boolean) as string[];
     return mobileList.map((src) => ({
       ...single,
@@ -59,7 +59,7 @@ export default function ProjectPreview({
     const desktopList = (
       single.imagesDesktop && single.imagesDesktop.length > 0
         ? single.imagesDesktop
-        : [single.frontmatter.cover || "/images/Silhouette Flower Art.png"]
+        : [single.frontmatter.cover || "/images/Silhouette Flower Art.webp"]
     ).filter(Boolean) as string[];
     return desktopList.map((src) => ({
       ...single,

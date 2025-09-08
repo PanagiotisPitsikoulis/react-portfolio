@@ -35,6 +35,12 @@ const CarouselIphoneMany = ({
   font-size: 22px;
   font-weight: bold;
 }
+
+/* Hide Swiper pagination dots */
+.swiper .swiper-pagination,
+.swiper-pagination {
+  display: none !important;
+}
 `;
 
   return (
@@ -98,8 +104,9 @@ const CarouselIphoneSingle = ({
             alt={"Decorative background"}
             fill
             className="object-cover rounded-3xl"
-            draggable={false}
+            sizes="(max-width: 768px) 100vw, 50vw"
             priority={false}
+            draggable={false}
           />
         </div>
       </div>
@@ -120,7 +127,7 @@ const CarouselIphoneSingle = ({
                   src={
                     item.heroImageMobile ||
                     item.frontmatter.cover ||
-                    "/images/Silhouette Flower Art.png"
+                    "/images/Silhouette Flower Art.webp"
                   }
                   alt={item.frontmatter.title || ""}
                 />
@@ -133,7 +140,7 @@ const CarouselIphoneSingle = ({
                 src={
                   item.heroImageMobile ||
                   item.frontmatter.cover ||
-                  "/images/Silhouette Flower Art.png"
+                  "/images/Silhouette Flower Art.webp"
                 }
                 alt={item.frontmatter.title || ""}
               />

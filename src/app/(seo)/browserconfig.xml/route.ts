@@ -12,9 +12,9 @@ export async function GET() {
 <browserconfig>
   <msapplication>
     <tile>
-      <square150x150logo src="${baseUrl}/mstile-150x150.png"/>
-      <square310x310logo src="${baseUrl}/mstile-310x310.png"/>
-      <wide310x150logo src="${baseUrl}/mstile-310x150.png"/>
+      <square150x150logo src="${baseUrl}/mstile-150x150.webp"/>
+      <square310x310logo src="${baseUrl}/mstile-310x310.webp"/>
+      <wide310x150logo src="${baseUrl}/mstile-310x150.webp"/>
       <TileColor>#0066cc</TileColor>
     </tile>
   </msapplication>

@@ -27,19 +27,19 @@ export async function GET() {
           type: "image/x-icon",
         },
         {
-          src: "/icon-192.png",
+          src: "/icon-192.webp",
           sizes: "192x192",
           type: "image/png",
           purpose: "maskable",
         },
         {
-          src: "/icon-512.png",
+          src: "/icon-512.webp",
           sizes: "512x512",
           type: "image/png",
           purpose: "any",
         },
         {
-          src: "/apple-touch-icon.png",
+          src: "/apple-touch-icon.webp",
           sizes: "180x180",
           type: "image/png",
         },
@@ -47,13 +47,13 @@ export async function GET() {
       categories: ["travel", "sports", "lifestyle"],
       screenshots: [
         {
-          src: `${baseUrl}/screenshot-wide.png`,
+          src: `${baseUrl}/screenshot-wide.webp`,
           sizes: "1280x720",
           type: "image/png",
           form_factor: "wide",
         },
         {
-          src: `${baseUrl}/screenshot-mobile.png`,
+          src: `${baseUrl}/screenshot-mobile.webp`,
           sizes: "750x1334",
           type: "image/png",
           form_factor: "narrow",
@@ -67,7 +67,7 @@ export async function GET() {
           url: "/contact",
           icons: [
             {
-              src: "/icon-96.png",
+              src: "/icon-96.webp",
               sizes: "96x96",
             },
           ],
@@ -79,7 +79,7 @@ export async function GET() {
           url: "/blog",
           icons: [
             {
-              src: "/icon-96.png",
+              src: "/icon-96.webp",
               sizes: "96x96",
             },
           ],

@@ -63,7 +63,7 @@ function typeDir(type: ContentType) {
 function screenshotPath(slug: string, routeKey?: string, mobile?: boolean) {
   const base = routeKey && routeKey !== "home" ? `${slug}.${routeKey}` : slug;
   const suffix = mobile ? ".mobile" : "";
-  return `/screenshots/${base}${suffix}.png`;
+  return `/screenshots/${base}${suffix}.webp`;
 }
 
 function deriveRouteKey(input: string) {
@@ -101,7 +101,9 @@ async function collectScreenshots(
       const files = entries
         .filter(
           (e) =>
-            e.isFile() && e.name.startsWith(`${slug}`) && /\.png$/i.test(e.name)
+            e.isFile() &&
+            e.name.startsWith(`${slug}`) &&
+            /\.(png|webp)$/i.test(e.name)
         )
         .map((e) => e.name);
 
@@ -113,18 +115,18 @@ async function collectScreenshots(
       let homeMobile: string | undefined;
 
       for (const name of files) {
-        if (name === `${slug}.png`) {
+        if (name === `${slug}.webp` || name === `${slug}.webp`) {
           homeDesktop = `/screenshots/${name}`;
           continue;
         }
-        if (name === `${slug}.mobile.png`) {
+        if (name === `${slug}.mobile.webp` || name === `${slug}.mobile.webp`) {
           homeMobile = `/screenshots/${name}`;
           continue;
         }
         if (!name.startsWith(`${slug}.`)) continue;
-        // slug.<key>[.mobile].png
+        // slug.<key>[.mobile].webp
         const withoutSlug = name.slice(slug.length + 1); // drop '<slug>.'
-        const base = withoutSlug.replace(/\.png$/i, "");
+        const base = withoutSlug.replace(/\.(png|webp)$/i, "");
         const isMobile = base.endsWith(".mobile");
         const key = (isMobile ? base.slice(0, -7) : base) || "home";
         if (!routesMap.has(key)) routesMap.set(key, { key });
@@ -217,8 +219,9 @@ export async function listContent(type: ContentType): Promise<ContentItem[]> {
             Array.from(new Set(arr.filter(Boolean)));
           // Add inferred mobile variants for screenshots without explicit mobile
           const inferMobile = (desktop: string) =>
-            desktop?.startsWith("/screenshots/") && desktop.endsWith(".png")
-              ? desktop.replace(/\.png$/, ".mobile.png")
+            desktop?.startsWith("/screenshots/") &&
+            /\.(png|webp)$/.test(desktop)
+              ? desktop.replace(/\.(png|webp)$/, ".mobile.webp")
               : undefined;
           const inferredMobile = imagesDesktop
             .map(inferMobile)
@@ -338,8 +341,8 @@ export async function getContent(
         const dedupe = (arr: string[]) =>
           Array.from(new Set(arr.filter(Boolean)));
         const inferMobile = (desktop: string) =>
-          desktop?.startsWith("/screenshots/") && desktop.endsWith(".png")
-            ? desktop.replace(/\.png$/, ".mobile.png")
+          desktop?.startsWith("/screenshots/") && desktop.endsWith(".webp")
+            ? desktop.replace(/\.webp$/, ".mobile.webp")
             : undefined;
         const inferredMobile = imagesDesktop
           .map(inferMobile)

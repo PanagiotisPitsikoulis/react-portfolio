@@ -6,8 +6,8 @@ export async function getScreenshotOrCover(
 ): Promise<string> {
   const fs = await import("node:fs/promises");
   const path = await import("node:path");
-  const desktopName = `${slug}.png`;
-  const mobileName = `${slug}.mobile.png`;
+  const desktopName = `${slug}.webp`;
+  const mobileName = `${slug}.mobile.webp`;
   const primaryName = options?.mobile ? mobileName : desktopName;
   const fallbackName = options?.mobile ? desktopName : mobileName;
   const screenshotsDir = path.join(process.cwd(), "public", "screenshots");
@@ -28,5 +28,5 @@ export async function getScreenshotOrCover(
   } catch {}
 
   // Finally, fallback to cover or a known local placeholder
-  return cover || "/images/Silhouette Flower Art.png";
+  return cover || "/images/Silhouette Flower Art.webp";
 }
