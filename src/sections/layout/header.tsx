@@ -140,7 +140,7 @@ const Header: React.FC<HeaderProps> = ({ projects = [], blog = [] }) => {
                   <DropdownMenuTrigger asChild>
                     <button className="flex items-center gap-1.5 px-2 py-1 text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-md transition-all duration-200">
                       <ChevronDown className="h-3.5 w-3.5" />
-                      <span className="hidden sm:inline font-medium">More</span>
+                      <span className="sr-only">Show dropdown menu</span>
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent

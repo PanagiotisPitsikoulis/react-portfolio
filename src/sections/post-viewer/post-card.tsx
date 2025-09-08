@@ -115,7 +115,7 @@ function PostCard({
       </div>
       <div className="flex items-center gap-1">
         <Avatar className="size-8">
-          <AvatarImage src={"/author.jpeg"} />
+          <AvatarImage alt={"Author " + author.name} src={"/author.jpeg"} />
           <AvatarFallback>{author.name?.slice(0, 2)}</AvatarFallback>
         </Avatar>
         <div className="flex flex-col gap-px">
