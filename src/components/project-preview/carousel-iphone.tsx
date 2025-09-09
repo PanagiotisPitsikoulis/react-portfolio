@@ -44,7 +44,7 @@ const CarouselIphoneMany = ({
 `;
 
   return (
-    <section>
+    <section className="-ml-10">
       <style>{css}</style>
       <Swiper
         loop={true}
@@ -159,7 +159,7 @@ const CarouselIphone: React.FC<ProjectPreviewProps & { isLink?: boolean }> = ({
   return (
     <RenderConditionally
       condition={Array.isArray(items) && items.length > 1}
-      className="dark"
+      className="dark max-w-lg mx-auto overflow-hidden"
     >
       <CarouselIphoneMany
         items={Array.isArray(items) ? items : [items]}

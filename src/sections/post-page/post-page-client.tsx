@@ -28,7 +28,7 @@ export default function PostPageClient({
               items={post}
               isSingleProjectCarousel={true}
               className="w-full"
-              isLink
+              isLink={false}
             />
           </div>
         ) : null}

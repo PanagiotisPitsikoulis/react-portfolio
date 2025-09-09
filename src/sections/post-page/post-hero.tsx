@@ -52,7 +52,7 @@ export default function PostHero({ post }: PostHeroProps) {
     <section className="relative grid overflow-hidden pt-5 my-5 w-full">
       <div className="relative z-10 h-full grid-cols-1 items-center justify-center gap-6">
         <div className="flex flex-col items-center justify-center text-center">
-          <div className="bg-muted-foreground/5 text-muted-foreground mb-10 flex items-center flex-wrap justify-center gap-2 rounded-full p-1 pr-3 text-sm font-medium tracking-tight">
+          <div className="text-muted-foreground mb-10 flex items-center flex-wrap justify-center gap-2 rounded-full p-1 pr-3 text-sm font-medium tracking-tight">
             <div className="bg-muted-foreground/10 flex items-center gap-3 rounded-full px-3 py-1.5">
               <span className="inline-block size-2 rounded-full bg-blue-500" />
               <span>{isProject ? "Project" : "Blog"}</span>
@@ -138,7 +138,7 @@ export default function PostHero({ post }: PostHeroProps) {
         </div>
         <div className="relative mt-10 flex items-center justify-center overflow-hidden w-full">
           {isProject && hasExternalUrl ? (
-            <ProjectPreview items={post} className="w-full" />
+            <ProjectPreview items={post} className="w-full" isLink={false} />
           ) : (
             <Image
               width={1400}
