@@ -90,7 +90,6 @@ const Footer = ({
   }. All rights reserved.`,
   legalLinks = defaultLegalLinks,
 }: FooterProps) => {
-  // Define sections dynamically, including Projects and Blog
   const sections = [
     {
       title: "Projects",
@@ -105,10 +104,6 @@ const Footer = ({
         name: item.title,
         href: item.url,
       })),
-    },
-    {
-      title: "Company",
-      links: defaultCompanyLinks,
     },
   ];
 
