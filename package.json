@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "screenshots": "node ./scripts/screenshot-projects.mjs",
-    "optimise:images": "node ./scripts/optimise-images.mjs --quality=90"
+    "optimise:images": "node ./scripts/optimise-images.mjs --quality=70"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

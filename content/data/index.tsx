@@ -97,13 +97,11 @@ export const sidebarData = {
 };
 
 export const backgroundImages = [
-  "/images/Silhouette Flower Art.webp",
-  "/images/Matcha Mug on Table.webp",
-  "/images/Colorful Juice Display.webp",
-  "/images/Pouring Coconut Water.webp",
-  "/images/Serene River Landscape.webp",
-  "/images/Green Powder on Blue.webp",
-  "/images/Serene Lakeside Scene.webp",
+  "/images/Bird In Motion Blur.png",
+  "/images/Modern Gray Chair.png",
+  "/images/Paper on Textured Rock.png",
+  "/images/Retro Portable Radio.png",
+  "/images/Texture and Color Contrast.png",
 ];
 
 export const socialLinks = [

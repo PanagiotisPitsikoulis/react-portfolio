@@ -1,16 +1,9 @@
-"use client";
-
 import { ArrowRight } from "lucide-react";
 import React from "react";
-import "swiper/css";
-import "swiper/css/autoplay";
-import "swiper/css/effect-creative";
-import "swiper/css/pagination";
 
 import ProjectPreview from "@/components/project-preview";
 import { Button } from "@/components/ui/button";
 import { ContentItem } from "@/lib/md/mdx";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { FaGithub, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 import { socialLinks } from "../../../content/data";
@@ -97,15 +90,12 @@ const Hero: React.FC<HeroProps> = ({
           <div className="mx-auto flex h-full items-center justify-center">
             <ProjectPreview items={items} forceMobile isLink />
           </div>
-          <div className="absolute inset-0 flex h-full w-full items-center justify-between -z-10">
+          <div className="absolute inset-0 flex h-full w-full items-center justify-between -z-10 rounded-3xl overflow-hidden">
             {Array.from({ length: 10 }).map((_, index) => (
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
+              <div
                 key={index}
-                className="to-muted/60 dark:to-muted/20 h-full w-10 bg-gradient-to-l from-transparent"
-              ></motion.div>
+                className="to-muted/60 dark:to-white/5 h-full w-10 bg-gradient-to-l from-transparent"
+              ></div>
             ))}
           </div>
         </div>
