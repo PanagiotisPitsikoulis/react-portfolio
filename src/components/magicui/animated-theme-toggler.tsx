@@ -18,6 +18,24 @@ export const AnimatedThemeToggler = ({ className }: props) => {
   const changeTheme = async () => {
     if (!buttonRef.current) return;
 
+    // Animate only on Chrome. Others get an instant toggle.
+    const isChrome = () => {
+      const ua = navigator.userAgent;
+      const isEdge = ua.includes("Edg/");
+      const isOpera = ua.includes("OPR/") || ua.includes("Opera");
+      const isBrave = typeof (navigator as any).brave !== "undefined";
+      const hasChrome = ua.includes("Chrome/") && ua.includes("Safari/");
+      const hasWindowChrome = typeof (window as any).chrome !== "undefined";
+      return hasChrome && hasWindowChrome && !isEdge && !isOpera && !isBrave;
+    };
+
+    const canAnimate = isChrome() && "startViewTransition" in document;
+    if (!canAnimate) {
+      const dark = document.documentElement.classList.toggle("dark");
+      setIsDarkMode(dark);
+      return;
+    }
+
     await document.startViewTransition(() => {
       flushSync(() => {
         const dark = document.documentElement.classList.toggle("dark");

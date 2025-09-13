@@ -1,7 +1,7 @@
 "use client";
 import { ContentItem } from "@/lib/md/mdx";
 import { useMemo } from "react";
-import RenderResponsively from "../misc/render-responsively";
+import RenderResponsively from "../render-responsively";
 import CarouselIphone from "./carousel-iphone";
 import CarouselSafari from "./carousel-safari";
 

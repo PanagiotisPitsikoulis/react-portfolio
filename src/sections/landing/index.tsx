@@ -1,4 +1,4 @@
-import ProjectPreview from "@/components/project-preview";
+import ProjectPreview from "@/components/sidelib/project-preview";
 import { listContent } from "@/lib/md/mdx";
 import { cn } from "@/lib/utils";
 import { landingPageData } from "../../../content/data/landing-page";

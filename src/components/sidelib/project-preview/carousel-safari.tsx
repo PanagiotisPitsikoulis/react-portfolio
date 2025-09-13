@@ -14,8 +14,8 @@ import {
 import { ContentItem } from "@/lib/md/mdx";
 import Image from "next/image";
 import Link from "next/link";
-import { backgroundImages } from "../../../content/data";
-import RenderConditionally from "../misc/render-conditionally";
+import { backgroundImages } from "../../../../content/data";
+import RenderConditionally from "../render-conditionally";
 import { ProjectPreviewProps } from "./index";
 
 export interface CarouselSafariProps {
@@ -33,8 +33,8 @@ const CarouselSafariSingle: React.FC<
 > = ({ item, index, isLink = false }) => {
   return (
     <div className="p-1">
-      <div className="group block">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] transition-transform duration-200 hover:-translate-y-1 dark:border-white/10 md:p-8">
+      <div className="block">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] dark:border-white/10 md:p-8">
           <Image
             src={backgroundImages[index ?? 5 % backgroundImages.length]}
             alt={`${item.frontmatter.title} bg`}

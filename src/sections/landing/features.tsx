@@ -2,6 +2,8 @@
 
 import { cn } from "@/lib/utils";
 
+import Image from "next/image";
+import { backgroundImages } from "../../../content/data";
 import { LandingPageData } from "../../../content/data/landing-page";
 
 const Features = ({
@@ -11,31 +13,46 @@ const Features = ({
 }) => {
   return (
     <section>
-      <div>
+      <div className="relative p-8 flex mt-16">
+        <Image
+          className="absolute inset-0 rounded-3xl object-cover"
+          src={backgroundImages[1]}
+          alt="features"
+          fill
+        />
+        <div className="absolute inset-0 rounded-3xl pointer-events-none" />
         {/* Feature Cards Section */}
-        <div className="mt-16 grid md:grid-cols-2 lg:grid-cols-4">
+        <div className="relative z-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {featuresData.map((feature, index) => (
-            <div
-              key={index}
-              className={cn("mt-0 flex flex-col border-l px-6 sm:mt-4 md:mt-6")}
-            >
-              {/* Masked Text */}
-              <div className="relative z-40">
-                <h1 className="mb-16 bg-linear-to-r from-background to-transparent bg-clip-text text-9xl">
-                  0{index + 1}
-                </h1>
-                <div className="absolute inset-0 bg-linear-to-r from-background to-transparent opacity-100"></div>
+            <div key={index} className="group relative">
+              {/* large index numeral behind card */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-7 -top-7 select-none text-6xl sm:text-7xl md:text-8xl font-black leading-none tracking-tighter text-black/40 z-0 transition-transform duration-300 group-hover:scale-105"
+              >
+                0{index + 1}
               </div>
+              {/* card body (no border) */}
+              <div
+                className={cn(
+                  "z-10 flex h-full flex-col rounded-3xl p-6 bg-card drop-shadow-sm shadow-sm transition-all duration-300 ease-out group-hover:-translate-y-1"
+                )}
+              >
+                {/* icon + title */}
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary shadow-sm ring-1 ring-primary/15">
+                    {feature.icon}
+                  </span>
+                  <h3 className="text-sm sm:text-base font-semibold tracking-tight">
+                    {feature.title}
+                  </h3>
+                </div>
 
-              <div className="mt-4 mb-2 flex items-center gap-3">
-                <span className="inline-flex shrink-0 size-9 items-center justify-center rounded-full bg-muted ring-1 ring-border text-primary">
-                  {feature.icon}
-                </span>
-                <p className="text-md font-semibold">{feature.title}</p>
+                {/* description */}
+                <p className="mb-2 text-sm text-muted-foreground leading-relaxed [text-wrap:balance]">
+                  {feature.description}
+                </p>
               </div>
-              <p className="text-md mb-6 text-muted-foreground">
-                {feature.description}
-              </p>
             </div>
           ))}
         </div>

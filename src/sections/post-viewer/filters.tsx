@@ -56,7 +56,7 @@ export default function Filters({
         {/* Search and Filter Controls */}
         <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
           <div className="relative flex-1 max-w-lg">
-            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground z-20" />
             <Tooltip>
               <TooltipTrigger asChild>
                 <Input
@@ -66,7 +66,7 @@ export default function Filters({
                   }...`}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-12 pr-12 h-10 bg-transparent border-border/50 focus:border-primary/50 focus:ring-0 shadow-none"
+                  className="pl-12 pr-12 h-10 focus:border-primary/50 focus:ring-0"
                 />
               </TooltipTrigger>
               <TooltipContent side="top">

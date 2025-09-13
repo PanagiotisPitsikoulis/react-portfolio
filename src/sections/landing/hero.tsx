@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import React from "react";
 
-import ProjectPreview from "@/components/project-preview";
+import ProjectPreview from "@/components/sidelib/project-preview";
 import { Button } from "@/components/ui/button";
 import { ContentItem } from "@/lib/md/mdx";
 import Link from "next/link";
@@ -90,11 +90,11 @@ const Hero: React.FC<HeroProps> = ({
           <div className="mx-auto flex h-full items-center justify-center">
             <ProjectPreview items={items} forceMobile isLink />
           </div>
-          <div className="absolute inset-0 flex dark:hidden h-full w-full items-center justify-between -z-10 rounded-3xl overflow-hidden">
-            {Array.from({ length: 10 }).map((_, index) => (
+          <div className="absolute inset-0 flex h-full w-full items-center justify-between -z-10 rounded-4xl overflow-hidden bg-background">
+            {Array.from({ length: 6 }).map((_, index) => (
               <div
                 key={index}
-                className="to-muted/60 dark:to-white/5 h-full w-10 bg-gradient-to-l from-transparent"
+                className="to-muted h-full w-10 bg-gradient-to-l from-transparent"
               ></div>
             ))}
           </div>

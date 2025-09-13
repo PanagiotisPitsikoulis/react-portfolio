@@ -11,8 +11,8 @@ import { ContentItem } from "@/lib/md/mdx";
 import Image from "next/image";
 import Link from "next/link";
 import { ProjectPreviewProps } from ".";
-import { backgroundImages } from "../../../content/data";
-import RenderConditionally from "../misc/render-conditionally";
+import { backgroundImages } from "../../../../content/data";
+import RenderConditionally from "../render-conditionally";
 
 const CarouselIphoneMany = ({
   items,

@@ -1,7 +1,7 @@
 "use client";
 
-import ProjectPreview from "@/components/project-preview";
 import { SectionDivider } from "@/components/section-divider";
+import ProjectPreview from "@/components/sidelib/project-preview";
 import type { ContentItem } from "@/lib/md/mdx";
 import { MDXContent } from "@/lib/md/render-mdx";
 import { useEffect, useState } from "react";

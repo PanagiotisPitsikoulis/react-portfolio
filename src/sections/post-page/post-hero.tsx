@@ -5,7 +5,7 @@ import { ExternalLink } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 
-import ProjectPreview from "@/components/project-preview";
+import ProjectPreview from "@/components/sidelib/project-preview";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
