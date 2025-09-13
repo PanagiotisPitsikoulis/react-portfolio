@@ -46,7 +46,7 @@ export default function SidebarBody({
                     variant={"outline"}
                     onClick={toggleSidebar}
                     size={"icon"}
-                    className="border shrink-0"
+                    className="shrink-0"
                   >
                     {state === "collapsed" ? (
                       <ArrowRightIcon className="size-4" />

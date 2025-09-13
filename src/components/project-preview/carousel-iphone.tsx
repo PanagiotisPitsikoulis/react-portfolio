@@ -111,7 +111,7 @@ const CarouselIphoneSingle = ({
         </div>
       </div>
       <div className="relative mt-16 flex h-full items-center justify-center">
-        <div className="relative mx-auto border-stone-950 dark:border-stone-900 bg-stone-950 border-[14px] rounded-[2.5rem] h-[510px] w-[275px]">
+        <div className="relative mx-auto border-stone-950 dark:border-black bg-black border-[14px] rounded-[2.5rem] h-[510px] w-[275px]">
           <div className="h-[32px] w-[3px] bg-stone-950 dark:bg-stone-700 absolute -start-[17px] top-[72px] rounded-s-lg"></div>
           <div className="h-[46px] w-[3px] bg-stone-950 dark:bg-stone-700 absolute -start-[17px] top-[124px] rounded-s-lg"></div>
           <div className="h-[46px] w-[3px] bg-stone-950 dark:bg-stone-700 absolute -start-[17px] top-[178px] rounded-s-lg"></div>

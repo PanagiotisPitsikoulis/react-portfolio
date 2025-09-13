@@ -40,7 +40,7 @@ const Hero: React.FC<HeroProps> = ({
                 key={i}
                 href={s.href}
                 aria-label={s.label}
-                className="hover:text-primary p-2 rounded-full bg-muted border"
+                className="hover:text-primary p-2 rounded-full bg-muted"
               >
                 {(() => {
                   const icon =
@@ -90,7 +90,7 @@ const Hero: React.FC<HeroProps> = ({
           <div className="mx-auto flex h-full items-center justify-center">
             <ProjectPreview items={items} forceMobile isLink />
           </div>
-          <div className="absolute inset-0 flex h-full w-full items-center justify-between -z-10 rounded-3xl overflow-hidden">
+          <div className="absolute inset-0 flex dark:hidden h-full w-full items-center justify-between -z-10 rounded-3xl overflow-hidden">
             {Array.from({ length: 10 }).map((_, index) => (
               <div
                 key={index}
