@@ -18,7 +18,7 @@ export default async function HomePage() {
     <>
       <div
         className={cn(
-          "flex flex-1 flex-col gap-10 page-container pb-32 lg:-mt-20"
+          "page-container flex flex-1 flex-col gap-12 md:gap-16 lg:gap-20 pb-28 lg:pb-36 lg:-mt-20"
         )}
       >
         <Hero
@@ -34,6 +34,7 @@ export default async function HomePage() {
           label="Skills"
           title={landingPageData.sectionHeadings.features.title}
           subtitle={landingPageData.sectionHeadings.features.subtitle}
+          className="scroll-mt-24 md:scroll-mt-28"
         >
           <Features featuresData={landingPageData.featuresData} />
         </Section>
@@ -43,8 +44,13 @@ export default async function HomePage() {
           label="Projects"
           title={landingPageData.sectionHeadings.carousel.title}
           subtitle={landingPageData.sectionHeadings.carousel.subtitle}
+          className="scroll-mt-24 md:scroll-mt-28"
         >
-          <ProjectPreview className="mt-10" items={featuredProjects} isLink />
+          <ProjectPreview
+            className="mt-8 md:mt-10"
+            items={featuredProjects}
+            isLink
+          />
         </Section>
 
         <Section
@@ -52,6 +58,7 @@ export default async function HomePage() {
           label="Timeline"
           title={landingPageData.sectionHeadings.timeline.title}
           subtitle={landingPageData.sectionHeadings.timeline.subtitle}
+          className="scroll-mt-24 md:scroll-mt-28"
         >
           <TimelineCard
             data={landingPageData.timeline.data}

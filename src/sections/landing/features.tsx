@@ -25,13 +25,6 @@ const Features = ({
         <div className="relative z-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {featuresData.map((feature, index) => (
             <div key={index} className="group relative">
-              {/* large index numeral behind card */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -right-7 -top-7 select-none text-6xl sm:text-7xl md:text-8xl font-black leading-none tracking-tighter text-black/40 z-0 transition-transform duration-300 group-hover:scale-105"
-              >
-                0{index + 1}
-              </div>
               {/* card body (no border) */}
               <div
                 className={cn(
