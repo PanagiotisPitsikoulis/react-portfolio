@@ -9,6 +9,7 @@ export interface ContactPageData {
       company: string;
       phone: string;
       email: string;
+      message: string;
       country: string;
       companySize: string;
       referral: string;
@@ -23,9 +24,9 @@ export interface ContactPageData {
 }
 
 export const contactPageData: ContactPageData = {
-  title: "Book free demo now",
+  title: "Let's build something great",
   description:
-    "In non libero bibendum odio pellentesque ullamcorper. Aenean condimentum, dolor commodo pulvinar bibendum.",
+    "I design and ship fast, accessible web apps with Next.js and TypeScript. Share a few details about your project and I'll get back within 24–48 hours.",
   avatars: [
     {
       src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp",
@@ -41,26 +42,42 @@ export const contactPageData: ContactPageData = {
     },
   ],
   expectations: [
-    "Detailed product presentation tailored to you",
-    "Consulting on your messaging strategy",
-    "Answers to all the questions you have",
+    "Personal reply (no bots or templates)",
+    "Initial assessment with rough timeline",
+    "Clear next steps — no spam, no pressure",
   ],
   form: {
     labels: {
-      fullName: "Full name",
-      company: "Company",
-      phone: "Phone number",
-      email: "Email (business)",
+      fullName: "Your name",
+      company: "Company or organization",
+      phone: "Phone (optional)",
+      email: "Email",
+      message: "Message",
       country: "Country",
       companySize: "Company size",
-      referral: "How did you hear about us?",
-      cta: "Book demo",
+      referral: "How did you find me?",
+      cta: "Send message",
       privacyPrefix:
         "For more information about how we handle your personal information, please visit our ",
       privacyLinkLabel: "privacy policy",
     },
-    countries: [{ value: "aus", label: "Australia" }],
-    companySizes: ["1-10", "11-50", "51-200", "200+"],
-    referrals: [{ value: "search", label: "Web Search" }],
+    countries: [
+      { value: "us", label: "United States" },
+      { value: "uk", label: "United Kingdom" },
+      { value: "de", label: "Germany" },
+      { value: "gr", label: "Greece" },
+      { value: "au", label: "Australia" },
+      { value: "ca", label: "Canada" },
+      { value: "other", label: "Other" },
+    ],
+    companySizes: ["Just me", "2-10", "11-50", "51-200", "200+"],
+    referrals: [
+      { value: "search", label: "Web search" },
+      { value: "linkedin", label: "LinkedIn" },
+      { value: "github", label: "GitHub" },
+      { value: "twitter", label: "X/Twitter" },
+      { value: "friend", label: "Friend/colleague" },
+      { value: "portfolio", label: "This portfolio" },
+    ],
   },
 };

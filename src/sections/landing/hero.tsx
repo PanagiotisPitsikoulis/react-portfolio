@@ -90,7 +90,7 @@ const Hero: React.FC<HeroProps> = ({
           <div className="mx-auto flex h-full items-center justify-center">
             <ProjectPreview items={items} forceMobile isLink />
           </div>
-          <div className="absolute inset-0 flex h-full w-full items-center justify-between -z-10 rounded-4xl overflow-hidden bg-background">
+          <div className="absolute inset-0 hidden dark:hidden md:flex h-full w-full items-center justify-between -z-10 rounded-4xl overflow-hidden bg-background">
             {Array.from({ length: 6 }).map((_, index) => (
               <div
                 key={index}
@@ -98,6 +98,7 @@ const Hero: React.FC<HeroProps> = ({
               ></div>
             ))}
           </div>
+          <div className="pointer-events-none absolute -bottom-8 left-1/2 z-0 h-24 w-[60%] -translate-x-1/2 rounded-full bg-primary/30 blur-3xl dark:bg-primary/20" />
         </div>
       </div>
     </section>

@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({ projects = [], blog = [] }) => {
     <header
       data-slot="sidebar-header"
       data-sidebar="header"
-      className="flex pt-4 pb-1 shrink-0 items-center sticky gap-2 px-6 lg:px-4 w-full justify-between top-0 z-50 bg-gradient-to-b from-background to-transparent"
+      className="flex h-16 shrink-0 items-center sticky gap-2 px-6 lg:px-4 w-full justify-between top-0 z-50 bg-background"
     >
       <div className="flex flex-row items-center gap-2">
         <Link href="/">

@@ -86,7 +86,7 @@
     --font-nunito: "Nunito", sans-serif;
 }
 .dark {
-    --background: oklch(0.19 0 0);
+    --background: oklch(0 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.21 0.006 285.885);
     --card-foreground: oklch(0.985 0 0);
