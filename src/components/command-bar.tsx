@@ -1,5 +1,5 @@
 "use client";
-import { ExternalLink, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 
@@ -12,7 +12,6 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 import { sidebarData } from "../../content/data";
 
@@ -53,9 +52,9 @@ export default function CommandBar({
   return (
     <div className="flex items-center">
       <Button
-        variant="outline"
+        variant="secondary"
         size="icon"
-        className="sm:hidden text-muted-foreground bg-sidebar dark:hover:bg-sidebar dark:bg-sidebar"
+        className="sm:hidden"
         onClick={() => setOpen(true)}
         aria-label="Search"
       >
@@ -63,14 +62,14 @@ export default function CommandBar({
       </Button>
 
       <Button
-        variant="outline"
+        variant="secondary"
         size="sm"
-        className="hidden h-9 w-[220px] justify-start text-muted-foreground sm:flex dark:bg-sidebar bg-sidebar rounded-full dark:hover:bg-sidebar"
+        className="hidden h-9 w-[220px] justify-start sm:flex"
         onClick={() => setOpen(true)}
       >
         <Search className="mr-2 size-4" />
         <span>Search…</span>
-        <kbd className="pointer-events-none ml-auto rounded border bg-muted px-1.5 text-[10px] font-medium">
+        <kbd className="pointer-events-none ml-auto rounded-full text-primary-foreground bg-primary px-2 py-px text-[10px] font-medium">
           ⌘K
         </kbd>
       </Button>
@@ -93,16 +92,15 @@ export default function CommandBar({
                 )}
                 {/* Child items */}
                 {(() => {
-                  const dynamicChildren: NavItem[] | null =
-                    section.title === "Projects"
-                      ? projects
-                      : section.title === "Blog"
-                      ? blog
-                      : null;
-                  const children: NavItem[] | undefined =
-                    dynamicChildren ?? (section.items as any);
-                  if (!Array.isArray(children)) return null;
-                  return children.map((child) => (
+                  const isProjects = section.title === "Projects";
+                  const isBlog = section.title === "Blog";
+                  const resolvedChildren: NavItem[] | undefined = isProjects
+                    ? (projects as NavItem[])
+                    : isBlog
+                    ? (blog as NavItem[])
+                    : (section.items as any);
+                  if (!Array.isArray(resolvedChildren)) return null;
+                  return resolvedChildren.map((child) => (
                     <CommandItem
                       key={child.url}
                       onSelect={() => navigate(child.url)}
@@ -117,41 +115,27 @@ export default function CommandBar({
             </React.Fragment>
           ))}
 
-          {/* Quick actions */}
-          <CommandGroup heading="Actions">
-            <CommandItem onSelect={() => navigate("/")}>Home</CommandItem>
-            <CommandItem onSelect={() => navigate("/projects")}>
-              Projects
-              <CommandShortcut>G P</CommandShortcut>
-            </CommandItem>
-            <CommandItem onSelect={() => navigate("/blog")}>
-              Blog
-              <CommandShortcut>G B</CommandShortcut>
-            </CommandItem>
-            <CommandItem onSelect={() => navigate("/contact")}>
-              Contact
-              <CommandShortcut>G C</CommandShortcut>
-            </CommandItem>
-          </CommandGroup>
+          {/* Include all Projects */}
+          {projects.length > 0 && (
+            <CommandGroup heading="All Projects">
+              {projects.map((p) => (
+                <CommandItem key={p.url} onSelect={() => navigate(p.url)}>
+                  <span>{p.title}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
 
-          {/* External links (collected from Contact group) */}
-          {sidebarData.navMain
-            .filter((s) => s.title.toLowerCase().includes("contact"))
-            .map((contact) => (
-              <CommandGroup key="external" heading="External">
-                {contact.items
-                  .filter((i) => i.url.startsWith("http"))
-                  .map((link) => (
-                    <CommandItem
-                      key={link.url}
-                      onSelect={() => navigate(link.url)}
-                    >
-                      <ExternalLink className="text-muted-foreground" />
-                      <span>{link.title}</span>
-                    </CommandItem>
-                  ))}
-              </CommandGroup>
-            ))}
+          {/* Include all Posts */}
+          {blog.length > 0 && (
+            <CommandGroup heading="All Posts">
+              {blog.map((b) => (
+                <CommandItem key={b.url} onSelect={() => navigate(b.url)}>
+                  <span>{b.title}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          )}
         </CommandList>
       </CommandDialog>
     </div>

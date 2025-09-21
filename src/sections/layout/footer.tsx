@@ -1,194 +1,173 @@
-"use client";
 import { AppIcon } from "@/components/app-icon";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
+import CommandBar from "@/components/command-bar";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { listContent } from "@/lib/md/mdx";
 import Link from "next/link";
-import React from "react";
 import {
-  FaFacebook,
-  FaGithub,
-  FaInstagram,
-  FaLinkedin,
-  FaTwitter,
-} from "react-icons/fa";
-import {
-  author,
-  backgroundImages,
-  socialLinks as dataSocialLinks,
-  metadata,
+  copyright,
+  legalLinks,
+  sidebarData,
+  socialLinks,
 } from "../../../content/data";
-import { ContentNavItem } from "./app-sidebar";
 
-interface FooterProps {
-  logo?: {
-    url: string;
-    src: string;
-    alt: string;
-    title: string;
-  };
-  projects?: ContentNavItem[];
-  blog?: ContentNavItem[];
-  description?: string;
-  socialLinks?: Array<{
-    icon: React.ReactElement;
-    href: string;
-    label: string;
-  }>;
-  copyright?: string;
-  legalLinks?: Array<{
-    name: string;
-    href: string;
-  }>;
+interface FooterLinkItem {
+  label: string;
+  href: string;
 }
 
-const mapIcon = (icon?: string, label?: string) => {
-  const l = (icon || label || "").toLowerCase();
-  if (l.includes("instagram")) return <FaInstagram className="size-5" />;
-  if (l.includes("facebook")) return <FaFacebook className="size-5" />;
-  if (l.includes("twitter") || l.includes("x"))
-    return <FaTwitter className="size-5" />;
-  if (l.includes("github")) return <FaGithub className="size-5" />;
-  if (l.includes("linkedin")) return <FaLinkedin className="size-5" />;
-  return <FaLinkedin className="size-5" />;
-};
+interface FooterColumn {
+  title: string;
+  items: FooterLinkItem[];
+  fallback?: FooterLinkItem;
+}
 
-const defaultSocialLinks = dataSocialLinks.map((s) => ({
-  icon: mapIcon((s as any).icon, s.label),
-  href: s.href,
-  label: s.label,
-}));
+const Footer = async () => {
+  const sitePages = sidebarData.navMain;
 
-const defaultLegalLinks = [
-  { name: "Terms and Conditions", href: "/blog/terms" },
-  { name: "Privacy Policy", href: "/blog/privacy" },
-];
+  const projects = await listContent("projects");
+  const blog = await listContent("blog");
 
-const defaultCompanyLinks = [
-  { name: "About", href: "/about" },
-  { name: "Team", href: "/team" },
-  { name: "Careers", href: "/careers" },
-  { name: "Contact", href: "/contact" },
-];
+  const sitePageItems: FooterLinkItem[] = sitePages.map((p) => ({
+    label: p.title,
+    href: p.url,
+  }));
 
-const Footer = ({
-  logo = {
-    url: "https://www.example.com",
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
-    alt: "logo",
-    title: "My Next.js App",
-  },
-  projects = [],
-  blog = [],
-  description = "A collection of projects and blog posts for your inspiration.",
-  socialLinks = defaultSocialLinks,
-  copyright = `© ${new Date().getFullYear()} ${
-    author.name
-  }. All rights reserved.`,
-  legalLinks = defaultLegalLinks,
-}: FooterProps) => {
-  const sections = [
+  const featuredProjects: FooterLinkItem[] = projects.slice(0, 6).map((p) => ({
+    label: p.frontmatter.title || p.slug,
+    href: p.canonicalPath ?? `/projects/${p.frontmatter.slug || p.slug}`,
+  }));
+
+  const recentPosts: FooterLinkItem[] = blog.slice(0, 6).map((b) => ({
+    label: b.frontmatter.title || b.slug,
+    href: b.canonicalPath ?? `/blog/${b.frontmatter.slug || b.slug}`,
+  }));
+
+  const footerColumns: FooterColumn[] = [
+    { title: "Site Pages", items: sitePageItems },
     {
-      title: "Projects",
-      links: projects.map((item) => ({
-        name: item.title,
-        href: item.url,
-      })),
+      title: "Featured Projects",
+      items: featuredProjects,
+      fallback: { label: "All Projects", href: "/projects" },
     },
     {
-      title: "Blog",
-      links: blog.map((item) => ({
-        name: item.title,
-        href: item.url,
-      })),
+      title: "Recent Posts",
+      items: recentPosts,
+      fallback: { label: "All Posts", href: "/blog" },
     },
   ];
 
   return (
-    <section className="pt-10 pb-5 page-container">
-      <div>
-        <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left border-t mt-2 pt-6">
-          <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
-            {/* Logo */}
-            <Link href="/" className="flex flex-row gap-2">
-              <AppIcon />
-              <div className="flex flex-col gap-0.5 leading-none">
-                <span className="font-medium">{metadata.title as string}</span>
-                <span className="text-muted-foreground/90 text-sm">
-                  {metadata.description}
-                </span>
-              </div>
-            </Link>
-            <p className="text-muted-foreground max-w-[70%] text-sm">
-              {description}
-            </p>
-            <ul className="text-muted-foreground flex items-center space-x-6">
-              {socialLinks.map((social, idx) => (
-                <li key={idx} className="hover:text-primary font-medium">
-                  <Link href={social.href} aria-label={social.label}>
-                    {social.icon}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+    <footer className="w-full bg-background relative">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-12 gap-6 lg:gap-8 py-24 w-full">
+          <div className="col-span-full mb-8 lg:col-span-4 lg:mb-0 flex flex-col gap-4 justify-between h-full items-start w-full">
+            <div className="flex flex-row gap-4 w-full">
+              <Link
+                href={"/"}
+                className="flex justify-start rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                aria-label={"Back to Home"}
+                title="Back to Home"
+              >
+                <AppIcon />
+              </Link>
+              <section
+                className="flex flex-col w-full"
+                aria-labelledby="footer-primary-heading"
+              >
+                <h2 id="footer-primary-heading" className="sr-only">
+                  Quick find and social
+                </h2>
+                {(() => {
+                  const projectItems = projects.map((p) => ({
+                    title: p.frontmatter.title || p.slug,
+                    url: `/projects/${p.frontmatter.slug}`,
+                  }));
+                  const blogItems = blog.map((b) => ({
+                    title: b.frontmatter.title || b.slug,
+                    url: `/blog/${b.frontmatter.slug}`,
+                  }));
+                  return (
+                    <CommandBar projects={projectItems} blog={blogItems} />
+                  );
+                })()}
+                <nav
+                  aria-label="Social links"
+                  className="mt-6 sm:mt-4 space-y-4"
+                >
+                  <ul className="flex flex-wrap gap-2 sm:gap-3 justify-start text-muted-foreground">
+                    {socialLinks.map((s) => (
+                      <li key={s.label}>
+                        <Link
+                          href={s.href}
+                          aria-label={s.label}
+                          title={s.label}
+                          rel="noopener noreferrer"
+                          target={
+                            s.href.startsWith("http") ? "_blank" : undefined
+                          }
+                          className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary shadow text-secondary-foreground hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
+                        >
+                          <span aria-hidden="true">{s.icon}</span>
+                          <span className="sr-only">{s.label}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </section>
+            </div>
           </div>
-          <div className="grid w-full gap-6 md:grid-cols-3 lg:gap-20">
-            {sections.map((section, sectionIdx) => (
-              <div key={sectionIdx}>
-                <h3 className="mb-4 font-bold">{section.title}</h3>
-                <ul className="text-muted-foreground space-y-3 text-sm">
-                  {section.links.map((link, linkIdx) => (
-                    <li
-                      key={linkIdx}
-                      className="hover:text-primary font-medium"
-                    >
-                      <Link href={link.href}>{link.name}</Link>
+
+          <div className="grid w-full gap-6 md:grid-cols-3 lg:gap-20 col-span-full lg:col-span-8">
+            {footerColumns.map((col) => (
+              <div key={col.title} className="text-left">
+                <h4 className="mb-4 text-lg font-bold text-foreground">
+                  {col.title}
+                </h4>
+                <ul className="text-sm text-muted-foreground space-y-3">
+                  {col.items.length > 0 ? (
+                    col.items.map((p) => (
+                      <li
+                        key={p.href}
+                        className="hover:text-primary font-medium"
+                      >
+                        <Link href={p.href}>{p.label}</Link>
+                      </li>
+                    ))
+                  ) : col.fallback ? (
+                    <li className="hover:text-primary font-medium">
+                      <Link href={col.fallback.href}>{col.fallback.label}</Link>
                     </li>
-                  ))}
+                  ) : null}
                 </ul>
               </div>
             ))}
           </div>
         </div>
-
-        <div className="text-muted-foreground mt-8 flex flex-col justify-between gap-4 border-t pt-2 text-xs font-medium md:flex-row md:items-center md:text-left">
-          <p className="order-2 lg:order-1">{copyright}</p>
-          <ul className="order-1 flex flex-col gap-2 md:order-2 md:flex-row">
-            {legalLinks.map((link, idx) => (
-              <li key={idx} className="hover:text-primary">
-                <Link href={link.href}>{link.name}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="relative mx-auto flex items-center justify-center">
-          <Carousel
-            plugins={[Autoplay({ delay: 1500 })]}
-            opts={{ loop: true, align: "start" }}
-          >
-            <CarouselContent>
-              {backgroundImages.map((image, index) => (
-                <CarouselItem
-                  key={index}
-                  className="translate-y-18 relative flex basis-1/2 cursor-grab justify-center active:cursor-grabbing sm:basis-1/4 md:basis-1/3 lg:basis-1/5 h-[200px]"
-                >
-                  <div className="easeOut hover:-translate-y-18 mt-auto w-full overflow-hidden rounded-t-3xl border transition-all">
-                    <img
-                      src={image}
-                      alt={image}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                </CarouselItem>
+      </div>
+      <div className="py-2 bg-primary text-primary-foreground">
+        <div className="flex justify-between flex-col lg:justify-between lg:flex-row gap-4 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 items-center">
+          <span className="text-xs text-left">{copyright}</span>
+          <div className="flex items-center gap-6 mt-2 lg:mt-0">
+            <ul className="flex items-center gap-3">
+              {legalLinks.map((l) => (
+                <li key={l.name}>
+                  <Link
+                    href={l.href}
+                    className="text-xs hover:text-primary-foreground hover:underline underline-offset-4"
+                  >
+                    {l.name}
+                  </Link>
+                </li>
               ))}
-            </CarouselContent>
-          </Carousel>
+              <li>
+                <ThemeToggle />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </section>
+    </footer>
   );
 };
 

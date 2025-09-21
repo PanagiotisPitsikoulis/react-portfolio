@@ -1,11 +1,12 @@
 "use client";
 
-import { SectionDivider } from "@/components/section-divider";
-import ProjectPreview from "@/components/sidelib/project-preview";
 import type { ContentItem } from "@/lib/md/mdx";
 import { MDXContent } from "@/lib/md/render-mdx";
+import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import PostHero from "./post-hero";
+import { TableOfContents } from "./toc";
 
 export default function PostPageClient({
   post,
@@ -18,27 +19,43 @@ export default function PostPageClient({
     ? post.postType === "project"
     : post.type === "projects";
 
+  const images = [
+    post.heroImageDesktop,
+    ...(post.imagesDesktop || []),
+    post.frontmatter.cover,
+  ].filter(Boolean) as string[];
+
   return (
-    <div className="relative flex flex-col justify-between gap-6 lg:flex-row">
-      <article className="w-full max-w-5xl mx-auto">
+    <article>
+      <div className="dark">
         <PostHero post={post} />
-        {isProject && (post.imagesDesktop?.length || 0) > 0 ? (
-          <div className="mt-6">
-            <ProjectPreview
-              items={post}
-              isSingleProjectCarousel={true}
-              className="w-full"
-              isLink={false}
-            />
+      </div>
+      <div className="bg-background pt-10 pb-10">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 flex flex-row gap-20 relative">
+          <div className="max-w-xl">
+            <ClientOnlyMDX mdx={mdx} />
+            {isProject && (
+              <div className="mt-20">
+                {post.frontmatter.github && (
+                  <Link href={post.frontmatter.github} target="_blank">
+                    <Image
+                      src={`https://opengraph.githubassets.com/1/${
+                        post.frontmatter.github?.split("/")[3]
+                      }/${post.frontmatter.github?.split("/")[4]}`}
+                      width={1200}
+                      height={600}
+                      className="rounded-xl shadow"
+                      alt="GitHub Repository Preview"
+                    />
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
-        ) : null}
-        <SectionDivider label={post.frontmatter.title} />
-        <div className="max-w-2xl">
-          {/* Avoid SSR MDX hydration issues */}
-          <ClientOnlyMDX mdx={mdx} />
+          <TableOfContents content={post.body} />
         </div>
-      </article>
-    </div>
+      </div>
+    </article>
   );
 }
 

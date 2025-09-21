@@ -1,13 +1,12 @@
 "use client";
 
-import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
-import Link from "next/link";
+import { cn } from "@/lib/utils";
 export const ThreeDMarquee = ({
   images,
   className,
 }: {
-  images: Array<string | { src: string; href?: string }>;
+  images: string[];
   className?: string;
 }) => {
   // Split the images array into 4 equal parts
@@ -20,7 +19,7 @@ export const ThreeDMarquee = ({
     <div
       className={cn(
         "mx-auto block h-[600px] overflow-hidden rounded-2xl max-sm:h-100",
-        className
+        className,
       )}
     >
       <div className="flex size-full items-center justify-center">
@@ -43,44 +42,26 @@ export const ThreeDMarquee = ({
                 className="flex flex-col items-start gap-8"
               >
                 <GridLineVertical className="-left-4" offset="80px" />
-                {subarray.map((item, imageIndex) => {
-                  const src = typeof item === "string" ? item : item.src;
-                  const href = typeof item === "string" ? undefined : item.href;
-                  return (
-                    <div className="relative" key={imageIndex + src}>
-                      <GridLineHorizontal className="-top-4" offset="20px" />
-                      {href ? (
-                        <Link
-                          href={href}
-                          prefetch={false}
-                          aria-label="View project"
-                        >
-                          <motion.img
-                            whileHover={{ y: -10 }}
-                            transition={{ duration: 0.3, ease: "easeInOut" }}
-                            key={imageIndex + src}
-                            src={src}
-                            alt={`Image ${imageIndex + 1}`}
-                            className="aspect-[970/700] rounded-lg object-cover ring ring-gray-950/5 hover:shadow-2xl"
-                            width={970}
-                            height={700}
-                          />
-                        </Link>
-                      ) : (
-                        <motion.img
-                          whileHover={{ y: -10 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          key={imageIndex + src}
-                          src={src}
-                          alt={`Image ${imageIndex + 1}`}
-                          className="aspect-[970/700] rounded-lg object-cover ring ring-gray-950/5 hover:shadow-2xl"
-                          width={970}
-                          height={700}
-                        />
-                      )}
-                    </div>
-                  );
-                })}
+                {subarray.map((image, imageIndex) => (
+                  <div className="relative" key={imageIndex + image}>
+                    <GridLineHorizontal className="-top-4" offset="20px" />
+                    <motion.img
+                      whileHover={{
+                        y: -10,
+                      }}
+                      transition={{
+                        duration: 0.3,
+                        ease: "easeInOut",
+                      }}
+                      key={imageIndex + image}
+                      src={image}
+                      alt={`Image ${imageIndex + 1}`}
+                      className="aspect-[970/700] rounded-lg object-cover ring ring-gray-950/5 hover:shadow-2xl"
+                      width={970}
+                      height={700}
+                    />
+                  </div>
+                ))}
               </motion.div>
             ))}
           </div>
@@ -119,7 +100,7 @@ const GridLineHorizontal = ({
         "[mask-composite:exclude]",
         "z-30",
         "dark:bg-[linear-gradient(to_right,var(--color-dark),var(--color-dark)_50%,transparent_0,transparent)]",
-        className
+        className,
       )}
     ></div>
   );
@@ -154,7 +135,7 @@ const GridLineVertical = ({
         "[mask-composite:exclude]",
         "z-30",
         "dark:bg-[linear-gradient(to_bottom,var(--color-dark),var(--color-dark)_50%,transparent_0,transparent)]",
-        className
+        className,
       )}
     ></div>
   );

@@ -1,4 +1,13 @@
-import { Home, NotebookPen, PresentationIcon, Send } from "lucide-react";
+import {
+  Github,
+  Home,
+  Instagram,
+  Linkedin,
+  NotebookPen,
+  PresentationIcon,
+  Send,
+  Twitter,
+} from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,15 +32,15 @@ export const siteMetadata = {
     "full-stack",
     "react",
     "next.js",
+    "typescript",
+    "tailwindcss",
+    "frontend",
+    "backend",
   ],
 
   twitter: {
     handle: "@panos_dev_",
     cardType: "summary_large_image" as const,
-  },
-  images: {
-    ogImage: "/og-image.jpg",
-    logo: "/logo.svg",
   },
 
   // Content sections
@@ -50,26 +59,26 @@ export const sidebarData = {
   navMain: [
     {
       title: "Home",
-      icon: <Home />,
+      icon: <Home className="text-current" />,
       url: "/",
       items: [],
     },
     {
       title: "Projects",
-      icon: <PresentationIcon />,
+      icon: <PresentationIcon className="text-current" />,
       url: "/projects",
       items: [],
     },
     {
       title: "Blog",
-      icon: <NotebookPen />,
+      icon: <NotebookPen className="text-current" />,
       url: "/blog",
       items: [],
     },
     {
       title: "Contact Me",
       url: "/contact",
-      icon: <Send />,
+      icon: <Send className="text-current" />,
       items: [
         {
           title: "Contact Page",
@@ -108,17 +117,30 @@ export const socialLinks = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/panagiotis-pitsikoulis-47141733a/",
-    icon: "linkedin",
+    icon: <Linkedin className="h-4 w-4" />,
   },
   {
     label: "GitHub",
     href: "https://github.com/PanagiotisPitsikoulis",
-    icon: "github",
+    icon: <Github className="h-4 w-4" />,
   },
-  { label: "X/Twitter", href: "https://x.com/panos_dev_", icon: "twitter" },
+  {
+    label: "X/Twitter",
+    href: "https://x.com/panos_dev_",
+    icon: <Twitter className="h-4 w-4" />,
+  },
   {
     label: "Instagram",
     href: "https://www.instagram.com/panospitsi",
-    icon: "instagram",
+    icon: <Instagram className="h-4 w-4" />,
   },
 ];
+
+export const legalLinks = [
+  { name: "Privacy Policy", href: "/blog/privacy" },
+  { name: "Terms and Contitions", href: "/blog/terms" },
+];
+
+export const copyright = `© ${new Date().getFullYear()} ${
+  author.name
+}. All rights reserved.`;

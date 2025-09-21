@@ -11,6 +11,8 @@ const nextConfig = {
       { protocol: "https", hostname: "images.pexels.com" },
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
       { protocol: "https", hostname: "deifkwefumgah.cloudfront.net" },
+      { protocol: "https", hostname: "pagedone.io" },
+      { protocol: "https", hostname: "opengraph.githubassets.com" },
     ],
   },
   experimental: {

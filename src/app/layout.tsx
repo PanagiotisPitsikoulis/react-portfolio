@@ -1,4 +1,5 @@
 import { Providers } from "@/components/providers";
+import { Theme } from "@/components/theme";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
@@ -23,11 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-sidebar`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-background`}
       >
-        <Suspense fallback={<></>}>
-          <Providers>{children}</Providers>
-        </Suspense>
+        <Theme name="blue">
+          <Suspense fallback={<></>}>
+            <Providers>{children}</Providers>
+          </Suspense>
+        </Theme>
       </body>
     </html>
   );

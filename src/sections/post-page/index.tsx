@@ -19,7 +19,7 @@ const PostPage = async ({
     const mdx = await serializeMDXServer(post.body);
 
     return (
-      <section className="page-container pb-5">
+      <section>
         <PostPageClient post={post} mdx={mdx} />
       </section>
     );

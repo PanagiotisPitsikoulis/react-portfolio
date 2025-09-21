@@ -31,7 +31,7 @@ export function Safari({
     <>
       <div
         className={cn(
-          "hidden lg:block relative overflow-hidden rounded-2xl border border-black/10 dark:border-white/10 bg-background",
+          "hidden lg:block relative overflow-hidden rounded-2xl border-black/10 dark:border-white/10 bg-background",
           className
         )}
         style={{

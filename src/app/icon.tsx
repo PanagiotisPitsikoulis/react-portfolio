@@ -4,43 +4,52 @@ export const size = {
   width: 32,
   height: 32,
 };
-export const contentType = "image/png";
 
 export default async function Icon() {
+  const color = "#2563EB"; // blue-600
+
   return new ImageResponse(
     (
       <div
+        tw="bg-blue-50 p-2 rounded-lg shadow-sm"
         style={{
           width: "100%",
           height: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "black",
-          borderRadius: "50%",
+          color,
         }}
       >
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
+          width="24"
           height="20"
-          viewBox="0 0 24 24"
+          viewBox="0 0 35 33"
           fill="none"
-          stroke="white"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{
+            strokeWidth: "2",
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+          }}
         >
-          <path d="M13 3H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-3" />
-          <path d="M8 21h8" />
-          <path d="M12 17v4" />
-          <path d="M17 8l5-5" />
-          <path d="M17 3h5v5" />
+          <path
+            d="M24.5473 11.8941C25.1905 12.5063 25.2068 13.5149 24.5837 14.1468L18.7585 20.054C18.1354 20.686 17.1087 20.702 16.4654 20.0898C15.8222 19.4776 15.8059 18.469 16.429 17.8371L22.2542 11.9299C22.8773 11.2979 23.904 11.2819 24.5473 11.8941Z"
+            fill="currentColor"
+            stroke="currentColor"
+          />
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M0 4.54673C0 2.03564 2.07211 0 4.62819 0H21.5399V0.00124069C28.9908 0.0998525 35 6.06429 35 13.4075C35 20.8123 28.8897 26.8151 21.3523 26.8151C18.6648 26.8151 16.1587 26.052 14.0463 24.7342L6.58815 31.9057C4.13431 34.2652 0 32.5573 0 29.1841V4.54673ZM11.5194 22.7055C9.15709 20.295 7.70452 17.0179 7.70452 13.4075C7.70452 12.5277 8.43056 11.8144 9.32619 11.8144C10.2218 11.8144 10.9479 12.5277 10.9479 13.4075C10.9479 19.0526 15.6061 23.6288 21.3523 23.6288C27.0985 23.6288 31.7567 19.0526 31.7567 13.4075C31.7567 7.76248 27.0985 3.18626 21.3523 3.18626H4.62819C3.86336 3.18626 3.24334 3.79536 3.24334 4.54673V29.1841C3.24334 29.7351 3.91866 30.014 4.31948 29.6286L11.5194 22.7055Z"
+            fill="currentColor"
+            stroke="currentColor"
+          />
         </svg>
       </div>
     ),
     {
       ...size,
-    }
+    },
   );
 }

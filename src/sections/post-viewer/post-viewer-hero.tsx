@@ -2,7 +2,6 @@
 import { ThreeDMarquee } from "@/components/ui/3d-marquee";
 import type { ContentItem, ContentType } from "@/lib/md/mdx";
 import { buildMosaicImages } from "@/lib/utils";
-import Image from "next/image";
 import { backgroundImages } from "../../../content/data";
 
 export interface PostViewerHeroProps {
@@ -26,13 +25,6 @@ const PostViewerHero = ({
     .slice(0, 30);
   return (
     <section className="relative pt-20">
-      <Image
-        fill
-        alt="background"
-        src="/square-alt-grid.svg"
-        className="absolute  inset-0 z-0 select-none [mask-image:radial-gradient(75%_75%_at_center,white,transparent)] opacity-90"
-        draggable={false}
-      />
       <div className="flex flex-col items-center justify-center gap-5 text-center">
         <p className="bg-muted w-fit rounded-full px-4 py-1 text-xs uppercase tracking-wide">
           {title}

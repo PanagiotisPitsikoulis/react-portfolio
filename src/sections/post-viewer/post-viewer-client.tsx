@@ -14,7 +14,6 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import Filters from "./filters";
 import Pagination from "./pagination";
 import PostCards from "./post-cards";
 import PostViewerHero from "./post-viewer-hero";
@@ -151,7 +150,7 @@ export default function PostViewer({
     debouncedSearchQuery.trim().length > 0 || selectedTags.length > 0;
 
   return (
-    <section className="flex flex-1 flex-col gap-10 page-container pb-24 -mt-10">
+    <section className="flex flex-1 flex-col gap-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-10 pb-20">
       {/* Hero */}
       <div>
         <PostViewerHero
@@ -163,7 +162,7 @@ export default function PostViewer({
       </div>
       <SectionDivider label={contentType === "blog" ? "Posts" : "Projects"} />
 
-      <Filters
+      {/* <Filters
         contentType={contentType}
         searchQuery={searchQuery}
         debouncedSearchQuery={debouncedSearchQuery}
@@ -181,7 +180,7 @@ export default function PostViewer({
         posts={posts}
         totalPages={totalPages}
         currentPage={currentPage}
-      />
+      /> */}
 
       <PostCards contentType={contentType} posts={paginatedPosts} />
 

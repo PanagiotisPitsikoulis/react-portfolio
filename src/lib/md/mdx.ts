@@ -23,6 +23,7 @@ export interface ContentFrontmatter {
   metaTitle?: string;
   metaDescription?: string;
   hidden?: boolean;
+  github?: string;
 }
 
 export interface ContentItem {

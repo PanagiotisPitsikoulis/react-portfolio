@@ -24,7 +24,7 @@ export default function TimelineCard({
 }: TimelineCardProps) {
   return (
     <ArcTimeline
-      className="rounded-3xl border shadow bg-card dark mt-16 p-5"
+      className="rounded-4xl bg-background p-5"
       data={data}
       defaultActiveStep={{ time: defaultActiveTime, stepIndex: 0 }}
       arcConfig={{
