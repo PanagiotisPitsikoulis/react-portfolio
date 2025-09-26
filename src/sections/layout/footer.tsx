@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   copyright,
   legalLinks,
-  sidebarData,
+  pageData,
   socialLinks,
 } from "../../../content/data";
 
@@ -22,7 +22,7 @@ interface FooterColumn {
 }
 
 const Footer = async () => {
-  const sitePages = sidebarData.navMain;
+  const sitePages = pageData.navMain;
 
   const projects = await listContent("projects");
   const blog = await listContent("blog");
@@ -59,9 +59,10 @@ const Footer = async () => {
   return (
     <footer className="w-full bg-background relative">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-12 gap-6 lg:gap-8 py-24 w-full">
-          <div className="col-span-full mb-8 lg:col-span-4 lg:mb-0 flex flex-col gap-4 justify-between h-full items-start w-full">
-            <div className="flex flex-row gap-4 w-full">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-12 gap-4 lg:gap-6 py-12 w-full">
+          {/* Logo + Command bar */}
+          <div className="col-span-full lg:col-span-4 flex flex-col gap-10">
+            <div className="flex flex-row gap-3 w-full mb-5">
               <Link
                 href={"/"}
                 className="flex justify-start rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
@@ -75,7 +76,7 @@ const Footer = async () => {
                 aria-labelledby="footer-primary-heading"
               >
                 <h2 id="footer-primary-heading" className="sr-only">
-                  Quick find and social
+                  Quick find
                 </h2>
                 {(() => {
                   const projectItems = projects.map((p) => ({
@@ -90,52 +91,50 @@ const Footer = async () => {
                     <CommandBar projects={projectItems} blog={blogItems} />
                   );
                 })()}
-                <nav
-                  aria-label="Social links"
-                  className="mt-6 sm:mt-4 space-y-4"
-                >
-                  <ul className="flex flex-wrap gap-2 sm:gap-3 justify-start text-muted-foreground">
-                    {socialLinks.map((s) => (
-                      <li key={s.label}>
-                        <Link
-                          href={s.href}
-                          aria-label={s.label}
-                          title={s.label}
-                          rel="noopener noreferrer"
-                          target={
-                            s.href.startsWith("http") ? "_blank" : undefined
-                          }
-                          className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-secondary shadow text-secondary-foreground hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background transition-colors"
-                        >
-                          <span aria-hidden="true">{s.icon}</span>
-                          <span className="sr-only">{s.label}</span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
               </section>
             </div>
           </div>
 
-          <div className="grid w-full gap-6 md:grid-cols-3 lg:gap-20 col-span-full lg:col-span-8">
+          {/* Columns */}
+          <div className="grid grid-cols-2 w-full gap-6 md:grid-cols-4 lg:gap-12 col-span-full lg:col-span-full">
+            {/* Social */}
+            <div>
+              <h4 className="mb-2 text-base font-semibold text-foreground">
+                Follow
+              </h4>
+              <nav aria-label="Social links">
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  {socialLinks.map((s) => (
+                    <li key={s.label}>
+                      <Link
+                        href={s.href}
+                        rel="noopener noreferrer"
+                        target={
+                          s.href.startsWith("http") ? "_blank" : undefined
+                        }
+                        className="hover:text-primary transition-colors"
+                      >
+                        {s.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
             {footerColumns.map((col) => (
               <div key={col.title} className="text-left">
-                <h4 className="mb-4 text-lg font-bold text-foreground">
+                <h4 className="mb-2 text-base font-semibold text-foreground">
                   {col.title}
                 </h4>
-                <ul className="text-sm text-muted-foreground space-y-3">
+                <ul className="text-sm text-muted-foreground space-y-2">
                   {col.items.length > 0 ? (
                     col.items.map((p) => (
-                      <li
-                        key={p.href}
-                        className="hover:text-primary font-medium"
-                      >
+                      <li key={p.href} className="hover:text-primary">
                         <Link href={p.href}>{p.label}</Link>
                       </li>
                     ))
                   ) : col.fallback ? (
-                    <li className="hover:text-primary font-medium">
+                    <li className="hover:text-primary">
                       <Link href={col.fallback.href}>{col.fallback.label}</Link>
                     </li>
                   ) : null}
@@ -145,16 +144,18 @@ const Footer = async () => {
           </div>
         </div>
       </div>
-      <div className="py-2 bg-primary text-primary-foreground">
-        <div className="flex justify-between flex-col lg:justify-between lg:flex-row gap-4 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 items-center">
-          <span className="text-xs text-left">{copyright}</span>
-          <div className="flex items-center gap-6 mt-2 lg:mt-0">
-            <ul className="flex items-center gap-3">
+
+      {/* Bottom bar */}
+      <div className="py-1 bg-primary text-primary-foreground">
+        <div className="flex justify-between flex-col lg:flex-row gap-2 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 items-center">
+          <span className="text-xs">{copyright}</span>
+          <div className="flex items-center gap-4">
+            <ul className="flex items-center gap-2">
               {legalLinks.map((l) => (
                 <li key={l.name}>
                   <Link
                     href={l.href}
-                    className="text-xs hover:text-primary-foreground hover:underline underline-offset-4"
+                    className="text-xs hover:underline underline-offset-2"
                   >
                     {l.name}
                   </Link>

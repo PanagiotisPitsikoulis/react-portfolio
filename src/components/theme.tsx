@@ -1,4 +1,10 @@
-export type ThemeName = "green" | "purple" | "orange" | "blue" | "red";
+export type ThemeName =
+  | "green"
+  | "purple"
+  | "orange"
+  | "blue"
+  | "red"
+  | "monochrome";
 
 export const themes: Record<ThemeName, string> = {
   green: `:root {
@@ -206,7 +212,7 @@ export const themes: Record<ThemeName, string> = {
   --card-foreground: oklch(0.12 0.004 235);
   --popover: oklch(0.99 0.002 235);
   --popover-foreground: oklch(0.12 0.004 235);
-  --primary: oklch(0.4 0.15 235);
+  --primary: oklch(0.42 0.22 235);
   --primary-foreground: oklch(0.99 0.002 235);
   --secondary: oklch(1 0 0);
   --secondary-foreground: oklch(0.2 0.004 235);
@@ -330,6 +336,72 @@ export const themes: Record<ThemeName, string> = {
   --sidebar-accent-foreground: oklch(0.08 0.002 35);
   --sidebar-border: oklch(0.25 0.008 15 / 40%);
   --sidebar-ring: oklch(0.72 0.22 15);
+}`,
+  monochrome: `:root {
+  --background: oklch(0.985 0 0);
+  --foreground: oklch(0.12 0 0);
+  --card: oklch(0.99 0 0);
+  --card-foreground: oklch(0.12 0 0);
+  --popover: oklch(0.99 0 0);
+  --popover-foreground: oklch(0.12 0 0);
+  --primary: oklch(0.25 0 0);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(1 0 0);
+  --secondary-foreground: oklch(0.2 0 0);
+  --muted: oklch(0.95 0 0);
+  --muted-foreground: oklch(0.4 0 0);
+  --accent: oklch(0.85 0 0);
+  --accent-foreground: oklch(0.12 0 0);
+  --destructive: oklch(0.4 0.02 25);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.88 0 0);
+  --ring: oklch(0.3 0 0);
+  --chart-1: oklch(0.25 0 0);
+  --chart-2: oklch(0.35 0 0);
+  --chart-3: oklch(0.45 0 0);
+  --chart-4: oklch(0.55 0 0);
+  --chart-5: oklch(0.65 0 0);
+  --sidebar: oklch(0.99 0 0);
+  --sidebar-foreground: oklch(0.12 0 0);
+  --sidebar-primary: oklch(0.25 0 0);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.85 0 0);
+  --sidebar-accent-foreground: oklch(0.12 0 0);
+  --sidebar-border: oklch(0.9 0 0);
+  --sidebar-ring: oklch(0.3 0 0);
+}
+.dark {
+  --background: oklch(0.17 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.18 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.18 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: oklch(1 0 0);
+  --primary-foreground: oklch(0.12 0 0);
+  --secondary: oklch(0.28 0 0);
+  --secondary-foreground: oklch(0.9 0 0);
+  --muted: oklch(0.28 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.7 0 0);
+  --accent-foreground: oklch(0.1 0 0);
+  --destructive: oklch(0.55 0.02 25);
+  --border: oklch(0.25 0 0 / 50%);
+  --input: oklch(0.25 0 0 / 60%);
+  --ring: oklch(0.8 0 0);
+  --chart-1: oklch(0.85 0 0);
+  --chart-2: oklch(0.75 0 0);
+  --chart-3: oklch(0.65 0 0);
+  --chart-4: oklch(0.55 0 0);
+  --chart-5: oklch(0.45 0 0);
+  --sidebar: oklch(0.18 0 0);
+  --sidebar-foreground: oklch(0.95 0 0);
+  --sidebar-primary: oklch(0.85 0 0);
+  --sidebar-primary-foreground: oklch(0.12 0 0);
+  --sidebar-accent: oklch(0.7 0 0);
+  --sidebar-accent-foreground: oklch(0.1 0 0);
+  --sidebar-border: oklch(0.25 0 0 / 40%);
+  --sidebar-ring: oklch(0.8 0 0);
 }`,
 };
 

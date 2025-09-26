@@ -55,7 +55,7 @@ export const siteMetadata = {
   sitemapPath: "/sitemap.xml",
 };
 
-export const sidebarData = {
+export const pageData = {
   navMain: [
     {
       title: "Home",

@@ -20,7 +20,7 @@ const PostPage = async ({
 
     return (
       <section>
-        <PostPageClient post={post} mdx={mdx} />
+        <PostPageClient post={post} mdx={mdx as unknown as string} />
       </section>
     );
   } catch (error) {

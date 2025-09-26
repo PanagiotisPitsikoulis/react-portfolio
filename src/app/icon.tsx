@@ -6,7 +6,7 @@ export const size = {
 };
 
 export default async function Icon() {
-  const color = "#2563EB"; // blue-600
+  const color = "#FFFFF";
 
   return new ImageResponse(
     (

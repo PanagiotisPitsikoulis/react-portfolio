@@ -98,13 +98,19 @@ export default function PostHero({ post }: PostHeroProps) {
   return (
     <div className="lg:h-svh relative overflow-hidden">
       <section className="relative pt-20">
-        <div className="object-cover absolute -z-30 bg-background w-full h-svh -mt-[5rem]" />
+        <div className="object-cover absolute -z-40 bg-background w-full h-svh -mt-[5rem]" />
         <div className="object-cover absolute -z-10 w-full h-svh -mt-[5rem]" />
+        <Image
+          src={"/texture.svg"}
+          alt={"Background gradient"}
+          fill
+          className="object-cover absolute -z-20 opacity-30"
+        />
         <Image
           src={"/gradients/blue-circle.svg"}
           alt={"Background gradient"}
           fill
-          className="object-fit absolute rotate-180 -z-20"
+          className="object-fit absolute rotate-180 -z-30 saturate-0"
         />
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-24 gap-6 items-center overflow-visible">
@@ -165,12 +171,12 @@ export default function PostHero({ post }: PostHeroProps) {
                     </div>
                   ) : null}
                 </div>
-                <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl text-foreground font-manrope">
+                <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl text-foreground">
                   {title}
                 </h1>
 
                 {subtitle ? (
-                  <p className="text-foreground mb-8 max-w-sm lg:text-left text-lg">
+                  <p className="text-foreground mb-8 max-w-sm lg:text-left text-sm">
                     {subtitle}
                   </p>
                 ) : null}

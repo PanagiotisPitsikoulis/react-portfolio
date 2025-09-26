@@ -13,7 +13,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { sidebarData } from "../../content/data";
+import { pageData } from "../../content/data";
 
 type NavItem = { title: string; url: string };
 
@@ -53,18 +53,8 @@ export default function CommandBar({
     <div className="flex items-center">
       <Button
         variant="secondary"
-        size="icon"
-        className="sm:hidden"
-        onClick={() => setOpen(true)}
-        aria-label="Search"
-      >
-        <Search className="size-4" />
-      </Button>
-
-      <Button
-        variant="secondary"
         size="sm"
-        className="hidden h-9 w-[220px] justify-start sm:flex"
+        className="h-9 w-[220px] justify-start flex"
         onClick={() => setOpen(true)}
       >
         <Search className="mr-2 size-4" />
@@ -80,7 +70,7 @@ export default function CommandBar({
           <CommandEmpty>No results found.</CommandEmpty>
 
           {/* Top-level pages with dynamic content */}
-          {sidebarData.navMain.map((section) => (
+          {pageData.navMain.map((section) => (
             <React.Fragment key={section.title}>
               <CommandGroup heading={section.title}>
                 {/* Parent item */}
@@ -97,8 +87,8 @@ export default function CommandBar({
                   const resolvedChildren: NavItem[] | undefined = isProjects
                     ? (projects as NavItem[])
                     : isBlog
-                    ? (blog as NavItem[])
-                    : (section.items as any);
+                      ? (blog as NavItem[])
+                      : (section.items as any);
                   if (!Array.isArray(resolvedChildren)) return null;
                   return resolvedChildren.map((child) => (
                     <CommandItem

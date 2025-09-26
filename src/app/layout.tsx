@@ -26,7 +26,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-background`}
       >
-        <Theme name="blue">
+        <Theme name="monochrome">
           <Suspense fallback={<></>}>
             <Providers>{children}</Providers>
           </Suspense>

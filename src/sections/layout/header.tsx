@@ -1,5 +1,5 @@
 import { listContent } from "@/lib/md/mdx";
-import { sidebarData } from "../../../content/data";
+import { pageData } from "../../../content/data";
 import NavbarClient from "./navbar-client";
 
 export default async function Header() {
@@ -10,7 +10,7 @@ export default async function Header() {
     <NavbarClient
       topPosts={blog}
       topProjects={projects}
-      sidebarData={sidebarData}
+      sidebarData={pageData}
     />
   );
 }

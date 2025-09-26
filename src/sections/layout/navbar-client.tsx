@@ -23,7 +23,7 @@ import {
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { sidebarData as sidebarDataData } from "../../../content/data";
+import { pageData as sidebarDataData } from "../../../content/data";
 
 function NavbarClient({
   topPosts,
@@ -103,7 +103,7 @@ function NavbarClient({
   return (
     <nav
       className={cn(
-        hasScrolled && "bg-background border-b border-border",
+        hasScrolled && "bg-background border-b border-border shadow-xs",
         "py-5 fixed w-full z-50",
         isProjectPage && !hasScrolled && "dark",
       )}
