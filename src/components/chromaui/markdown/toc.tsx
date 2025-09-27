@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, useRef, useCallback } from "react";
-import { Eye, EyeOff, FileText, List, Circle, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Circle, Clock, Eye, EyeOff, FileText, List } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface TOCItem {
   id: string;
@@ -29,7 +29,7 @@ export function ToC({ content }: ToCProps) {
         .replace(/\s+/g, "-")
         .replace(/-+/g, "-")
         .replace(/^-|-$/g, ""),
-    [],
+    []
   );
 
   // Extract headings from markdown
@@ -112,17 +112,15 @@ export function ToC({ content }: ToCProps) {
               className="h-7 w-7 rounded-full hover:bg-primary/10"
               onClick={() => setIsVisible((v) => !v)}
             >
-              {isVisible ? (
+              {isVisible ?
                 <Eye className="w-3.5 h-3.5 text-muted-foreground" />
-              ) : (
-                <EyeOff className="w-3.5 h-3.5 text-muted-foreground" />
-              )}
+              : <EyeOff className="w-3.5 h-3.5 text-muted-foreground" />}
             </Button>
           </div>
 
           {/* TOC list */}
           {isVisible && (
-            <nav className="space-y-1 max-h-72 overflow-y-auto scrollbar-thin scrollbar-thumb-muted rounded-xl pr-1">
+            <nav className="space-y-1 max-h-72 overflow-y-auto rounded-xl pr-1">
               {toc.map((item) => {
                 const isActive = activeId === item.id;
                 const paddingLeft = (item.level - 1) * 14 + 12;
@@ -135,9 +133,9 @@ export function ToC({ content }: ToCProps) {
                     className={[
                       "block w-full text-left py-2 pr-3 text-xs transition-all duration-300 rounded-3xl relative",
                       "hover:bg-primary/10 hover:text-primary",
-                      isActive
-                        ? "bg-primary/15 text-primary font-semibold"
-                        : "text-muted-foreground hover:text-foreground",
+                      isActive ?
+                        "bg-primary/15 text-primary font-semibold"
+                      : "text-muted-foreground hover:text-foreground",
                     ].join(" ")}
                   >
                     {/* Border indicator */}
@@ -157,9 +155,9 @@ export function ToC({ content }: ToCProps) {
                         <Circle
                           size={5}
                           className={`transition-all ${
-                            isActive
-                              ? "fill-primary text-primary"
-                              : "fill-muted-foreground text-muted-foreground"
+                            isActive ?
+                              "fill-primary text-primary"
+                            : "fill-muted-foreground text-muted-foreground"
                           }`}
                         />
                       )}

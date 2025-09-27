@@ -1,16 +1,12 @@
 import { listContent } from "@/lib/md/mdx";
 import { pageData } from "../../../content/data";
-import NavbarClient from "./navbar-client";
+import { Navbar } from "../../components/chromaui/layout/navbar";
 
 export default async function Header() {
   const projects = await listContent("projects");
   const blog = await listContent("blog");
 
   return (
-    <NavbarClient
-      topPosts={blog}
-      topProjects={projects}
-      sidebarData={pageData}
-    />
+    <Navbar topPosts={blog} topProjects={projects} sidebarData={pageData} />
   );
 }

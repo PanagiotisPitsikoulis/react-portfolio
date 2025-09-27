@@ -1,5 +1,6 @@
 import { Providers } from "@/components/providers";
 import { Theme } from "@/components/theme";
+import "@/lib/fontawesome";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";

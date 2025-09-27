@@ -1,13 +1,11 @@
 import {
-  Github,
-  Home,
-  Instagram,
-  Linkedin,
-  NotebookPen,
-  PresentationIcon,
-  Send,
-  Twitter,
-} from "lucide-react";
+  faGithub,
+  faInstagram,
+  faLinkedin,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Home, NotebookPen, PresentationIcon, Send } from "lucide-react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -117,28 +115,32 @@ export const socialLinks = [
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/panagiotis-pitsikoulis-47141733a/",
-    icon: <Linkedin className="h-4 w-4" />,
+    icon: <FontAwesomeIcon icon={faLinkedin} className="h-4 w-4" />,
   },
   {
     label: "GitHub",
     href: "https://github.com/PanagiotisPitsikoulis",
-    icon: <Github className="h-4 w-4" />,
+    icon: <FontAwesomeIcon icon={faGithub} className="h-4 w-4" />,
   },
   {
     label: "X/Twitter",
     href: "https://x.com/panos_dev_",
-    icon: <Twitter className="h-4 w-4" />,
+    icon: <FontAwesomeIcon icon={faTwitter} className="h-4 w-4" />,
   },
   {
     label: "Instagram",
     href: "https://www.instagram.com/panospitsi",
-    icon: <Instagram className="h-4 w-4" />,
+    icon: <FontAwesomeIcon icon={faInstagram} className="h-4 w-4" />,
   },
 ];
 
 export const legalLinks = [
-  { name: "Privacy Policy", href: "/blog/privacy" },
-  { name: "Terms and Contitions", href: "/blog/terms" },
+  { name: "Privacy Policy", href: "/blog/privacy", label: "Privacy Policy" },
+  {
+    name: "Terms and Contitions",
+    href: "/blog/terms",
+    label: "Terms and Contitions",
+  },
 ];
 
 export const copyright = `© ${new Date().getFullYear()} ${

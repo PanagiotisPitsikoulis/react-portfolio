@@ -8,7 +8,7 @@ import type { ContentItem, ContentType } from "@/lib/md/mdx";
 import { Search } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-import { SectionDivider } from "@/components/section-divider";
+import { Divider } from "@/components/chromaui/section/divider/divider";
 import {
   Tooltip,
   TooltipContent,
@@ -160,7 +160,7 @@ export default function PostViewer({
           contentType={contentType}
         />
       </div>
-      <SectionDivider label={contentType === "blog" ? "Posts" : "Projects"} />
+      <Divider label={contentType === "blog" ? "Posts" : "Projects"} />
 
       {/* <Filters
         contentType={contentType}
