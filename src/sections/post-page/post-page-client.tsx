@@ -1,17 +1,25 @@
 "use client";
 
-import { GalleryThreeD } from "@/components/chromaui/gallery/gallery-three-d";
 import { PostLayout } from "@/components/chromaui/layout/content-page/post-layout";
 import { ToC } from "@/components/chromaui/markdown/toc";
-import { Carousel } from "@/components/chromaui/section/carousel/component";
-import { Divider } from "@/components/chromaui/section/divider/divider";
-import { Hero } from "@/components/chromaui/section/hero/component";
+import {
+  CommonHeroProps,
+  Hero,
+} from "@/components/chromaui/section/hero/component";
+import { Section } from "@/components/chromaui/section/section";
 import type { ContentItem } from "@/lib/md/mdx";
 import { MDXContent } from "@/lib/md/render-mdx";
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { TechCloud } from "./tech-cloud";
+import { Logos10 } from "./logos";
+import { Safari } from "@/components/ui/safari";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
+import { Iphone } from "@/components/ui/iphone";
+import { DottedDiv } from "@/components/chromaui/section/dotted-div/component";
+import Image from "next/image";
 
 export default function PostPageClient({
   post,
@@ -20,34 +28,21 @@ export default function PostPageClient({
   post: ContentItem;
   mdx: any;
 }) {
-  const isProject =
-    post.postType ? post.postType === "project" : post.type === "projects";
-
-  const images = [
-    post.heroImageDesktop,
-    ...(post.imagesDesktop || []),
-    post.frontmatter.cover,
-  ].filter(Boolean) as string[];
+  const isProject = post.postType
+    ? post.postType === "project"
+    : post.type === "projects";
 
   // Extract post data for Hero component
   const title = post.frontmatter.title || post.slug;
-  const subtitle =
-    post.frontmatter.summary || post.frontmatter.metaDescription || "";
+  const subtitle = post.frontmatter.summary || "";
   const hasExternalUrl = Boolean(isProject && post.frontmatter.url);
-  const imageSrc =
-    hasExternalUrl ?
-      post.screenshots?.mobile || post.frontmatter.cover || ""
-    : post.frontmatter.cover || post.screenshots?.desktop || "";
   const url = isProject ? post.frontmatter.url : undefined;
-  const tags = post.mergedTags || [
-    ...(post.frontmatter.tags || []),
-    ...(post.frontmatter.categories || []),
-  ];
-  const date =
-    post.frontmatter.date ? String(post.frontmatter.date) : undefined;
-  const formattedDate =
-    date ?
-      new Date(date).toLocaleDateString(undefined, {
+  const tags = post.mergedTags || [...(post.frontmatter.tags || [])];
+  const date = post.frontmatter.date
+    ? String(post.frontmatter.date)
+    : undefined;
+  const formattedDate = date
+    ? new Date(date).toLocaleDateString(undefined, {
         year: "numeric",
         month: "short",
         day: "2-digit",
@@ -58,7 +53,15 @@ export default function PostPageClient({
   const primaryCtaHref = hasButton ? url : undefined;
 
   const mobileImages = (post.imagesMobile || []).filter(Boolean) as string[];
-  const marqueeImages = mobileImages.length > 0 ? mobileImages : [imageSrc];
+  const baseImages =
+    mobileImages.length > 0 ? mobileImages : [post.frontmatter.cover || ""];
+  // Ensure we have enough images for smooth scrolling
+  const marqueeImages =
+    baseImages.length > 0
+      ? [...baseImages, ...baseImages, ...baseImages, ...baseImages]
+      : Array(8)
+          .fill(post.frontmatter.cover || "")
+          .filter(Boolean);
 
   // Convert tags to badge format
   const badges = tags.map((tag: string) => ({
@@ -76,94 +79,102 @@ export default function PostPageClient({
   ];
 
   // Convert CTA
-  const cta =
-    hasButton ?
-      {
-        label: "Visit project",
-        href: primaryCtaHref!,
-        external: true,
-        variant: "default" as const,
-        size: "lg" as const,
-      }
-    : undefined;
-
-  // Create carousel images for mobile shots
-  const carouselImages = marqueeImages.map((src, index) => ({
-    src,
-    alt: `Project mobile screenshot ${index + 1}`,
-    className: "aspect-[9/16] object-cover min-h-[10svh] lg:min-h-[30svh]",
-  }));
+  const cta: Pick<CommonHeroProps, "cta">[] = [
+    hasButton && {
+      label: "Visit project",
+      href: primaryCtaHref!,
+      external: true,
+      variant: "default" as const,
+      size: "lg" as const,
+    },
+    post.frontmatter.github && {
+      label: "GitHub",
+      href: post.frontmatter.github!,
+      external: true,
+      variant: "outline" as const,
+      size: "lg" as const,
+    },
+  ].filter(Boolean) as any;
 
   return (
     <PostLayout
       hero={
-        <div className="relative">
-          <div className="object-cover absolute -z-40 bg-background w-full h-svh" />
-          <div className="object-cover absolute -z-10 w-full h-svh" />
-          <Hero
-            title={title}
-            backgroundImages={[
-              {
-                src: imageSrc,
-                alt: "Background image",
+        <Hero
+          title={title}
+          enableParallax={true}
+          backgroundImages={[
+            {
+              src: post.frontmatter.backgroundImage || "",
+              alt: "Background image",
+              className: "object-cover absolute -z-30 opacity-70",
+              parallax: {
+                enabled: true,
+                direction: "up",
+                speed: 0.5,
+                yRange: ["-50%", "50%"],
               },
-            ]}
-            subtitle={subtitle}
-            badges={badges}
-            metadata={metadata}
-            cta={cta}
-            variant="heading-left-content-right"
-            content={
-              <Carousel
-                images={carouselImages}
-                variant="double"
-                direction="vertical"
-                pauseOnHover={true}
-                duration="18s"
-                desktopHeight="lg:h-svh"
-                className="relative flex w-full flex-row items-center justify-center overflow-hidden"
-              />
-            }
-            headingClassName="flex flex-col"
-            contentClassName="relative z-10"
-          />
-        </div>
+            },
+            {
+              src: "/texture.svg",
+              alt: "Decorative Texture Overlay",
+              className: "object-fit absolute -z-20 opacity-80",
+              parallax: {
+                enabled: true,
+                direction: "up",
+                speed: 0.5,
+                yRange: ["-50%", "50%"],
+              },
+            },
+          ]}
+          subtitle={subtitle}
+          badges={badges}
+          metadata={metadata}
+          cta={cta as any}
+          variant="heading-left-content-right"
+        />
       }
-      isHeroDark={true}
-      widgets={[
-        <div key="title-section">
-          <h1 className="text-4xl font-bold text-foreground mb-4">
-            {post.frontmatter.title}
-          </h1>
-          <p className="text-foreground mb-6">{post.frontmatter.summary}</p>
-        </div>,
-        <TechCloud key="tech-cloud" tech={post.frontmatter.tags || []} />,
-        <Divider key="gallery-divider" className="my-10" label="Gallery" />,
-        <GalleryThreeD key="gallery" images={images} />,
-        <Divider
-          key="content-divider"
-          label={post.frontmatter.title}
-          className="mt-20 mb-10"
-        />,
-        ...(isProject && post.frontmatter.github ?
-          [
-            <div key="github-card" className="my-10">
-              <Link href={post.frontmatter.github} target="_blank">
-                <Image
-                  src={`https://opengraph.githubassets.com/1/${
-                    post.frontmatter.github?.split("/")[3]
-                  }/${post.frontmatter.github?.split("/")[4]}`}
-                  width={1200}
-                  height={600}
-                  className="rounded-3xl shadow-xl w-1/2"
-                  alt="GitHub Repository Preview"
-                />
-              </Link>
-            </div>,
-          ]
-        : []),
-      ]}
       toc={<ToC content={post.body} />}
+      tocContent={post.body}
+      contentAbove={
+        <>
+          <Section
+            variant="secondary"
+            padding="lg"
+            heading={{
+              title:
+                "Discover how our tools have unlocked new levels of creativity and efficiency",
+              variant: "highlighted",
+              highlightText: "levels of creativity",
+            }}
+          >
+            <DottedDiv className="mb-20" hideTopLines>
+              <Safari
+                url={post.frontmatter.url}
+                imageSrc={post.frontmatter.cover}
+                className="max-lg:hidden"
+              />
+              <Iphone
+                src={post.frontmatter.screenshotMobile}
+                className="lg:hidden"
+              />
+            </DottedDiv>
+          </Section>
+          <Section
+            variant="background"
+            fullWidthChildren
+            className="border-y"
+            padding="lg"
+            heading={{
+              title:
+                "Technology and tools used to build " + post.frontmatter.title,
+              variant: "highlighted",
+              highlightText: post.frontmatter.title,
+            }}
+          >
+            <Logos10 />
+          </Section>
+        </>
+      }
     >
       <ClientOnlyMDX mdx={mdx} />
     </PostLayout>

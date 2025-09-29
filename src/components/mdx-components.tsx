@@ -80,27 +80,18 @@ const CopyButton = ({ text }: { text: string }) => {
   };
 
   return (
-    <TooltipProvider>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleCopy}
-            className="h-8 w-8 p-0 hover:bg-muted transition-colors"
-          >
-            {copied ? (
-              <CheckCircle className="h-4 w-4 text-green-500" />
-            ) : (
-              <Copy className="h-4 w-4" />
-            )}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>{copied ? "Copied!" : "Copy code"}</p>
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={handleCopy}
+      className="h-8 w-8 p-0 hover:bg-muted transition-colors"
+    >
+      {copied ? (
+        <CheckCircle className="h-4 w-4 text-success" />
+      ) : (
+        <Copy className="h-4 w-4" />
+      )}
+    </Button>
   );
 };
 
@@ -179,9 +170,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       );
     },
     p: ({ children }) => (
-      <p className="mb-6 leading-relaxed text-foreground/90 text-base">
+      <div className="mb-6 leading-relaxed text-foreground/90 text-base">
         {children}
-      </p>
+      </div>
     ),
     ul: ({ children }) => (
       <ul className="list-disc list-outside mb-6 ml-6 space-y-2 text-foreground marker:text-primary">
@@ -221,7 +212,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       } else if (Array.isArray(children)) {
         // Find the code element in the array
         const codeElement = children.find(
-          (child) => React.isValidElement(child) && child.type === "code"
+          (child) => React.isValidElement(child) && child.type === "code",
         );
 
         if (React.isValidElement(codeElement)) {
@@ -243,43 +234,41 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       const syntaxTheme = oneDark;
 
       return (
-        <Card className="overflow-hidden shadow-sm border border-border/50 py-0">
-          <CardContent className="p-0">
-            {/* Safari-style header */}
-            <div className="flex items-center justify-between bg-muted px-4 py-3 border-b border-border/50">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-muted-foreground">
-                  {language === "text" ? "Code" : language.toUpperCase()}
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3">
-                {/* Copy Button */}
-                <CopyButton text={codeText.trim()} />
-              </div>
+        <div className="rounded-3xl overflow-hidden border shadow">
+          <div className="flex items-center justify-between bg-background px-4 py-3 ">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-foreground">
+                {language === "text" ? "Code" : language.toUpperCase()}
+              </span>
             </div>
 
-            {/* Code content */}
-            <div className="relative">
-              <SyntaxHighlighter
-                language={language}
-                style={syntaxTheme}
-                customStyle={{
-                  margin: 0,
-                  padding: "1.5rem",
-                  fontSize: "0.875rem",
-                  lineHeight: "1.6",
-                  fontFamily:
-                    "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
-                }}
-                showLineNumbers={true}
-                wrapLongLines={true}
-              >
-                {codeText.trim()}
-              </SyntaxHighlighter>
+            <div className="flex items-center gap-3">
+              {/* Copy Button */}
+              <CopyButton text={codeText.trim()} />
             </div>
-          </CardContent>
-        </Card>
+          </div>
+
+          {/* Code content */}
+          <div className="relative">
+            <SyntaxHighlighter
+              language={language}
+              style={syntaxTheme}
+              customStyle={{
+                margin: 0,
+                padding: "1.5rem",
+                fontSize: "0.875rem",
+                lineHeight: "1.6",
+                borderRadius: "0rem",
+                fontFamily:
+                  "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
+              }}
+              showLineNumbers={true}
+              wrapLongLines={true}
+            >
+              {codeText.trim()}
+            </SyntaxHighlighter>
+          </div>
+        </div>
       );
     },
     code: ({ children, className }) => {
@@ -321,12 +310,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     hr: () => <Separator className="my-12" />,
     table: ({ children }) => (
-      <div className="my-8 overflow-x-auto">
-        <Card className="shadow-sm">
-          <CardContent className="p-0">
-            <table className="min-w-full">{children}</table>
-          </CardContent>
-        </Card>
+      <div className="my-8 overflow-x-auto rounded-3xl border shadow">
+        <table className="min-w-full">{children}</table>
       </div>
     ),
     thead: ({ children }) => <thead className="bg-muted">{children}</thead>,
@@ -349,19 +334,16 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     // Custom components for better visuals
     img: ({ src, alt, ...props }) => (
       <figure className="my-8">
-        <Card className="overflow-hidden shadow-sm">
-          <CardContent className="p-0">
-            <Image
-              src={src}
-              alt={alt}
-              width={1000}
-              height={1000}
-              className="w-full h-auto object-cover"
-              loading="lazy"
-              {...props}
-            />
-          </CardContent>
-        </Card>
+        <Image
+          src={src}
+          alt={alt}
+          width={1000}
+          height={1000}
+          className="w-full h-auto object-cover rounded-3xl shadow"
+          loading="lazy"
+          {...props}
+        />
+
         {alt && (
           <figcaption className="mt-3 text-center text-sm text-muted-foreground italic">
             {alt}

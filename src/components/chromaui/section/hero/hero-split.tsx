@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import React from "react";
+import { BackgroundSection } from "../background";
 import { Heading } from "../heading/component";
 import Wrapper from "../wrapper/component";
 
@@ -64,7 +64,6 @@ interface HeroSplitProps {
 
   // Background
   backgroundImage?: string;
-  backgroundGradient?: string;
   backgroundImages?: Array<{
     src: string;
     alt: string;
@@ -73,16 +72,24 @@ interface HeroSplitProps {
     className?: string;
     objectPosition?: string;
     objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
+    parallax?: {
+      enabled?: boolean;
+      speed?: number;
+      direction?: "up" | "down" | "left" | "right";
+      scale?: boolean;
+      scaleRange?: [number, number];
+      yRange?: [string, string];
+      xRange?: [string, string];
+    };
   }>;
+
+  // Parallax
+  enableParallax?: boolean;
+  parallaxContainer?: boolean;
 
   // Spacing
   padding?: "none" | "sm" | "md" | "lg" | "xl";
   height?: "auto" | "screen" | "full" | "fit";
-
-  // Responsive behavior
-  reverseOnMobile?: boolean;
-  hideContentOnMobile?: boolean;
-  hideSlotOnMobile?: boolean;
 }
 
 export const HeroSplit = ({
@@ -98,89 +105,34 @@ export const HeroSplit = ({
   contentClassName = "",
   headingClassName = "",
   backgroundImage,
-  backgroundGradient,
   backgroundImages = [],
-  padding = "lg",
-  height = "screen",
-  reverseOnMobile = false,
-  hideContentOnMobile = false,
-  hideSlotOnMobile = false,
+  enableParallax = false,
+  parallaxContainer = false,
 }: HeroSplitProps) => {
-  const backgroundStyle =
-    backgroundImage ? { backgroundImage: `url(${backgroundImage})` }
-    : backgroundGradient ? { background: backgroundGradient }
-    : {};
-
-  const renderBackgroundImages = () => {
-    return backgroundImages.map((image, index) => {
-      const {
-        src,
-        alt,
-        zIndex = -10,
-        opacity = 1,
-        className: imageClassName = "",
-        objectPosition = "center",
-        objectFit = "cover",
-      } = image;
-
-      const imageStyle = {
-        opacity,
-        zIndex,
-      };
-
-      return (
-        <Image
-          key={`bg-image-${index}`}
-          src={src}
-          alt={alt}
-          fill
-          className={cn("absolute", imageClassName)}
-          style={{
-            ...imageStyle,
-            objectPosition,
-            objectFit,
-          }}
-        />
-      );
-    });
-  };
-
   return (
-    <section
-      className={cn(
-        "overflow-hidden relative",
-        height === "auto" && "h-auto",
-        height === "screen" && "h-screen",
-        height === "full" && "h-full",
-        height === "fit" && "h-fit",
-        backgroundImage && "bg-cover bg-center bg-no-repeat",
-        backgroundGradient && "bg-gradient-to-r",
-        className
-      )}
-      style={backgroundStyle}
+    <BackgroundSection
+      className={cn("lg:h-svh", content ? "h-[150svh]" : "h-svh", className)}
+      backgroundImage={backgroundImage}
+      backgroundImages={backgroundImages}
+      enableParallax={enableParallax}
+      parallaxContainer={parallaxContainer}
     >
-      {/* Background Images */}
-      {renderBackgroundImages()}
-
       <Wrapper
         className={cn(
           "flex h-full w-full items-center justify-center",
-          wrapperClassName
+          wrapperClassName,
         )}
       >
         <div
           className={cn(
-            "flex h-full w-full flex-col lg:grid lg:grid-cols-2 overflow-hidden gap-8 lg:gap-12",
-            reverseOnMobile && "lg:flex-row flex-col-reverse",
-            className
+            "flex h-full w-full flex-col lg:flex-row overflow-hidden gap-8 lg:gap-[5svw]",
           )}
         >
           {/* Heading Section */}
           <div
             className={cn(
-              "flex flex-col justify-center order-1 lg:order-1 pt-20 lg:pt-0",
-              hideContentOnMobile && "hidden lg:block",
-              headingClassName
+              "flex flex-col justify-end pt-24 lg:pt-0 lg:pb-20",
+              headingClassName,
             )}
           >
             <Heading
@@ -190,17 +142,15 @@ export const HeroSplit = ({
               badges={badges}
               metadata={metadata}
               cta={cta}
-              className="w-full"
+              className="w-full max-w-lg bg-background p-6 rounded-2xl shadow relative z-10"
             />
           </div>
-
           {/* Content Section - User can pass any content */}
           {content && (
             <div
               className={cn(
-                "flex items-center justify-end lg:justify-center order-2 lg:order-2 w-full lg:w-auto flex-1 lg:flex-none",
-                hideSlotOnMobile && "hidden lg:block",
-                contentClassName
+                "flex items-center justify-center w-full lg:w-auto flex-1",
+                contentClassName,
               )}
             >
               {content}
@@ -208,6 +158,6 @@ export const HeroSplit = ({
           )}
         </div>
       </Wrapper>
-    </section>
+    </BackgroundSection>
   );
 };

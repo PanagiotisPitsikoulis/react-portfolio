@@ -15,7 +15,7 @@ function Wrapper({
       className={cn(
         className,
         fullWidth && "w-full",
-        !fullWidth && "mx-auto max-w-6xl px-4 sm:px-6 lg:px-8"
+        !fullWidth && "mx-auto max-w-6xl px-6 lg:px-12",
       )}
     >
       {children}

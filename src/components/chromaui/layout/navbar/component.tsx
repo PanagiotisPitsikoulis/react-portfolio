@@ -7,6 +7,7 @@ import { NavbarActions } from "./components/navbar-actions";
 import { NavbarBrand } from "./components/navbar-brand";
 import { NavbarDesktopMenu } from "./components/navbar-desktop-menu";
 import { NavbarMobileMenu } from "./components/navbar-mobile-menu";
+import Wrapper from "../../section/wrapper/component";
 
 interface NavbarProps {
   topPosts: Array<{
@@ -64,10 +65,10 @@ export const Navbar = ({ topPosts, topProjects, sidebarData }: NavbarProps) => {
       className={cn(
         hasScrolled && "bg-background border-b border-border shadow-xs",
         "py-5 fixed w-full z-50",
-        isProjectPage && !hasScrolled && "dark"
+        isProjectPage && !hasScrolled && "dark",
       )}
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <Wrapper>
         <div className="w-full flex justify-between items-center">
           {/* Brand */}
           <NavbarBrand />
@@ -89,11 +90,11 @@ export const Navbar = ({ topPosts, topProjects, sidebarData }: NavbarProps) => {
           {/* Mobile Menu */}
           <NavbarMobileMenu
             navData={sidebarData.navMain}
-            projectLinks={projectLinks}
-            blogLinks={blogLinks}
+            projects={projectItems}
+            blog={blogItems}
           />
         </div>
-      </div>
+      </Wrapper>
     </nav>
   );
 };

@@ -4,6 +4,9 @@ import { FooterBrand } from "./components/footer-brand";
 import { FooterColumns } from "./components/footer-columns";
 import { FooterCommandBar } from "./components/footer-command-bar";
 import { FooterSocial } from "./components/footer-social";
+import Wrapper from "../../section/wrapper/component";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { cn } from "@/lib/utils";
 
 interface FooterConfig {
   // Branding
@@ -36,7 +39,6 @@ interface FooterConfig {
   className?: string;
 
   // Layout
-  maxWidth?: string;
   showBottomBar?: boolean;
 }
 
@@ -52,29 +54,33 @@ export const Footer = ({ config, projects = [], blog = [] }: FooterProps) => {
     socialLinks,
     showCommandBar = true,
     showSocialLinks = true,
-    maxWidth = "max-w-6xl",
     showBottomBar = true,
     className = "",
   } = config;
 
   return (
-    <footer className={`w-full bg-background relative ${className}`}>
-      <div className={`mx-auto ${maxWidth} px-4 sm:px-6 lg:px-8`}>
+    <footer className={cn(`w-full bg-background relative border-t`, className)}>
+      <Wrapper>
         <div
           className={`grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-12 gap-4 lg:gap-6 py-12 w-full`}
         >
-          {/* Logo + Command bar */}
-          <div className="col-span-full lg:col-span-4 flex flex-col gap-10">
-            <div className="flex flex-row gap-3 w-full mb-5">
+          {/* Logo + Command bar + Theme Toggle */}
+          <div className="flex flex-row gap-3 w-full mb-5 items-center justify-between col-span-full">
+            <div className="flex flex-row gap-3 items-center">
               <FooterBrand config={config} />
               {showCommandBar && (
                 <FooterCommandBar projects={projects} blog={blog} />
               )}
             </div>
+            {config.showThemeToggle && (
+              <div className="flex-shrink-0">
+                <ThemeToggle />
+              </div>
+            )}
           </div>
 
           {/* Columns */}
-          <div className="grid grid-cols-2 w-full gap-6 md:grid-cols-4 lg:gap-12 col-span-full lg:col-span-full">
+          <div className="grid grid-cols-2 w-full gap-12 lg:gap-0 md:grid-cols-4 col-span-full lg:col-span-full">
             {/* Social Links */}
             {showSocialLinks && <FooterSocial socialLinks={socialLinks} />}
 
@@ -82,7 +88,7 @@ export const Footer = ({ config, projects = [], blog = [] }: FooterProps) => {
             <FooterColumns columns={columns} />
           </div>
         </div>
-      </div>
+      </Wrapper>
 
       {/* Bottom bar */}
       {showBottomBar && <FooterBottom config={config} />}

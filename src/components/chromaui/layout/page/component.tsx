@@ -21,7 +21,7 @@ export function Page({
       {hero && (
         <section
           aria-label="Hero Section"
-          className={cn(isHeroDark && "dark", "h-svh", heroClassName)}
+          className={cn(isHeroDark && "dark", "min-h-svh", heroClassName)}
         >
           {hero}
         </section>
@@ -29,7 +29,10 @@ export function Page({
       {children && (
         <section
           aria-label="Content Section"
-          className={cn("min-h-svh", contentClassName)}
+          className={cn(
+            "min-h-svh bg-secondary dark:bg-background",
+            contentClassName,
+          )}
         >
           {children}
         </section>

@@ -1,0 +1,1 @@
+export { BackgroundSection } from "./component";

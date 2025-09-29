@@ -77,19 +77,19 @@ const sizeConfig = {
     spacing: "mb-4",
   },
   lg: {
-    title: "text-5xl font-semibold lg:text-6xl",
+    title: "text-5xl font-semibold lg:text-5xl",
     subtitle: "text-lg text-muted-foreground",
     description: "text-lg text-muted-foreground",
     spacing: "mb-5",
   },
   xl: {
-    title: "text-6xl font-semibold lg:text-7xl",
+    title: "text-5xl font-semibold lg:text-7xl",
     subtitle: "text-xl text-muted-foreground",
     description: "text-xl text-muted-foreground",
     spacing: "mb-6",
   },
   "2xl": {
-    title: "text-7xl font-semibold lg:text-8xl",
+    title: "text-5xl font-semibold lg:text-8xl",
     subtitle: "text-2xl text-muted-foreground",
     description: "text-2xl text-muted-foreground",
     spacing: "mb-6",
@@ -138,22 +138,17 @@ export const Heading = ({
   const variantStyles = variantConfig[variant];
   const visibleBadges = badges.slice(0, maxVisibleBadges);
   const hiddenBadges = badges.slice(maxVisibleBadges);
-  const ctaButtons =
-    Array.isArray(cta) ? cta
-    : cta ? [cta]
-    : [];
+  const ctaButtons = Array.isArray(cta) ? cta : cta ? [cta] : [];
 
   return (
     <div className={cn(variantStyles.container, className)}>
       {/* Metadata and badges section */}
-      {(
-        (showMetadata && metadata.length > 0) ||
-        (showBadges && badges.length > 0)
-      ) ?
+      {(showMetadata && metadata.length > 0) ||
+      (showBadges && badges.length > 0) ? (
         <div
           className={cn(
-            "text-muted-foreground flex items-center flex-wrap justify-center lg:justify-start gap-2 text-sm font-medium tracking-tight mb-4",
-            variantStyles.metadata
+            "text-muted-foreground flex items-center flex-wrap gap-2 text-sm font-medium tracking-tight mb-4",
+            variantStyles.metadata,
           )}
         >
           {/* Metadata items */}
@@ -162,18 +157,18 @@ export const Heading = ({
               <div
                 key={index}
                 className={cn(
-                  "bg-secondary/40 rounded-full px-3 py-1.5 text-xs flex items-center gap-2",
-                  item.className
+                  "bg-secondary rounded-full px-3 py-1.5 text-xs flex items-center gap-2",
+                  item.className,
                 )}
               >
                 {item.label && (
-                  <span className="inline-block size-2 rounded-full bg-primary" />
+                  <span className="inline-block size-2 rounded-full bg-accent" />
                 )}
                 <span>{item.value || item.label}</span>
               </div>
             ))}
         </div>
-      : null}
+      ) : null}
 
       {/* Badges section */}
       {showBadges && badges.length > 0 && (
@@ -184,7 +179,7 @@ export const Heading = ({
               variant={badge.variant || "secondary"}
               className={cn(
                 "capitalize text-[10px] py-0.5 px-2 rounded-full font-medium bg-secondary/40 text-foreground",
-                badge.className
+                badge.className,
               )}
             >
               {badge.label}
@@ -208,7 +203,7 @@ export const Heading = ({
                       variant={badge.variant || "secondary"}
                       className={cn(
                         "capitalize text-[10px] py-0.5 px-2 rounded-full font-medium bg-secondary/40 text-foreground",
-                        badge.className
+                        badge.className,
                       )}
                     >
                       {badge.label}
@@ -226,7 +221,7 @@ export const Heading = ({
         className={cn(
           "text-foreground leading-tight text-pretty font-bold",
           config.title,
-          titleClassName
+          titleClassName,
         )}
       >
         {title}
@@ -236,9 +231,9 @@ export const Heading = ({
       {subtitle && (
         <p
           className={cn(
-            "text-foreground leading-relaxed max-w-sm lg:text-left text-sm mt-2",
+            "text-muted-foreground leading-relaxed max-w-xl text-sm mt-2",
             config.subtitle,
-            subtitleClassName
+            subtitleClassName,
           )}
         >
           {subtitle}
@@ -249,8 +244,8 @@ export const Heading = ({
       {description && (
         <p
           className={cn(
-            "text-foreground leading-relaxed mt-2",
-            config.description
+            "text-white/70 leading-relaxed mt-2",
+            config.description,
           )}
         >
           {description}
@@ -261,8 +256,8 @@ export const Heading = ({
       {showCta && ctaButtons.length > 0 && (
         <div
           className={cn(
-            "flex flex-col md:flex-row lg:justify-start justify-center mt-12 relative",
-            variantStyles.cta
+            "flex flex-col md:flex-row mt-12 relative gap-4",
+            variantStyles.cta,
           )}
         >
           {ctaButtons.map((button, index) => (

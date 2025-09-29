@@ -29,7 +29,7 @@ export function ToC({ content }: ToCProps) {
         .replace(/\s+/g, "-")
         .replace(/-+/g, "-")
         .replace(/^-|-$/g, ""),
-    []
+    [],
   );
 
   // Extract headings from markdown
@@ -98,8 +98,8 @@ export function ToC({ content }: ToCProps) {
     activeIndex >= 0 ? ((activeIndex + 1) / toc.length) * 100 : 0;
 
   return (
-    <div className="w-full max-h-[32rem] max-w-[25svw] sticky top-32 z-40 dark">
-      <div className="rounded-3xl shadow-xl bg-secondary border border-border/50 overflow-hidden">
+    <div className="w-full max-h-[32rem] max-w-[25svw] sticky top-32 z-40 dark hidden lg:block">
+      <div className="rounded-3xl shadow-sm bg-background dark:bg-secondary border border-border overflow-hidden">
         <div className="p-5">
           {/* Header */}
           <div className="flex items-center justify-between mb-4">
@@ -112,9 +112,11 @@ export function ToC({ content }: ToCProps) {
               className="h-7 w-7 rounded-full hover:bg-primary/10"
               onClick={() => setIsVisible((v) => !v)}
             >
-              {isVisible ?
+              {isVisible ? (
                 <Eye className="w-3.5 h-3.5 text-muted-foreground" />
-              : <EyeOff className="w-3.5 h-3.5 text-muted-foreground" />}
+              ) : (
+                <EyeOff className="w-3.5 h-3.5 text-muted-foreground" />
+              )}
             </Button>
           </div>
 
@@ -133,9 +135,9 @@ export function ToC({ content }: ToCProps) {
                     className={[
                       "block w-full text-left py-2 pr-3 text-xs transition-all duration-300 rounded-3xl relative",
                       "hover:bg-primary/10 hover:text-primary",
-                      isActive ?
-                        "bg-primary/15 text-primary font-semibold"
-                      : "text-muted-foreground hover:text-foreground",
+                      isActive
+                        ? "bg-primary/15 text-primary font-semibold"
+                        : "text-muted-foreground hover:text-foreground",
                     ].join(" ")}
                   >
                     {/* Border indicator */}
@@ -155,9 +157,9 @@ export function ToC({ content }: ToCProps) {
                         <Circle
                           size={5}
                           className={`transition-all ${
-                            isActive ?
-                              "fill-primary text-primary"
-                            : "fill-muted-foreground text-muted-foreground"
+                            isActive
+                              ? "fill-primary text-primary"
+                              : "fill-muted-foreground text-muted-foreground"
                           }`}
                         />
                       )}

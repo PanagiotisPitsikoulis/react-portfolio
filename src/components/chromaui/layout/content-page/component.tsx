@@ -20,6 +20,8 @@ interface ContentPageProps {
   // Layout options
   layout?: "split" | "full-width";
 
+  contentAbove?: React.ReactNode;
+
   // Styling
   className?: string;
   contentClassName?: string;
@@ -31,6 +33,7 @@ export const ContentPage = ({
   isHeroDark = false,
   children,
   widgets = [],
+  contentAbove,
   sidebar,
   layout = "split",
   className = "",
@@ -39,11 +42,12 @@ export const ContentPage = ({
 }: ContentPageProps) => {
   return (
     <Page hero={hero} isHeroDark={isHeroDark} className={className}>
-      {layout === "split" ?
+      {contentAbove}
+      {layout === "split" ? (
         <Wrapper className="py-8 lg:py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-6 gap-8 lg:gap-12">
             {/* Main Content */}
-            <div className={cn("lg:col-span-2", contentClassName)}>
+            <div className={cn("lg:col-span-4", contentClassName)}>
               {/* Widgets above content */}
               {widgets.map((widget, index) => (
                 <div key={index} className="mb-8">
@@ -56,12 +60,13 @@ export const ContentPage = ({
             </div>
 
             {/* Sidebar */}
-            <div className={cn("lg:col-span-1", sidebarClassName)}>
+            <div className={cn("lg:col-span-2", sidebarClassName)}>
               {sidebar}
             </div>
           </div>
         </Wrapper>
-      : <Wrapper className="py-8 lg:py-12">
+      ) : (
+        <Wrapper className="py-8 lg:py-12">
           <div className={cn("max-w-4xl mx-auto", contentClassName)}>
             {/* Widgets above content */}
             {widgets.map((widget, index) => (
@@ -74,7 +79,7 @@ export const ContentPage = ({
             {children}
           </div>
         </Wrapper>
-      }
+      )}
     </Page>
   );
 };

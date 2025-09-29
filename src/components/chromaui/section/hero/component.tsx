@@ -1,8 +1,6 @@
 "use client";
 
 import React from "react";
-import { HeroCentered } from "./hero-centered";
-import { HeroRight } from "./hero-right";
 import { HeroSplit } from "./hero-split";
 
 type Variant =
@@ -11,67 +9,32 @@ type Variant =
   | "heading-right-content-left";
 
 interface HeroProps {
-  // Content
+  className?: string;
   title: string;
   subtitle?: string;
-  description?: string;
-
-  // Heading props (passed to internal Heading component)
   badges?: Array<{
     label: string;
     variant?: "default" | "secondary" | "destructive" | "outline";
-    className?: string;
   }>;
   metadata?: Array<{
     label?: string;
     value?: string;
-    className?: string;
   }>;
-  cta?:
-    | {
-        label: string;
-        href: string;
-        external?: boolean;
-        variant?:
-          | "default"
-          | "destructive"
-          | "outline"
-          | "secondary"
-          | "ghost"
-          | "link";
-        size?: "default" | "sm" | "lg" | "icon";
-        className?: string;
-      }
-    | Array<{
-        label: string;
-        href: string;
-        external?: boolean;
-        variant?:
-          | "default"
-          | "destructive"
-          | "outline"
-          | "secondary"
-          | "ghost"
-          | "link";
-        size?: "default" | "sm" | "lg" | "icon";
-        className?: string;
-      }>;
-
-  // Layout
+  cta?: {
+    label: string;
+    href: string;
+    external?: boolean;
+    variant?:
+      | "default"
+      | "destructive"
+      | "outline"
+      | "secondary"
+      | "ghost"
+      | "link";
+    size?: "default" | "sm" | "lg" | "icon";
+  };
   variant?: Variant;
-
-  // Content slot - user can pass any component
   content?: React.ReactNode;
-
-  // Styling
-  className?: string;
-  wrapperClassName?: string;
-  contentClassName?: string;
-  headingClassName?: string;
-
-  // Background
-  backgroundImage?: string;
-  backgroundGradient?: string;
   backgroundImages?: Array<{
     src: string;
     alt: string;
@@ -80,32 +43,31 @@ interface HeroProps {
     className?: string;
     objectPosition?: string;
     objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
+    parallax?: {
+      enabled?: boolean;
+      speed?: number;
+      direction?: "up" | "down" | "left" | "right";
+      scale?: boolean;
+      scaleRange?: [number, number];
+      yRange?: [string, string];
+      xRange?: [string, string];
+    };
   }>;
-
-  // Spacing
-  padding?: "none" | "sm" | "md" | "lg" | "xl";
-  height?: "auto" | "screen" | "full" | "fit";
-
-  // Responsive behavior
-  reverseOnMobile?: boolean;
-  hideContentOnMobile?: boolean;
-  hideSlotOnMobile?: boolean;
+  enableParallax?: boolean;
+  parallaxContainer?: boolean;
 }
 
 // Common props interface for all hero variants
-interface CommonHeroProps {
+export interface CommonHeroProps {
+  className?: string;
   title: string;
   subtitle?: string;
-  description?: string;
   badges?: Array<{
     label: string;
-    variant?: "default" | "secondary" | "destructive" | "outline";
-    className?: string;
   }>;
   metadata?: Array<{
     label?: string;
     value?: string;
-    className?: string;
   }>;
   cta?:
     | {
@@ -137,12 +99,6 @@ interface CommonHeroProps {
         className?: string;
       }>;
   content?: React.ReactNode;
-  className?: string;
-  wrapperClassName?: string;
-  contentClassName?: string;
-  headingClassName?: string;
-  backgroundImage?: string;
-  backgroundGradient?: string;
   backgroundImages?: Array<{
     src: string;
     alt: string;
@@ -151,12 +107,18 @@ interface CommonHeroProps {
     className?: string;
     objectPosition?: string;
     objectFit?: "cover" | "contain" | "fill" | "none" | "scale-down";
+    parallax?: {
+      enabled?: boolean;
+      speed?: number;
+      direction?: "up" | "down" | "left" | "right";
+      scale?: boolean;
+      scaleRange?: [number, number];
+      yRange?: [string, string];
+      xRange?: [string, string];
+    };
   }>;
-  padding?: "none" | "sm" | "md" | "lg" | "xl";
-  height?: "auto" | "screen" | "full" | "fit";
-  reverseOnMobile?: boolean;
-  hideContentOnMobile?: boolean;
-  hideSlotOnMobile?: boolean;
+  enableParallax?: boolean;
+  parallaxContainer?: boolean;
 }
 
 export const Hero = ({
@@ -164,35 +126,22 @@ export const Hero = ({
   ...props
 }: HeroProps) => {
   const commonProps: CommonHeroProps = {
+    className: props.className,
     title: props.title,
     subtitle: props.subtitle,
-    description: props.description,
     badges: props.badges,
     metadata: props.metadata,
     cta: props.cta,
     content: props.content,
-    className: props.className,
-    wrapperClassName: props.wrapperClassName,
-    contentClassName: props.contentClassName,
-    headingClassName: props.headingClassName,
-    backgroundImage: props.backgroundImage,
-    backgroundGradient: props.backgroundGradient,
     backgroundImages: props.backgroundImages,
-    padding: props.padding,
-    height: props.height,
-    reverseOnMobile: props.reverseOnMobile,
-    hideContentOnMobile: props.hideContentOnMobile,
-    hideSlotOnMobile: props.hideSlotOnMobile,
+    enableParallax: props.enableParallax,
+    parallaxContainer: props.parallaxContainer,
   };
 
-  switch (variant) {
-    case "heading-left-content-right":
-      return <HeroSplit {...commonProps} />;
-    case "heading-center-content-below":
-      return <HeroCentered {...commonProps} />;
-    case "heading-right-content-left":
-      return <HeroRight {...commonProps} />;
-    default:
-      return <HeroSplit {...commonProps} />;
-  }
+  return (
+    <div className="relative">
+      <div className="object-cover absolute -z-40 bg-background w-full h-[150svh] lg:h-svh" />
+      <HeroSplit {...commonProps} />
+    </div>
+  );
 };

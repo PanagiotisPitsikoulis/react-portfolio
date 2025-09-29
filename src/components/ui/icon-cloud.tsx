@@ -51,8 +51,8 @@ export function IconCloud({ icons, images }: IconCloudProps) {
 
     const newIconCanvases = items.map((item, index) => {
       const offscreen = document.createElement("canvas");
-      offscreen.width = 40;
-      offscreen.height = 40;
+      offscreen.width = 128;
+      offscreen.height = 128;
       const offCtx = offscreen.getContext("2d");
 
       if (offCtx) {
@@ -64,26 +64,40 @@ export function IconCloud({ icons, images }: IconCloudProps) {
           img.onload = () => {
             offCtx.clearRect(0, 0, offscreen.width, offscreen.height);
 
-            // Create circular clipping path
+            // Draw white background circle for dark mode
             offCtx.beginPath();
-            offCtx.arc(20, 20, 20, 0, Math.PI * 2);
+            offCtx.arc(64, 64, 64, 0, Math.PI * 2);
+            offCtx.fillStyle = "white";
+            offCtx.fill();
+
+            // Create circular clipping path for the smaller icon
+            offCtx.beginPath();
+            offCtx.arc(64, 64, 48, 0, Math.PI * 2);
             offCtx.closePath();
             offCtx.clip();
 
-            // Draw the image
-            offCtx.drawImage(img, 0, 0, 40, 40);
+            // Draw the image smaller with padding
+            offCtx.drawImage(img, 16, 16, 96, 96);
 
             imagesLoadedRef.current[index] = true;
           };
         } else {
           // Handle SVG icons
-          offCtx.scale(0.4, 0.4);
+          offCtx.scale(0.96, 0.96);
           const svgString = renderToString(item as React.ReactElement);
           const img = new Image();
           img.src = "data:image/svg+xml;base64," + btoa(svgString);
           img.onload = () => {
             offCtx.clearRect(0, 0, offscreen.width, offscreen.height);
-            offCtx.drawImage(img, 0, 0);
+            
+            // Draw white background circle for dark mode
+            offCtx.beginPath();
+            offCtx.arc(64, 64, 64, 0, Math.PI * 2);
+            offCtx.fillStyle = "white";
+            offCtx.fill();
+            
+            // Draw SVG icon smaller with padding
+            offCtx.drawImage(img, 16, 16);
             imagesLoadedRef.current[index] = true;
           };
         }
@@ -149,7 +163,7 @@ export function IconCloud({ icons, images }: IconCloudProps) {
       const screenY = canvasRef.current!.height / 2 + rotatedY;
 
       const scale = (rotatedZ + 200) / 300;
-      const radius = 20 * scale;
+      const radius = 16 * scale;
       const dx = x - screenX;
       const dy = y - screenY;
 
@@ -278,18 +292,18 @@ export function IconCloud({ icons, images }: IconCloudProps) {
             iconCanvasesRef.current[index] &&
             imagesLoadedRef.current[index]
           ) {
-            ctx.drawImage(iconCanvasesRef.current[index], -20, -20, 40, 40);
+            ctx.drawImage(iconCanvasesRef.current[index], -16, -16, 32, 32);
           }
         } else {
           // Show numbered circles if no icons/images are provided
           ctx.beginPath();
-          ctx.arc(0, 0, 20, 0, Math.PI * 2);
+          ctx.arc(0, 0, 16, 0, Math.PI * 2);
           ctx.fillStyle = "#4444ff";
           ctx.fill();
           ctx.fillStyle = "white";
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          ctx.font = "16px Arial";
+          ctx.font = "12px Arial";
           ctx.fillText(`${icon.id + 1}`, 0, 0);
         }
 

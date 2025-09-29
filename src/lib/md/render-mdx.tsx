@@ -22,7 +22,7 @@ export function MDXContent({ source }: { source: MDXRemoteSerializeResult }) {
   const components = useMDXComponents({});
 
   return (
-    <div className="prose prose-sm dark:prose-invert max-w-none">
+    <div className="max-w-xl text-pretty">
       <MDXRemote {...source} components={components} />
     </div>
   );

@@ -1,48 +1,47 @@
 import { cn } from "@/lib/utils";
 import React from "react";
 import { ContentPage } from "./component";
+import { ToCMobile } from "@/components/chromaui/markdown/toc-mobile";
 
 interface PostLayoutProps {
-  // Hero section
   hero?: React.ReactNode;
-  isHeroDark?: boolean;
-
-  // Content
   children?: React.ReactNode;
   toc?: React.ReactNode;
-
-  // Widget slots for content above MDX
+  tocContent?: string;
+  contentAbove?: React.ReactNode;
   widgets?: React.ReactNode[];
-
-  // Styling
-  className?: string;
-  contentClassName?: string;
-  sidebarClassName?: string;
 }
 
 export const PostLayout = ({
   hero,
-  isHeroDark = false,
   children,
+  contentAbove,
   toc,
+  tocContent,
   widgets = [],
-  className = "",
-  contentClassName = "",
-  sidebarClassName = "",
 }: PostLayoutProps) => {
+  // Add mobile TOC as a widget that appears above content on mobile
+  const allWidgets = [
+    ...widgets,
+    ...(tocContent
+      ? [
+          <div key="mobile-toc" className="lg:hidden">
+            <ToCMobile content={tocContent} />
+          </div>,
+        ]
+      : []),
+  ];
+
   return (
     <ContentPage
       hero={hero}
-      isHeroDark={isHeroDark}
+      contentAbove={contentAbove}
+      isHeroDark={true}
       layout="split"
-      widgets={widgets}
+      widgets={allWidgets}
       sidebar={toc && <>{toc}</>}
-      className={className}
-      contentClassName={cn(
-        "prose prose-gray dark:prose-invert max-w-none",
-        contentClassName
-      )}
-      sidebarClassName={cn("sticky top-8 h-fit", sidebarClassName)}
+      contentClassName="max-w-none"
+      sidebarClassName="sticky top-[7rem] h-fit"
     >
       {children}
     </ContentPage>

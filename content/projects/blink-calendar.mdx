@@ -11,55 +11,159 @@ tags: [
   "ISR",
   "OAuth",
   "Google Calendar",
-  "ICS",
   "QR Codes",
-  "React Context"
+  "Next.js",
+  "Openai",
+  "Google Maps",
+  "Html5",
+  "CSS",
+  "Javascript",
+  "SEO",
+  "bun",
+  "tailwindcss",
+  "node.js",
+  "Github",
+  "Figma",
+  "Zed",
+  "App Router",
+  "React Server Components",
+  "TypeScript",
+  "Tailwind CSS",
+  "shadcn/ui",
+  "Radix UI",
+  "MDX",
+  "SEO",
+  "Open Graph",
+  "Sitemap",
+  "Robots.txt",
+  "RSS",
+  "ImageResponse",
+  "React",
+  "Vercel",
 ]
-metaTitle: "Blink — Modern, QR‑Powered Booking for Artists and Clients"
-metaDescription: "Appointment scheduling for tattoo studios with live calendar sync, role‑based dashboards, dark mode, and QR check‑ins."
-url: "https://blink-calendar.vercel.app/"
-routes: []
+url: "https://blink-calendar.vercel.app"
 featured: false
-cover: ''
+cover: '/screenshots/blink-calendar.webp'
+screenshotMobile: '/screenshots/blink-calendar.mobile.webp'
+backgroundImage: '/content/projects/blink-calendar/bg.png'
 github: 'https://github.com/PanagiotisPitsikoulis/blink-calendar'
 ---
 
-## Overview
+# Blink Calendar Overview
 
-Volunteer project for [Blink Tattoo](https://www.blinktattoo.gr/).
+## The motivation for building this project
 
-Blink is an appointment‑scheduling platform purpose‑built for Blink Tattoo, a tattoo studio in Thessaloniki, Greece. Powered by Next.js, styled with Tailwind CSS, and polished with shadcn/ui, it combines an intuitive UI with automatic QR‑code check‑ins and real‑time calendar sync.
+We all know the hassle of managing appointments and schedules, especially when it comes to clients having their first tattoo. They have to remember the date and time of their appointment as well as the location of the studio.
 
-## Why Blink exists
+This leads to missed appointments, frustrating both clients who have to rejoin a long waitlist, as well as artists who have to reschedule their appointments and potentially lose revenue.
 
-Phone calls, DMs, and notebooks invite double bookings and missed reminders. Blink was shaped by conversations with artists who needed a tool as flexible as their workflow—but as reliable as a professional calendar. The goal: remove admin overhead so artists focus on design, not logistics.
+Obviously, many solutions exist to solve this problem, but none of them are tailored to the specific needs of a tattoo studio. They have complex ui that requires training for the staff and are not free of charge.
 
-## Key user‑facing benefits
+Therefore, I volunteered to build this project for [Blink Tattoo](https://www.blinktattoo.gr/). It is a web application, that adds appointment details to the users apple or google calendar through scanning a QR Code.
 
-### Appointment visibility & management
-A self‑serve portal shows upcoming sessions with date, time, and notes—reducing no‑shows.
+![Blink Tattoo Studio](/content/projects/blink-calendar/blink-tattoo.png)
 
-### Google & Apple calendar integration
-Studio bookings sync to artists’ calendars via secure OAuth (Google Calendar) or downloadable ICS.
+# Technical challenges and considerations
 
-### Dark & light modes
-Theme switcher supports bright studios and dim environments with clear, accessible contrast.
+Even though this seems like a simple project, there were limitations that forced me to think out of the box. Through a careful planning stage I was able to arrive to these solutions.
 
-## Technical architecture
+|Challenge|Solution|
+|---|---|
+|Blink Calendar had to be very lightweight, used exclusively on mobile devices.|Used Tailwind CSS and Next.js with SSR.|
+|The UI had to be very intuitive and easy to use, with a focus on simplicity, able to be used by anyone.|Tailwind CSS & ShadCN/UI.|
+|Needs to pass information to the clients phone without a backend|Put all the information in a QR Code. 😭|
+|It had to be able to be hosted on any free hosting service, since it is a volunteer project.|Vercel.|
 
-### Next.js foundations
-Server‑side rendering for fast loads and SEO. ISR keeps marketing pages fresh while APIs remain real‑time.
+# Key Features
+On the table that follows, the main features of this web application are highlighted.
 
-### Tailwind CSS & shadcn/ui
-Utility‑first styles with accessible, consistent components—buttons, date pickers, dialogs, and more.
+| Feature | Description |
+|---------|-------------|
+| Appointment Sync | Clients can add their session directly to Google Calendar or Apple Calendar. |
+| Intiutive Admin Panel. | Employees fill a very simple form on their phone and are then presented with a QR code for the customer to scan. |
+| Minimal Design. | Features a dark mode toggle, very readable and easy to use in any screen size.|
+| Localization | The website can toggle between English and Greek with the press of a button |
+| Studio Branding. | Layout, fonts, and colors match Blink Tattoo’s aesthetic. |
+| Google/Apple Maps Integration. | Clients get instant directions to the studio. |
 
-### State management strategy
-Lightweight React context orchestrates calendars, forms, and modal flows. Memoized hooks keep date logic snappy on mobile.
+# Code Preview
 
-## QR codes: bridging online booking with in‑studio check‑in
+I have released the source code of this project on github. If you do not have the time to go through it, you can have a preview down below.
 
-Each booking generates a unique QR that embeds the appointment ID. On arrival, a quick scan surfaces the record in the admin panel and marks the client as Checked‑In—no paper forms or manual searches.
 
-## Solving real studio pain points
+``` typescript
+export function createCalendarUrls(
+  date: Date,
+  time: string,
+  title: string,
+  description: string,
+  location: string
+) {
+  if (!date || !time) return { google: "", apple: "", icsContent: "" };
 
-By unifying visual scheduling, reminders, calendar sync, and QR verification, Blink eliminates double bookings, missed appointments, and miscommunication—returning time to artists and a polished experience to clients.
+  // Create event start and end time
+  const [hours, minutes] = time.split(":");
+  const startDate = new Date(date);
+  startDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+  const endDate = new Date(startDate);
+  endDate.setHours(startDate.getHours() + 1);
+
+  // Format dates
+  const startFormatted = startDate
+    .toISOString()
+    .replace(/[-:]/g, "")
+    .replace(/\.\d{3}/g, "");
+  const endFormatted = endDate
+    .toISOString()
+    .replace(/[-:]/g, "")
+    .replace(/\.\d{3}/g, "");
+
+  const coordinates = {
+    lat: 40.62999,
+    lng: 22.95042,
+  };
+
+  // Simplified map URLs
+  const googleMapsUrl = `https://maps.app.goo.gl/JN3CLUQ4janyyGrZ8`;
+  const appleMapsUrl = `https://maps.apple.com/?ll=${coordinates.lat},${coordinates.lng}&q=Blink+Tattoo+Studio`;
+
+  // Shorter description for QR codes
+  const mapInfo = `\n\nFind us on Maps:\n${googleMapsUrl}`;
+
+  // Google Calendar URL
+  const googleParams = new URLSearchParams({
+    action: "TEMPLATE",
+    text: title,
+    details: description + mapInfo,
+    location: location,
+    dates: `${startFormatted}/${endFormatted}`,
+  });
+  const googleUrl = `https://calendar.google.com/calendar/render?${googleParams.toString()}`;
+
+  const icsContent = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    `DTSTART:${startFormatted}`,
+    `DTEND:${endFormatted}`,
+    `SUMMARY:${escapeIcsValue(title)}`,
+    `DESCRIPTION:${escapeIcsValue(description + mapInfo)}`,
+    `LOCATION:${escapeIcsValue(location)}`,
+    `GEO:${coordinates.lat};${coordinates.lng}`,
+    `URL;VALUE=URI:${appleMapsUrl}`,
+    `UID:${Date.now()}-${Math.random()
+      .toString(36)
+      .substring(2)}@blink-calendar.vercel.app`,
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ].join("\r\n");
+
+  const appleUrl = `data:text/calendar;charset=utf-8,${encodeURIComponent(
+    icsContent
+  )}`;
+
+  return { google: googleUrl, apple: appleUrl, icsContent };
+}
+```

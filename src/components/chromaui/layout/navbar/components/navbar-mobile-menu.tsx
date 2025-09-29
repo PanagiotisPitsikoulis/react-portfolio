@@ -1,12 +1,13 @@
 import { AppIcon } from "@/components/app-icon";
+import CommandBar from "@/components/command-bar";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Menu, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 interface NavbarMobileMenuProps {
@@ -16,92 +17,115 @@ interface NavbarMobileMenuProps {
     icon?: React.ReactNode;
     items?: Array<{ title: string; url: string }>;
   }>;
-  projectLinks: Array<{ title: string; href: string }>;
-  blogLinks: Array<{ title: string; href: string }>;
+  projects: Array<{ title: string; url: string }>;
+  blog: Array<{ title: string; url: string }>;
 }
 
 export const NavbarMobileMenu = ({
   navData,
-  projectLinks,
-  blogLinks,
+  projects,
+  blog,
 }: NavbarMobileMenuProps) => {
-  const sheetItemClass =
-    "block rounded-4xl px-6 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground";
-  const sheetGroupLabelClass =
-    "px-2 py-1 text-xs font-medium text-muted-foreground";
+  const drawerItemClass =
+    "flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors group";
+  const drawerGroupLabelClass =
+    "px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider";
+  const drawerSubItemClass =
+    "flex items-center justify-between rounded-xl px-4 py-2.5 text-sm hover:bg-accent/50 hover:text-accent-foreground transition-colors ml-4 group";
 
   return (
-    <Sheet>
-      <SheetTrigger asChild>
+    <Drawer>
+      <DrawerTrigger asChild>
         <button
           type="button"
-          className="inline-flex items-center p-3 ml-3 rounded-3xl lg:hidden hover:bg-accent focus:outline-none"
+          className="inline-flex items-center p-3 ml-3 rounded-2xl lg:hidden hover:bg-accent focus:outline-none transition-colors"
           aria-label="Open menu"
         >
-          <Menu className="w-6 h-6 text-foreground" />
+          <Menu className="w-5 h-5 text-foreground" />
         </button>
-      </SheetTrigger>
-      <SheetContent
-        side="right"
-        className="w-80 p-0 bg-popover text-popover-foreground"
-      >
-        <SheetHeader className="p-4">
-          <SheetTitle className="flex items-center gap-2">
-            <AppIcon />
-          </SheetTitle>
-        </SheetHeader>
-        <div className="p-2">
+      </DrawerTrigger>
+      <DrawerContent className="max-h-[90vh]">
+        <DrawerHeader className="pb-4 border-b border-border/50">
+          <div className="flex items-center justify-between gap-4">
+            <DrawerTitle className="flex items-center gap-3 text-xl font-semibold">
+              <AppIcon />
+              <span className="sr-only">Navigation</span>
+            </DrawerTitle>
+            <div className="flex-shrink-0">
+              <CommandBar projects={projects} blog={blog} />
+            </div>
+          </div>
+        </DrawerHeader>
+
+        <div className="px-4 pb-6 overflow-y-auto">
           <nav>
-            <ul className="flex flex-col gap-1">
+            <ul className="flex flex-col gap-2">
               {navData.map((item) => {
                 const isProjects = item.url === "/projects";
                 const isBlog = item.url === "/blog";
+
                 if (isProjects) {
                   return (
                     <li key={item.title}>
-                      <div className={sheetGroupLabelClass}>{item.title}</div>
-                      <ul className="py-1">
-                        {projectLinks.map((l) => (
-                          <li key={l.href}>
-                            <Link className={sheetItemClass} href={l.href}>
-                              {l.title}
+                      <div className={drawerGroupLabelClass}>{item.title}</div>
+                      <ul className="space-y-1">
+                        {projects.slice(0, 3).map((project) => (
+                          <li key={project.url}>
+                            <Link className={drawerSubItemClass} href={project.url}>
+                              <span className="truncate">{project.title}</span>
+                              <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </Link>
                           </li>
                         ))}
-                        <li>
-                          <Link className={sheetItemClass} href="/projects">
-                            View all projects
-                          </Link>
-                        </li>
+                        {projects.length > 3 && (
+                          <li>
+                            <Link
+                              className={drawerSubItemClass}
+                              href="/projects"
+                            >
+                              <span>
+                                View all {projects.length} projects
+                              </span>
+                              <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </Link>
+                          </li>
+                        )}
                       </ul>
                     </li>
                   );
                 }
+
                 if (isBlog) {
                   return (
                     <li key={item.title}>
-                      <div className={sheetGroupLabelClass}>{item.title}</div>
-                      <ul className="py-1">
-                        {blogLinks.map((l) => (
-                          <li key={l.href}>
-                            <Link className={sheetItemClass} href={l.href}>
-                              {l.title}
+                      <div className={drawerGroupLabelClass}>{item.title}</div>
+                      <ul className="space-y-1">
+                        {blog.slice(0, 3).map((post) => (
+                          <li key={post.url}>
+                            <Link className={drawerSubItemClass} href={post.url}>
+                              <span className="truncate">{post.title}</span>
+                              <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </Link>
                           </li>
                         ))}
-                        <li>
-                          <Link className={sheetItemClass} href="/blog">
-                            View all posts
-                          </Link>
-                        </li>
+                        {blog.length > 3 && (
+                          <li>
+                            <Link className={drawerSubItemClass} href="/blog">
+                              <span>View all {blog.length} posts</span>
+                              <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </Link>
+                          </li>
+                        )}
                       </ul>
                     </li>
                   );
                 }
+
                 return (
                   <li key={item.title}>
-                    <Link href={item.url} className={sheetItemClass}>
-                      {item.title}
+                    <Link href={item.url} className={drawerItemClass}>
+                      <span>{item.title}</span>
+                      <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </Link>
                   </li>
                 );
@@ -109,7 +133,7 @@ export const NavbarMobileMenu = ({
             </ul>
           </nav>
         </div>
-      </SheetContent>
-    </Sheet>
+      </DrawerContent>
+    </Drawer>
   );
 };

@@ -1,13 +1,10 @@
-import { cn } from "@/lib/utils";
-
 interface DividerProps {
   label?: string;
-  className?: string;
 }
 
-export const Divider = ({ label, className = "" }: DividerProps) => {
+export const Divider = ({ label }: DividerProps) => {
   return (
-    <div className={cn("relative my-8", className)}>
+    <div className="relative my-8">
       <div className="absolute inset-0 flex items-center">
         <div className="w-full border-t border-border" />
       </div>
