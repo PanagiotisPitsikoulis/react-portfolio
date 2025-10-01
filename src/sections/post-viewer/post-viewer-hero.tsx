@@ -3,6 +3,7 @@ import { ThreeDMarquee } from "@/components/ui/3d-marquee";
 import type { ContentItem, ContentType } from "@/lib/md/mdx";
 import { buildMosaicImages } from "@/lib/utils";
 import { backgroundImages } from "../../../content/data";
+import { theme } from "@/components/chromaui/themes";
 
 export interface PostViewerHeroProps {
   title: string;
@@ -24,22 +25,10 @@ const PostViewerHero = ({
     })
     .slice(0, 30);
   return (
-    <section className="relative pt-20">
-      <div className="flex flex-col items-center justify-center gap-5 text-center">
-        <p className="bg-muted w-fit rounded-full px-4 py-1 text-xs uppercase tracking-wide">
-          {title}
-        </p>
-        <h2 className="mt-2 max-w-xl text-3xl font-semibold tracking-tight lg:max-w-3xl lg:text-4xl">
-          {description}
-        </h2>
-        <div className="mt-8 flex h-full w-full items-center justify-center rounded-3xl overflow-clip">
-          <ThreeDMarquee
-            className="rounded-none"
-            images={buildMosaicImages(images, backgroundImages, { length: 30 })}
-          />
-        </div>
-      </div>
-    </section>
+    <section
+      className="relative border border-b w-screen overflow-hidden lg:pb-32 bg-background text-foreground lg:h-[50svh]"
+      style={theme.primary}
+    ></section>
   );
 };
 

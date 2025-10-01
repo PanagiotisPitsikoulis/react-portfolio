@@ -63,7 +63,7 @@ export const BackgroundSection = ({
     <section
       ref={containerRef}
       className={cn(
-        "overflow-hidden relative",
+        "overflow-hidden relative h-svh",
         backgroundImage && "bg-cover bg-center bg-no-repeat",
         className,
       )}
@@ -144,6 +144,7 @@ const ParallaxImage = ({
   imageClassName,
   baseImageStyle,
 }: ParallaxImageProps) => {
+  const [imageLoaded, setImageLoaded] = React.useState(false);
   const direction = parallax.direction ?? "up";
   const scaleRange = parallax.scaleRange ?? [1, 1.1];
   const yRange = parallax.yRange ?? ["-20%", "20%"];
@@ -167,14 +168,17 @@ const ParallaxImage = ({
 
   const motionStyle: any = {};
 
-  if (direction === "up" || direction === "down") {
-    motionStyle.y = yTransform;
-  } else {
-    motionStyle.x = xTransform;
-  }
+  // Only apply transforms after image is loaded
+  if (imageLoaded) {
+    if (direction === "up" || direction === "down") {
+      motionStyle.y = yTransform;
+    } else {
+      motionStyle.x = xTransform;
+    }
 
-  if (scaleTransform) {
-    motionStyle.scale = scaleTransform;
+    if (scaleTransform) {
+      motionStyle.scale = scaleTransform;
+    }
   }
 
   return (
@@ -183,8 +187,14 @@ const ParallaxImage = ({
         src={src}
         alt={alt}
         fill
-        className={cn("absolute left-0 right-0 top-0 bottom-0", imageClassName)}
+        priority
+        className={cn(
+          "absolute left-0 h-svh right-0 top-0 bottom-0",
+          imageClassName,
+        )}
         style={baseImageStyle}
+        onLoad={() => setImageLoaded(true)}
+        onError={() => setImageLoaded(true)} // Prevent infinite loading state
       />
     </motion.div>
   );

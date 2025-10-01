@@ -8,6 +8,8 @@ import { NavbarBrand } from "./components/navbar-brand";
 import { NavbarDesktopMenu } from "./components/navbar-desktop-menu";
 import { NavbarMobileMenu } from "./components/navbar-mobile-menu";
 import Wrapper from "../../section/wrapper/component";
+import { theme } from "../../themes";
+import { themes } from "@/components/theme";
 
 interface NavbarProps {
   topPosts: Array<{
@@ -29,14 +31,14 @@ interface NavbarProps {
 }
 
 export const Navbar = ({ topPosts, topProjects, sidebarData }: NavbarProps) => {
-  const [hasScrolled, setHasScrolled] = useState(false);
+  // const [hasScrolled, setHasScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => setHasScrolled(window.scrollY > 0);
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // useEffect(() => {
+  //   const handleScroll = () => setHasScrolled(window.scrollY > 0);
+  //   handleScroll();
+  //   window.addEventListener("scroll", handleScroll, { passive: true });
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
   const projectLinks = topProjects.map((p) => ({
     title: p.frontmatter.title || p.slug,
@@ -46,10 +48,6 @@ export const Navbar = ({ topPosts, topProjects, sidebarData }: NavbarProps) => {
     title: b.frontmatter.title || b.slug,
     href: `/blog/${b.frontmatter.slug}`,
   }));
-
-  const pathName = usePathname();
-  const isProjectPage =
-    pathName.includes("/projects") && pathName.split("/").length === 3;
 
   const projectItems = topProjects.map((p) => ({
     title: p.frontmatter.title || p.slug,
@@ -62,10 +60,10 @@ export const Navbar = ({ topPosts, topProjects, sidebarData }: NavbarProps) => {
 
   return (
     <nav
+      style={theme.primary}
       className={cn(
-        hasScrolled && "bg-background border-b border-border shadow-xs",
-        "py-5 fixed w-full z-50",
-        isProjectPage && !hasScrolled && "dark",
+        "bg-background border-b border-border",
+        "py-5 sticky top-0 w-full z-50",
       )}
     >
       <Wrapper>

@@ -44,10 +44,7 @@ const HighlightedHeading = ({
           <>
             {parts[0]}
             <span
-              className={cn(
-                "text-muted-foreground/40 drop-shadow",
-                highlightClassName,
-              )}
+              className={cn("text-muted-foreground/50", highlightClassName)}
             >
               {highlightText}
             </span>

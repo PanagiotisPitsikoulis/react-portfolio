@@ -72,25 +72,25 @@ const sizeConfig = {
   },
   md: {
     title: "text-4xl font-semibold lg:text-5xl",
-    subtitle: "text-base text-muted-foreground",
+    subtitle: "text-sm text-muted-foreground max-w-sm",
     description: "text-base text-muted-foreground",
     spacing: "mb-4",
   },
   lg: {
     title: "text-5xl font-semibold lg:text-5xl",
-    subtitle: "text-lg text-muted-foreground",
+    subtitle: "text-base text-muted-foreground max-w-sm",
     description: "text-lg text-muted-foreground",
     spacing: "mb-5",
   },
   xl: {
     title: "text-5xl font-semibold lg:text-7xl",
-    subtitle: "text-xl text-muted-foreground",
+    subtitle: "text-lg text-muted-foreground",
     description: "text-xl text-muted-foreground",
     spacing: "mb-6",
   },
   "2xl": {
     title: "text-5xl font-semibold lg:text-8xl",
-    subtitle: "text-2xl text-muted-foreground",
+    subtitle: "text-lg text-muted-foreground",
     description: "text-2xl text-muted-foreground",
     spacing: "mb-6",
   },
@@ -157,12 +157,12 @@ export const Heading = ({
               <div
                 key={index}
                 className={cn(
-                  "bg-secondary rounded-full px-3 py-1.5 text-xs flex items-center gap-2",
+                  "bg-secondary/40 text-foreground rounded-full px-3 py-1.5 text-xs flex items-center gap-2",
                   item.className,
                 )}
               >
                 {item.label && (
-                  <span className="inline-block size-2 rounded-full bg-accent" />
+                  <span className="inline-block size-2 rounded-full bg-primary" />
                 )}
                 <span>{item.value || item.label}</span>
               </div>

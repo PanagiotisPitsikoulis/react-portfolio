@@ -1,7 +1,7 @@
 "use client";
 
 import { PostLayout } from "@/components/chromaui/layout/content-page/post-layout";
-import { ToC } from "@/components/chromaui/markdown/toc";
+import { ToC } from "@/components/chromaui/layout/content-page/markdown/toc";
 import {
   CommonHeroProps,
   Hero,
@@ -88,10 +88,10 @@ export default function PostPageClient({
       size: "lg" as const,
     },
     post.frontmatter.github && {
-      label: "GitHub",
+      label: <div>GitHub</div>,
       href: post.frontmatter.github!,
       external: true,
-      variant: "outline" as const,
+      variant: "secondary" as const,
       size: "lg" as const,
     },
   ].filter(Boolean) as any;
@@ -117,7 +117,8 @@ export default function PostPageClient({
             {
               src: "/texture.svg",
               alt: "Decorative Texture Overlay",
-              className: "object-fit absolute -z-20 opacity-80",
+              className:
+                "object-fit absolute -z-20 bg-background/30 opacity-30",
               parallax: {
                 enabled: true,
                 direction: "up",

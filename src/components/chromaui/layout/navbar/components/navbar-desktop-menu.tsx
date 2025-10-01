@@ -31,7 +31,7 @@ export const NavbarDesktopMenu = ({
   function renderDesktopDropdown(
     label: string,
     links: { title: string; href: string }[],
-    viewAllHref: string
+    viewAllHref: string,
   ) {
     return (
       <DropdownMenu>

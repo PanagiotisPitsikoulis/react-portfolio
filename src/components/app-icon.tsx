@@ -14,7 +14,7 @@ export function AppIcon({ className, iconClassName }: AppIconProps) {
         viewBox="0 0 35 33"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className={cn("-mr-1 text-primary", iconClassName)}
+        className={cn("-mr-1 text-foreground", iconClassName)}
       >
         <path
           d="M24.5473 11.8941C25.1905 12.5063 25.2068 13.5149 24.5837 14.1468L18.7585 20.054C18.1354 20.686 17.1087 20.702 16.4654 20.0898C15.8222 19.4776 15.8059 18.469 16.429 17.8371L22.2542 11.9299C22.8773 11.2979 23.904 11.2819 24.5473 11.8941Z"

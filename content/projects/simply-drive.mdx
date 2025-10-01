@@ -1,7 +1,7 @@
 ---
 title: "SimplyDrive.gr"
 date: "2024-09-01"
-summary: "Explore the tech behind SimplyDrive.gr—AI, offline access, and real-time tools for driving test prep."
+summary: "A modern Greek driving theory app with AI explanations, offline access, and real-time progress tracking."
 tags: [
   "Next.js 14",
   "App Router",
@@ -19,72 +19,167 @@ tags: [
   "ISR",
   "PPR",
   "Vercel",
-  "GitHub Actions"
+  "GitHub Actions",
+  "PWA",
+  "Service Worker",
+  "Real-time",
+  "AI",
+  "Authentication",
+  "React",
+  "Next.js",
+  "node.js",
+  "SEO",
+  "Responsive Design"
 ]
-metaTitle: "SimplyDrive.gr: Architecture Notes from the Developer’s Desk"
-metaDescription: "How Next.js 14, Prisma, and PostgreSQL power AI explanations, offline mode, and real-time UX."
 url: "https://www.simplydrive.gr"
-routes: []
 featured: true
-cover: ''
-github: ''
+cover: '/screenshots/simply-drive.webp'
+screenshotMobile: '/screenshots/simply-drive.mobile.webp'
+backgroundImage: '/content/projects/simply-drive/bg.png'
+github: 'https://github.com/PanagiotisPitsikoulis/simplydrive'
 ---
 
-## Overview
+# SimplyDrive.gr Overview
 
-SimplyDrive.gr exists for a single reason: to give Greek learner‑drivers the quickest, smartest way to master Κ.Ο.Κ. road‑sign theory. Below is the tech‑stack rundown of how I engineered high‑speed loads, AI explanations, and progress‑safe offline mode using Next.js 14, Prisma, and PostgreSQL.
+## The motivation for building this project
 
-## 1. Runtime Backbone — Next.js 14 App Router
+Every year, thousands of Greek learner drivers struggle with memorizing the complex Κ.Ο.Κ. (Highway Code) road signs and traffic rules. Traditional study methods involve heavy books, static flashcards, and generic quiz apps that don't cater to Greek traffic laws and road signs.
 
-### 1.1 Partial Prerendering (PPR)
-All public pages stream a static shell in well under a second, then hydrate quiz data on the fly. Users feel native‑app speed even on 3G.
+Most existing apps are either too expensive, lack proper Greek localization, or don't provide intelligent explanations when students get answers wrong. Students often give up or fail their driving tests multiple times, leading to frustration and additional costs.
 
-### 1.2 Server Actions
-Mutations like `submitAnswer()` run as Server Actions—no separate REST layer. The action writes via Prisma and returns the updated score bar in a single round‑trip.
+I wanted to create a free, intelligent study platform specifically designed for Greek driving theory that would make learning engaging, accessible, and effective. SimplyDrive.gr uses AI to provide personalized explanations in Greek and works seamlessly offline, ensuring students can study anywhere, anytime.
 
-## 2. Data Layer — Prisma ORM + PostgreSQL
+![Greek Road Signs](/content/projects/simply-drive/road-signs.png)
 
-Schema highlights:
+# Technical challenges and considerations
 
-- **User** — UUID primary key, unique email, password hash, relation to answers
-- **Question** — auto‑increment ID, text prompt, correct answer reference
-- **Answer** — tracks user‑selected choice, correctness flag, timestamp; indexed by userId + questionId
+Building a comprehensive driving theory app with offline capabilities and AI integration presented several unique challenges that required innovative solutions.
 
-The database sits behind PgBouncer in transaction mode to survive the parallelism of Server Actions, while `prisma migrate deploy` handles schema changes inside the Vercel build.
+|Challenge|Solution|
+|---|---|
+|Need for fast performance on mobile devices with poor connectivity|Implemented Next.js 14 with Partial Prerendering (PPR) and aggressive caching strategies.|
+|Providing intelligent, context-aware explanations in Greek|Integrated OpenAI API with custom prompts optimized for Greek traffic law explanations.|
+|Ensuring the app works offline for students without reliable internet|Built a robust Service Worker with Background Sync and localStorage for offline functionality.|
+|Handling real-time progress tracking without constant server requests|Implemented optimistic SWR store with client-side state reconciliation.|
+|Securing user data and preventing unauthorized access|Custom JWT authentication with HTTP-only cookies and comprehensive security headers.|
+|Supporting thousands of concurrent users during exam periods|Used Prisma with PostgreSQL and PgBouncer for connection pooling and optimal performance.|
 
-## 3. User Accounts & Security
+# Key Features
 
-- NextAuth v5 (Credentials provider) with Argon2id‑hashed passwords
-- HTTP‑only, SameSite=Lax cookies store JWT sessions—never exposed to client JS
-- All Prisma queries filtered by the current user’s ID to prevent horizontal privilege escalation
-- `middleware.ts` injects CSP, X‑Frame‑Options, and Referrer‑Policy headers via Helmet
+The platform offers a comprehensive set of features designed to make Greek driving theory learning as effective and accessible as possible.
 
-## 4. Real‑Time & Offline UX
+| Feature | Description |
+|---------|-------------|
+| AI-Powered Explanations | Get detailed explanations in Greek for every question using OpenAI, with 24-hour caching for performance. |
+| Offline Mode | Study without internet connection with Service Worker caching and background sync for seamless experience. |
+| Real-time Progress | Track your learning progress with instant feedback and optimistic UI updates. |
+| Greek Localization | Fully localized interface and content specifically designed for Greek Highway Code (Κ.Ο.Κ.). |
+| Secure Authentication | Custom authentication system with JWT tokens and comprehensive security measures. |
+| Progressive Web App | Install on mobile devices for native app-like experience with offline capabilities. |
+| Performance Optimized | Sub-second load times with Partial Prerendering and intelligent caching strategies. |
+| Comprehensive Analytics | Track learning patterns and weak areas with detailed progress analytics. |
 
-### 4.1 Optimistic SWR Store
-A lightweight custom SWR hook shows instant UI feedback; server diffs reconcile automatically.
+# Code Preview
 
-### 4.2 Service Worker
-- Cache‑first strategy for static assets (JS, CSS, SVG road signs)
-- Background Sync queues failed submissions and replays them when connectivity returns
-- Last 50 answers kept in localStorage for crash recovery
+The application showcases several innovative technical implementations. Here are some key code snippets that power the platform.
 
-## 5. AI‑Powered Explanations
+## Optimistic SWR Implementation
 
-Server‑side calls to OpenAI create ~75‑word Greek explanations for each question. Results cache in Postgres for 24 hours to stay within rate limits.
+```typescript
+export function useOptimisticAnswers() {
+  const { data: answers, mutate } = useSWR('/api/answers', fetcher);
+  
+  const submitAnswer = useCallback(async (questionId: number, selectedAnswer: number) => {
+    // Optimistic update
+    const optimisticAnswer = {
+      id: Date.now(),
+      questionId,
+      selectedAnswer,
+      isCorrect: null, // Will be determined by server
+      timestamp: new Date()
+    };
+    
+    mutate([...answers, optimisticAnswer], false);
+    
+    try {
+      const result = await fetch('/api/submit-answer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ questionId, selectedAnswer })
+      });
+      
+      const serverAnswer = await result.json();
+      
+      // Reconcile with server response
+      mutate(answers.map(a => 
+        a.id === optimisticAnswer.id ? serverAnswer : a
+      ));
+      
+      return serverAnswer;
+    } catch (error) {
+      // Revert optimistic update on error
+      mutate(answers);
+      throw error;
+    }
+  }, [answers, mutate]);
+  
+  return { answers, submitAnswer };
+}
+```
 
-## 6. Observability & CI/CD
+## AI Explanation Generation
 
-- GitHub Actions: ESLint, Vitest, and Playwright run on every pull request
-- Automatic preview deployments on Vercel complete in < 90 seconds
-- Structured logs shipped to Logtail; Web Vitals tracked via Vercel Analytics (target ≥ 90)
+```typescript
+export async function generateExplanation(question: Question, userAnswer: number) {
+  const prompt = `
+    Ερώτηση Κ.Ο.Κ.: ${question.text}
+    Σωστή απάντηση: ${question.correctAnswer}
+    Απάντηση χρήστη: ${userAnswer}
+    
+    Δώσε μια σύντομη (75 λέξεις) εξήγηση στα ελληνικά που να:
+    1. Εξηγεί γιατί η σωστή απάντηση είναι σωστή
+    2. Αναφέρει το σχετικό άρθρο του Κ.Ο.Κ. αν είναι δυνατό
+    3. Δίνει πρακτικές συμβουλές για την οδήγηση
+  `;
+  
+  const response = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    messages: [{ role: "user", content: prompt }],
+    max_tokens: 150,
+    temperature: 0.7
+  });
+  
+  return response.choices[0].message.content;
+}
+```
 
-## 7. Roadmap
+## Service Worker for Offline Support
 
-- Edge‑cache pre‑warming once Partial Prerendering leaves beta
-- Progress import/export via QR codes (PWA share‑target)
-- Redis‑backed leaderboard for friendly competition
+```typescript
+// service-worker.js
+const CACHE_NAME = 'simplydrive-v1';
+const OFFLINE_QUEUE = 'offline-queue';
 
-## 8. Final Thoughts
+self.addEventListener('fetch', event => {
+  if (event.request.method === 'POST' && event.request.url.includes('/api/submit-answer')) {
+    event.respondWith(
+      fetch(event.request).catch(() => {
+        // Queue for background sync
+        return self.registration.sync.register(OFFLINE_QUEUE);
+      })
+    );
+  } else if (event.request.destination === 'document') {
+    event.respondWith(
+      caches.match(event.request)
+        .then(response => response || fetch(event.request))
+        .catch(() => caches.match('/offline'))
+    );
+  }
+});
 
-SimplyDrive.gr demonstrates how a lean stack—Next.js streaming, Prisma + Postgres, and targeted AI—can turn rote exam prep into an engaging experience that never loses a learner’s progress.
+self.addEventListener('sync', event => {
+  if (event.tag === OFFLINE_QUEUE) {
+    event.waitUntil(processOfflineQueue());
+  }
+});
+```

@@ -1,3 +1,4 @@
+"use client";
 import { AppIcon } from "@/components/app-icon";
 import CommandBar from "@/components/command-bar";
 import {
@@ -9,6 +10,7 @@ import {
 } from "@/components/ui/drawer";
 import { Menu, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 interface NavbarMobileMenuProps {
   navData: Array<{
@@ -26,6 +28,8 @@ export const NavbarMobileMenu = ({
   projects,
   blog,
 }: NavbarMobileMenuProps) => {
+  const [open, setOpen] = useState(false);
+
   const drawerItemClass =
     "flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors group";
   const drawerGroupLabelClass =
@@ -33,8 +37,12 @@ export const NavbarMobileMenu = ({
   const drawerSubItemClass =
     "flex items-center justify-between rounded-xl px-4 py-2.5 text-sm hover:bg-accent/50 hover:text-accent-foreground transition-colors ml-4 group";
 
+  const handleLinkClick = () => {
+    setOpen(false);
+  };
+
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <button
           type="button"
@@ -71,7 +79,11 @@ export const NavbarMobileMenu = ({
                       <ul className="space-y-1">
                         {projects.slice(0, 3).map((project) => (
                           <li key={project.url}>
-                            <Link className={drawerSubItemClass} href={project.url}>
+                            <Link
+                              className={drawerSubItemClass}
+                              href={project.url}
+                              onClick={handleLinkClick}
+                            >
                               <span className="truncate">{project.title}</span>
                               <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </Link>
@@ -82,10 +94,9 @@ export const NavbarMobileMenu = ({
                             <Link
                               className={drawerSubItemClass}
                               href="/projects"
+                              onClick={handleLinkClick}
                             >
-                              <span>
-                                View all {projects.length} projects
-                              </span>
+                              <span>View all {projects.length} projects</span>
                               <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </Link>
                           </li>
@@ -102,7 +113,11 @@ export const NavbarMobileMenu = ({
                       <ul className="space-y-1">
                         {blog.slice(0, 3).map((post) => (
                           <li key={post.url}>
-                            <Link className={drawerSubItemClass} href={post.url}>
+                            <Link
+                              className={drawerSubItemClass}
+                              href={post.url}
+                              onClick={handleLinkClick}
+                            >
                               <span className="truncate">{post.title}</span>
                               <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </Link>
@@ -110,7 +125,11 @@ export const NavbarMobileMenu = ({
                         ))}
                         {blog.length > 3 && (
                           <li>
-                            <Link className={drawerSubItemClass} href="/blog">
+                            <Link
+                              className={drawerSubItemClass}
+                              href="/blog"
+                              onClick={handleLinkClick}
+                            >
                               <span>View all {blog.length} posts</span>
                               <ExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </Link>
@@ -123,7 +142,11 @@ export const NavbarMobileMenu = ({
 
                 return (
                   <li key={item.title}>
-                    <Link href={item.url} className={drawerItemClass}>
+                    <Link
+                      href={item.url}
+                      className={drawerItemClass}
+                      onClick={handleLinkClick}
+                    >
                       <span>{item.title}</span>
                       <ExternalLink className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </Link>

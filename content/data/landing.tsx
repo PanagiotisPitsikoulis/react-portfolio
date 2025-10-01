@@ -1,23 +1,30 @@
 import type { ArcTimelineItem } from "@/components/magicui/arc-timeline";
-import { TimelineIcons } from "@/sections/landing/timeline-card";
-import { BadgeCheck, Pyramid, Sparkle, Zap } from "lucide-react";
+import {
+  BadgeCheck,
+  Clock1,
+  Clock10Icon,
+  CodeXml,
+  Languages,
+  Laptop2,
+  Pyramid,
+  Sparkle,
+  Zap,
+  ZapIcon,
+} from "lucide-react";
 
 export interface LandingPageData {
   hero: {
     title: string;
-    titleHighlighted: string;
     subtitle: string;
     primaryCta: {
       label: string;
       href: string;
-      variant?: "default" | "secondary" | "outline";
     };
     secondaryCta: {
       label: string;
       href: string;
-      variant?: "default" | "secondary" | "outline";
     };
-    stats?: Array<{ value: string; label: string }>;
+    stats: Array<{ value: string; label: string; icon: React.ReactNode }>;
   };
   sectionHeadings: {
     features: {
@@ -83,23 +90,32 @@ const sectionHeadings = {
 
 const heroData: LandingPageData["hero"] = {
   title: "Hi, I'm Panos Pitsikoulis",
-  titleHighlighted: "a full-stack developer",
   subtitle:
-    "I build fast, accessible web apps with modern React, TypeScript, and Next.js.",
+    "I am a full-stack developer who specializes in building fast, accessible web apps with modern React, TypeScript, and Next.js.",
   primaryCta: {
     label: "View Projects",
     href: "/projects",
-    variant: "default",
   },
   secondaryCta: {
     label: "Contact Me",
     href: "/contact",
-    variant: "secondary",
   },
   stats: [
-    { value: "20+", label: "Projects" },
-    { value: "4+ yrs", label: "Experience" },
-    { value: "5+", label: "Programming Languages" },
+    {
+      value: "20+",
+      label: "Projects",
+      icon: <Laptop2 className="stroke-2 size-8" />,
+    },
+    {
+      value: "4+ yrs",
+      label: "Experience",
+      icon: <Clock10Icon className="stroke-2 size-8" />,
+    },
+    {
+      value: "8 Languages",
+      label: "Programming Language Experience",
+      icon: <CodeXml className="stroke-2 size-8" />,
+    },
   ],
 };
 
@@ -144,7 +160,6 @@ const timelineData: LandingPageData["timeline"] = {
       time: "Summer 2025",
       steps: [
         {
-          icon: <TimelineIcons.StarIcon width={20} height={20} />,
           content: "Mani Fishing Cruises — freelance work.",
         },
       ],
@@ -153,11 +168,9 @@ const timelineData: LandingPageData["timeline"] = {
       time: "2025",
       steps: [
         {
-          icon: <TimelineIcons.CubeIcon width={20} height={20} />,
           content: "BSc CS — advanced coursework.",
         },
         {
-          icon: <TimelineIcons.RocketIcon width={20} height={20} />,
           content: "Personal projects — iterate and ship.",
         },
       ],
@@ -166,11 +179,9 @@ const timelineData: LandingPageData["timeline"] = {
       time: "2024",
       steps: [
         {
-          icon: <TimelineIcons.CubeIcon width={20} height={20} />,
           content: "BSc CS — React, PHP, SQL focus.",
         },
         {
-          icon: <TimelineIcons.MagicWandIcon width={20} height={20} />,
           content: "Personal projects — UI/UX prototypes.",
         },
       ],
@@ -179,11 +190,9 @@ const timelineData: LandingPageData["timeline"] = {
       time: "2023",
       steps: [
         {
-          icon: <TimelineIcons.CubeIcon width={20} height={20} />,
           content: "Metropolitan College — enrolled BSc CS.",
         },
         {
-          icon: <TimelineIcons.RocketIcon width={20} height={20} />,
           content: "Personal projects — full‑stack apps.",
         },
       ],
@@ -192,7 +201,6 @@ const timelineData: LandingPageData["timeline"] = {
       time: "2021 – 2023",
       steps: [
         {
-          icon: <TimelineIcons.CubeIcon width={20} height={20} />,
           content: "International Hellenic University — CS fundamentals.",
         },
       ],
@@ -201,7 +209,6 @@ const timelineData: LandingPageData["timeline"] = {
       time: "2021",
       steps: [
         {
-          icon: <TimelineIcons.StarIcon width={20} height={20} />,
           content: "ECPE English • CS exam 100/100.",
         },
       ],
@@ -210,7 +217,6 @@ const timelineData: LandingPageData["timeline"] = {
       time: "2018 – 2020",
       steps: [
         {
-          icon: <TimelineIcons.StarIcon width={20} height={20} />,
           content: "High school — early tools & practice.",
         },
       ],

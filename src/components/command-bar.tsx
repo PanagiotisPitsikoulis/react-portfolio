@@ -52,9 +52,9 @@ export default function CommandBar({
   return (
     <div className="flex items-center">
       <Button
-        variant="secondary"
+        variant="outline"
         size="sm"
-        className="h-9 w-[220px] justify-start flex"
+        className="h-9 w-[220px] justify-start flex bg-foreground text-background hover:bg-foreground/90"
         onClick={() => setOpen(true)}
       >
         <Search className="mr-2 size-4" />

@@ -1,7 +1,7 @@
 ---
 title: "Sidekick Portfolio Template"
 date: "2025-02-12"
-summary: "A polished, fast portfolio starter with MDX blog, projects, and first‑class SEO."
+summary: "A modern, open-source portfolio template with MDX blog, project showcase, and enterprise-grade SEO built on Next.js 14."
 tags: [
   "Next.js 14",
   "App Router",
@@ -19,60 +19,393 @@ tags: [
   "ImageResponse",
   "nuqs",
   "Suspense",
-  "Vercel"
+  "Vercel",
+  "Portfolio",
+  "Blog",
+  "CMS",
+  "Template",
+  "Open Source",
+  "Performance",
+  "Accessibility",
+  "Dark Mode",
+  "Command Bar",
+  "Search"
 ]
-metaTitle: "Sidekick Portfolio Template"
-metaDescription: "Modern, MDX‑powered portfolio with blog, projects, command bar, and built‑in SEO."
 url: "https://www.panagiotispitsikoulis.gr"
-routes: ["https://www.panagiotispitsikoulis.gr/#skills",
-  "https://www.panagiotispitsikoulis.gr/#projects",
-  "https://www.panagiotispitsikoulis.gr/#timeline",
- "https://www.panagiotispitsikoulis.gr/projects",
-"https://www.panagiotispitsikoulis.gr/blog",
-"https://www.panagiotispitsikoulis.gr/contact"
-]
 featured: true
-cover: ''
+cover: '/screenshots/side-kick.webp'
+screenshotMobile: '/screenshots/side-kick.mobile.webp'
+backgroundImage: '/content/projects/portfolio/bg.png'
 github: 'https://github.com/PanagiotisPitsikoulis/react-portfolio'
 ---
 
-## Overview
+# Sidekick Portfolio Template Overview
 
-Sidekick is the codebase behind this portfolio—a modern, MDX‑powered template built with Next.js 14 and React Server Components. It ships with a beautiful UI, first‑class SEO, and a streamlined writing workflow for blog posts and project pages.
+## The motivation for building this project
 
-## Highlights
+Every developer faces the same challenge when building their portfolio: balancing the desire to showcase technical skills with the need to actually ship something that works well for visitors. Most developers either spend months over-engineering a custom solution or settle for generic templates that don't reflect their unique style and capabilities.
 
-- **MDX content engine**: Author posts and projects from `content/blog` and `content/projects` with frontmatter.
-- **Post viewer UX**: Filters, tags, and pagination for browsing content efficiently.
-- **SEO out of the box**: `robots.txt`, `sitemap.xml`, and `feed.xml` routes preconfigured.
-- **Social previews**: Automatic Open Graph images via image generation endpoints.
-- **Refined UI**: shadcn/ui + Radix primitives, responsive Tailwind design, dark/light themes.
-- **Command bar**: Fast navigation and actions from anywhere on the site.
+I witnessed countless talented developers struggle with this dilemma. They would either build overly complex portfolios that took forever to maintain, or use basic templates that didn't do justice to their skills. The result was often outdated portfolios, broken links, or worse—no portfolio at all.
 
-## Content & Routing
+The web development landscape has evolved significantly with React Server Components, App Router, and modern SEO practices, but most portfolio templates haven't kept up. I wanted to create a template that not only showcases modern Next.js capabilities but also provides a excellent foundation that developers can easily customize and maintain long-term.
 
-- Blog: `src/app/(main)/blog` with dynamic `[slug]` routes
-- Projects: `src/app/(main)/projects` with dynamic `[slug]` routes
-- MDX parsing/rendering with custom components and typography
+![Sidekick Template Showcase](/content/projects/side-kick/template-showcase.png)
 
-## SEO & Social
+# Technical challenges and considerations
 
-- Routes: `src/app/(seo)/robots.txt`, `sitemap.xml`, `feed.xml`, `site.webmanifest`
-- Metadata helpers and Open Graph image generation using `ImageResponse`
-- Share‑ready cards for blog posts and projects
+Creating a portfolio template that serves both as a personal showcase and a reusable foundation required careful architectural decisions and optimization strategies.
 
-## Post Viewer Experience
+|Challenge|Solution|
+|---|---|
+|Balancing feature richness with simplicity for easy customization|Used shadcn/ui component system with clear separation of content and presentation layers.|
+|Ensuring excellent SEO performance out of the box|Implemented comprehensive SEO with automated sitemap, RSS, and Open Graph image generation.|
+|Providing flexible content management without complex CMS|Built MDX-based system with frontmatter for metadata and rich content authoring.|
+|Supporting both blog and project showcase in a unified design|Created flexible content types with shared components and consistent styling patterns.|
+|Optimizing performance while maintaining rich interactivity|Leveraged React Server Components with strategic client boundaries and Suspense optimization.|
+|Making the template accessible to developers of all skill levels|Comprehensive documentation, clear code structure, and sensible defaults with customization points.|
 
-- Faceted filters, tag selection, and pagination
+# Key Features
 
-## Theming & Components
+The template provides a complete portfolio solution with modern web development best practices built-in.
 
-- shadcn/ui + Radix for accessible primitives
-- Animated theme toggler, command bar, and utility components
-- Tailwind CSS for rapid iteration and consistent scales
+| Feature | Description |
+|---------|-------------|
+| MDX Content Engine | Write blog posts and project pages in Markdown with React components, frontmatter metadata, and rich typography. |
+| Advanced SEO | Automated sitemap.xml, robots.txt, RSS feed, and dynamic Open Graph image generation for social sharing. |
+| Command Bar | Keyboard-accessible navigation and search across all content with cmd/ctrl+k shortcut. |
+| Advanced Filtering | Faceted search for blog posts and projects with tag-based filtering and URL state management. |
+| Dark/Light Themes | Seamless theme switching with system preference detection and persistent user choice. |
+| Performance Optimized | React Server Components, image optimization, and Suspense boundaries for optimal loading. |
+| Responsive Design | Mobile-first design with Tailwind CSS and accessible component library from shadcn/ui. |
+| Type-Safe | Full TypeScript support with content validation and compile-time error checking. |
 
-## Technical
+# Code Preview
 
-- Next.js 15 App Router with React Server Components
-- Minimal client surfaces, Suspense boundaries, and dynamic loading where it matters
-- Open Graph image generation endpoints and utilities
+The template showcases modern Next.js patterns and reusable architectures. Here are some key implementations.
+
+## MDX Content System with Type Safety
+
+```typescript
+// lib/content.ts
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+import { z } from 'zod';
+
+const PostSchema = z.object({
+  title: z.string(),
+  date: z.string(),
+  summary: z.string(),
+  tags: z.array(z.string()),
+  featured: z.boolean().optional(),
+  cover: z.string().optional(),
+});
+
+export type Post = z.infer<typeof PostSchema> & {
+  slug: string;
+  content: string;
+};
+
+export async function getAllPosts(): Promise<Post[]> {
+  const postsDirectory = path.join(process.cwd(), 'content/blog');
+  const filenames = fs.readdirSync(postsDirectory);
+
+  const posts = await Promise.all(
+    filenames
+      .filter((name) => name.endsWith('.mdx'))
+      .map(async (filename) => {
+        const filePath = path.join(postsDirectory, filename);
+        const fileContents = fs.readFileSync(filePath, 'utf8');
+        const { data, content } = matter(fileContents);
+
+        // Validate frontmatter with Zod
+        const validatedData = PostSchema.parse(data);
+
+        return {
+          ...validatedData,
+          slug: filename.replace(/\.mdx$/, ''),
+          content,
+        };
+      })
+  );
+
+  return posts.sort((a, b) =>
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+}
+```
+
+## Dynamic Open Graph Image Generation
+
+```typescript
+// app/blog/[slug]/opengraph-image.tsx
+import { ImageResponse } from 'next/og';
+import { getPost } from '@/lib/content';
+
+export const runtime = 'edge';
+export const alt = 'Blog Post';
+export const size = { width: 1200, height: 630 };
+export const contentType = 'image/png';
+
+export default async function Image({ params }: { params: { slug: string } }) {
+  const post = await getPost(params.slug);
+
+  if (!post) {
+    return new Response('Not Found', { status: 404 });
+  }
+
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          height: '100%',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#0a0a0a',
+          backgroundImage: 'radial-gradient(circle at 25px 25px, #333 2%, transparent 0%), radial-gradient(circle at 75px 75px, #333 2%, transparent 0%)',
+          backgroundSize: '100px 100px',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '80px',
+            maxWidth: '1000px',
+            textAlign: 'center',
+          }}
+        >
+          <h1
+            style={{
+              fontSize: '64px',
+              fontWeight: 'bold',
+              color: 'white',
+              marginBottom: '24px',
+              lineHeight: '1.1',
+            }}
+          >
+            {post.title}
+          </h1>
+          <p
+            style={{
+              fontSize: '24px',
+              color: '#a1a1aa',
+              marginBottom: '32px',
+              lineHeight: '1.4',
+            }}
+          >
+            {post.summary}
+          </p>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            {post.tags.slice(0, 4).map((tag) => (
+              <span
+                key={tag}
+                style={{
+                  backgroundColor: '#3b82f6',
+                  color: 'white',
+                  padding: '8px 16px',
+                  borderRadius: '20px',
+                  fontSize: '16px',
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    ),
+    {
+      ...size,
+    }
+  );
+}
+```
+
+## Command Bar with Search
+
+```typescript
+// components/command-bar.tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command';
+import { getAllPosts, getAllProjects } from '@/lib/content';
+
+export function CommandBar() {
+  const [open, setOpen] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen((open) => !open);
+      }
+    };
+
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
+  }, []);
+
+  useEffect(() => {
+    async function loadContent() {
+      const [postsData, projectsData] = await Promise.all([
+        getAllPosts(),
+        getAllProjects(),
+      ]);
+      setPosts(postsData);
+      setProjects(projectsData);
+    }
+
+    if (open) {
+      loadContent();
+    }
+  }, [open]);
+
+  const runCommand = (command: () => void) => {
+    setOpen(false);
+    command();
+  };
+
+  return (
+    <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandInput placeholder="Type a command or search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+
+        <CommandGroup heading="Navigation">
+          <CommandItem onSelect={() => runCommand(() => router.push('/'))}>
+            Home
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => router.push('/blog'))}>
+            Blog
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => router.push('/projects'))}>
+            Projects
+          </CommandItem>
+          <CommandItem onSelect={() => runCommand(() => router.push('/contact'))}>
+            Contact
+          </CommandItem>
+        </CommandGroup>
+
+        <CommandGroup heading="Blog Posts">
+          {posts.map((post) => (
+            <CommandItem
+              key={post.slug}
+              onSelect={() => runCommand(() => router.push(`/blog/${post.slug}`))}
+            >
+              {post.title}
+            </CommandItem>
+          ))}
+        </CommandGroup>
+
+        <CommandGroup heading="Projects">
+          {projects.map((project) => (
+            <CommandItem
+              key={project.slug}
+              onSelect={() => runCommand(() => router.push(`/projects/${project.slug}`))}
+            >
+              {project.title}
+            </CommandItem>
+          ))}
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
+  );
+}
+```
+
+## Advanced Filtering with URL State
+
+```typescript
+// components/post-filters.tsx
+'use client';
+
+import { useQueryState, parseAsArrayOf, parseAsString } from 'nuqs';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { X } from 'lucide-react';
+
+interface PostFiltersProps {
+  posts: Post[];
+  allTags: string[];
+}
+
+export function PostFilters({ posts, allTags }: PostFiltersProps) {
+  const [selectedTags, setSelectedTags] = useQueryState(
+    'tags',
+    parseAsArrayOf(parseAsString).withDefault([])
+  );
+  const [search, setSearch] = useQueryState('search', parseAsString.withDefault(''));
+
+  const filteredPosts = posts.filter((post) => {
+    const matchesTags = selectedTags.length === 0 ||
+      selectedTags.some(tag => post.tags.includes(tag));
+    const matchesSearch = search === '' ||
+      post.title.toLowerCase().includes(search.toLowerCase()) ||
+      post.summary.toLowerCase().includes(search.toLowerCase());
+
+    return matchesTags && matchesSearch;
+  });
+
+  const toggleTag = (tag: string) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter(t => t !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-wrap gap-2">
+        {allTags.map((tag) => (
+          <Badge
+            key={tag}
+            variant={selectedTags.includes(tag) ? 'default' : 'outline'}
+            className="cursor-pointer"
+            onClick={() => toggleTag(tag)}
+          >
+            {tag}
+          </Badge>
+        ))}
+      </div>
+
+      {(selectedTags.length > 0 || search) && (
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">
+            {filteredPosts.length} posts found
+          </span>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              setSelectedTags([]);
+              setSearch('');
+            }}
+          >
+            <X className="h-4 w-4 mr-1" />
+            Clear filters
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+```

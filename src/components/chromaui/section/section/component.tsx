@@ -59,6 +59,7 @@ export const Section = ({
       className={cn(
         backgroundVariants[variant],
         paddingVariants[padding],
+        "space-y-20",
         className,
       )}
     >

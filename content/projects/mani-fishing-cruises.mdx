@@ -1,114 +1,316 @@
 ---
 title: "Mani Fishing Cruises"
 date: "2025-02-12"
-summary: "Professional fishing charters in the Mani Peninsula — expert guidance, fresh food onboard, and unforgettable Mediterranean scenery."
-tags:
-  - "Next.js"
-  - "Openai"
-  - "Google Maps"
-  - "Html5"
-  - "CSS"
-  - "Javascript"
-  - "SEO"
-  - "bun"
-  - "tailwindcss"
-  - "node.js"
-  - "Github"
-  - "Figma"
-  - "Zed"
-  - "App Router"
-  - "React Server Components"
-  - "TypeScript"
-  - "Tailwind CSS"
-  - "shadcn/ui"
-  - "Radix UI"
-  - "MDX"
-  - "SEO"
-  - "Open Graph"
-  - "Sitemap"
-  - "Robots.txt"
-  - "RSS"
-  - "ImageResponse"
-  - "React"
-  - "Vercel"
-metaTitle: "Mani Fishing Cruises — Professional Fishing Charters"
-metaDescription: "Join Captain Antonis for a fishing adventure in the crystal‑clear waters of the Mani Peninsula. Expert guidance, fresh food, and unforgettable scenery."
+summary: "A modern booking platform for authentic Greek fishing adventures with Captain Antonis in the pristine waters of the Mani Peninsula."
+tags: [
+  "Next.js 14",
+  "App Router",
+  "React Server Components",
+  "TypeScript",
+  "Tailwind CSS",
+  "shadcn/ui",
+  "Radix UI",
+  "MDX",
+  "SEO",
+  "Open Graph",
+  "Sitemap",
+  "Robots.txt",
+  "RSS",
+  "ImageResponse",
+  "React",
+  "Vercel",
+  "Tourism",
+  "Booking Platform",
+  "Local Business",
+  "Responsive Design",
+  "Performance",
+  "Google Maps",
+  "Contact Forms",
+  "Blog",
+  "Gallery",
+  "Testimonials"
+]
 url: "https://www.mani-fishing-cruises.gr"
 featured: true
-github: ""
-routes: ["https://www.mani-fishing-cruises.gr/#about","https://www.mani-fishing-cruises.gr/#testimonials","https://www.mani-fishing-cruises.gr/blog","https://www.mani-fishing-cruises.gr/#contact","https://www.mani-fishing-cruises.gr/ai"]
-isSlowWebsite: true
+cover: '/screenshots/mani-fishing-cruises.webp'
+screenshotMobile: '/screenshots/mani-fishing-cruises.mobile.webp'
+backgroundImage: '/content/projects/mani-fishing-cruises/bg.png'
+github: 'https://github.com/PanagiotisPitsikoulis/mani-fishing-cruises'
 ---
 
-## Overview
+# Mani Fishing Cruises Overview
 
-Find the ultimate fishing adventure in Mani. Join us for unforgettable trips across crystal‑clear waters with expert guidance, top‑quality equipment, and breathtaking Mediterranean scenery.
+## The motivation for building this project
 
-## What we offer
+Traditional fishing charter businesses in Greece, especially in remote areas like the Mani Peninsula, struggle with limited online presence and outdated booking systems. Many rely solely on word-of-mouth and local tourist agencies, missing out on direct bookings from international visitors who research and book activities online.
 
-### Fishing expertise
-- Deep‑sea fishing
-- Trolling techniques
-- Live bait fishing
-- Jigging methods
-- Species identification
-- Seasonal patterns
-- Local hot spots
+Captain Antonis from Mani Fishing Cruises had built an incredible reputation locally over 15+ years, but potential customers couldn't easily find information about his services, available trips, or how to make reservations. Most inquiries came through phone calls in Greek, creating language barriers for international tourists.
 
-### Food & drinks
-- Fresh fish cooked onboard
-- Local cuisine
-- Fresh drinks and water
-- Seasonal fruit and snacks
-- Fresh bread
+The tourism industry in Greece increasingly demands professional online presence, especially post-COVID when digital booking became essential. I partnered with Captain Antonis to create a modern, bilingual platform that showcases the authentic fishing experience while making it easy for tourists worldwide to discover and book their adventure in the pristine waters of Mani.
 
-### Guest experience
-- Beginner instruction and advanced techniques
-- Photography and local stories
-- Cultural insights
-- Flexible timing
+![Mani Peninsula Coastline](/content/projects/mani-fishing-cruises/mani-coastline.png)
 
-## About Mani Fishing Cruises
+# Technical challenges and considerations
 
-For years, we’ve guided fishing enthusiasts through the pristine waters of the Mani Peninsula. Our experienced crew, professional equipment, and intimate knowledge of local waters ensure unforgettable adventures for all skill levels.
+Creating a tourism website for a local Greek business required balancing authentic storytelling with modern web performance and accessibility.
 
-### Captain Antonis — @manifishingcruises
+|Challenge|Solution|
+|---|---|
+|Showcasing the authentic Greek fishing experience to international audiences|Used high-quality photography and storytelling with Captain Antonis' personal narrative.|
+|Supporting both Greek and international tourists with different languages|Implemented bilingual content strategy with Greek and English versions.|
+|Ensuring fast loading times for tourists with limited mobile data|Optimized images with Next.js Image component and implemented aggressive caching.|
+|Making booking process simple for non-tech-savvy users|Created streamlined contact forms with WhatsApp integration for instant communication.|
+|Competing with larger tourism platforms and agencies|Focused on authentic local story, personal touch, and direct relationship with Captain.|
+|SEO optimization for tourism-related searches in Greece|Implemented comprehensive SEO with local business schema and tourism-focused keywords.|
 
-Experienced fishing captain with 15+ years navigating the Mani coastline. Passionate about sharing the rich maritime heritage of Greece while providing safe, exciting, and memorable fishing experiences for beginners and seasoned anglers alike.
+# Key Features
 
-Skills: Deep‑sea fishing, coastal navigation, fish identification, safety management
+The platform showcases the authentic Mani fishing experience while providing modern booking and communication tools.
 
-## Highlights
+| Feature | Description |
+|---------|-------------|
+| Authentic Storytelling | Personal narrative from Captain Antonis with 15+ years of local fishing expertise and maritime stories. |
+| Trip Showcase | Detailed descriptions of fishing packages, from traditional 6-hour trips to specialized deep-sea adventures. |
+| Photo Gallery | High-quality images showcasing the pristine Mani coastline, fresh catches, and authentic Greek hospitality. |
+| Customer Testimonials | Real reviews from satisfied guests highlighting the unique experience and Captain's expertise. |
+| Easy Booking | Multiple contact options including phone, email, WhatsApp, and social media for convenient reservations. |
+| Local Knowledge Blog | Fishing tips, local stories, and insights into traditional Greek fishing methods and culture. |
+| Google Maps Integration | Precise location information and directions to the departure point in Agios Nikolaos. |
+| Mobile-First Design | Optimized for tourists browsing on mobile devices while traveling in Greece. |
 
-- 15+ years experience
-- 2,000+ happy guests
-- 8+ trip packages
-- 98% satisfaction rate
+# Code Preview
 
-## Stories & tips
+The website demonstrates modern web development techniques optimized for tourism and local business needs. Here are key implementations.
 
-- 6‑Hour Traditional Fishing Trip — Breakfast, fishing, swimming, fresh lunch onboard
-- Traditional Fishing Methods of Mani — Nets and Kiourtos traps, the local way
-- Hidden Swimming Spots in Mani — Secret coves and crystal‑clear waters
-- Fresh Mediterranean Lunch Onboard — From sea to table the same day
-- Meet Captain Antonis — The story behind Mani Fishing Cruises
+## Dynamic Trip Showcase with MDX
 
-## Contact & booking
+```typescript
+// app/trips/[slug]/page.tsx
+import { notFound } from 'next/navigation';
+import { getTrip, getAllTrips } from '@/lib/trips';
+import { MDXContent } from '@/components/mdx-content';
 
-Located at Agios Nikolaos, West Mani — easy parking and steps from the harbor.
+interface TripPageProps {
+  params: { slug: string };
+}
 
-- Phone: +30 698 684 7465
-- Email: thiresiamast@gmail.com
-- Location: Agios Nikolaos, West Mani
-- WhatsApp, Facebook, Instagram: Quick messages and updates
+export async function generateStaticParams() {
+  const trips = await getAllTrips();
+  return trips.map((trip) => ({
+    slug: trip.slug,
+  }));
+}
 
-## Technology
+export async function generateMetadata({ params }: TripPageProps) {
+  const trip = await getTrip(params.slug);
 
-This website uses the same modern stack as this portfolio:
+  if (!trip) return {};
 
-- Next.js App Router with React Server Components
-- MDX content for pages, trips, and stories
-- Tailwind CSS + shadcn/ui + Radix for accessible, responsive UI
-- First‑class SEO: robots.txt, sitemap.xml, RSS feed
-- Automatic Open Graph images via `ImageResponse`
-- Deployed globally on Vercel
+  return {
+    title: `${trip.title} | Mani Fishing Cruises`,
+    description: trip.summary,
+    openGraph: {
+      title: trip.title,
+      description: trip.summary,
+      images: [
+        {
+          url: trip.cover,
+          width: 1200,
+          height: 630,
+          alt: trip.title,
+        },
+      ],
+    },
+  };
+}
+
+export default async function TripPage({ params }: TripPageProps) {
+  const trip = await getTrip(params.slug);
+
+  if (!trip) {
+    notFound();
+  }
+
+  return (
+    <article className="container mx-auto px-4 py-8">
+      <header className="mb-8">
+        <h1 className="text-4xl font-bold mb-4">{trip.title}</h1>
+        <p className="text-xl text-muted-foreground mb-6">{trip.summary}</p>
+        <div className="flex flex-wrap gap-2">
+          {trip.highlights.map((highlight) => (
+            <span
+              key={highlight}
+              className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+            >
+              {highlight}
+            </span>
+          ))}
+        </div>
+      </header>
+      <MDXContent source={trip.content} />
+    </article>
+  );
+}
+```
+
+## WhatsApp Integration for Instant Booking
+
+```typescript
+// components/contact/whatsapp-button.tsx
+'use client';
+
+import { MessageCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+interface WhatsAppButtonProps {
+  tripName?: string;
+  date?: string;
+  guests?: number;
+}
+
+export function WhatsAppButton({ tripName, date, guests }: WhatsAppButtonProps) {
+  const handleWhatsAppClick = () => {
+    const phoneNumber = '306986847465'; // Captain Antonis' number
+
+    let message = 'Hello! I would like to book a fishing trip with Mani Fishing Cruises.';
+
+    if (tripName) {
+      message += `\n\nTrip: ${tripName}`;
+    }
+    if (date) {
+      message += `\nPreferred Date: ${date}`;
+    }
+    if (guests) {
+      message += `\nNumber of Guests: ${guests}`;
+    }
+
+    message += '\n\nLooking forward to hearing from you!';
+
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+    window.open(whatsappUrl, '_blank');
+  };
+
+  return (
+    <Button
+      onClick={handleWhatsAppClick}
+      className="bg-green-600 hover:bg-green-700 text-white"
+      size="lg"
+    >
+      <MessageCircle className="w-5 h-5 mr-2" />
+      Book via WhatsApp
+    </Button>
+  );
+}
+```
+
+## Local Business Schema for SEO
+
+```typescript
+// app/layout.tsx - Local Business Structured Data
+export function generateStructuredData() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'TouristAttraction',
+    name: 'Mani Fishing Cruises',
+    description: 'Professional fishing charters and boat trips in the pristine waters of the Mani Peninsula with experienced Captain Antonis.',
+    url: 'https://www.mani-fishing-cruises.gr',
+    image: 'https://www.mani-fishing-cruises.gr/og-image.jpg',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Agios Nikolaos Harbor',
+      addressLocality: 'Agios Nikolaos',
+      addressRegion: 'West Mani',
+      addressCountry: 'Greece'
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 36.6878,
+      longitude: 22.3467
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+30-698-684-7465',
+      contactType: 'customer service',
+      areaServed: 'GR',
+      availableLanguage: ['Greek', 'English']
+    },
+    priceRange: '€€',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.9',
+      reviewCount: '127'
+    },
+    openingHours: [
+      'Mo-Su 06:00-20:00'
+    ]
+  };
+}
+```
+
+## Optimized Image Gallery
+
+```typescript
+// components/gallery/fishing-gallery.tsx
+import Image from 'next/image';
+import { useState } from 'react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+
+const fishingPhotos = [
+  {
+    src: '/gallery/fresh-catch-1.jpg',
+    alt: 'Fresh Mediterranean fish caught during morning trip',
+    caption: 'Daily fresh catch with Captain Antonis'
+  },
+  {
+    src: '/gallery/mani-coastline-1.jpg',
+    alt: 'Pristine Mani Peninsula coastline from fishing boat',
+    caption: 'The breathtaking Mani coastline'
+  },
+  // ... more photos
+];
+
+export function FishingGallery() {
+  const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null);
+
+  return (
+    <>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {fishingPhotos.map((photo, index) => (
+          <div
+            key={index}
+            className="relative aspect-square cursor-pointer group"
+            onClick={() => setSelectedPhoto(index)}
+          >
+            <Image
+              src={photo.src}
+              alt={photo.alt}
+              fill
+              className="object-cover rounded-lg group-hover:scale-105 transition-transform"
+              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors rounded-lg" />
+          </div>
+        ))}
+      </div>
+
+      <Dialog open={selectedPhoto !== null} onOpenChange={() => setSelectedPhoto(null)}>
+        <DialogContent className="max-w-4xl p-0">
+          {selectedPhoto !== null && (
+            <div className="relative aspect-video">
+              <Image
+                src={fishingPhotos[selectedPhoto].src}
+                alt={fishingPhotos[selectedPhoto].alt}
+                fill
+                className="object-contain"
+                sizes="90vw"
+              />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
+```

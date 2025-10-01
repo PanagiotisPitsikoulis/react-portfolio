@@ -7,6 +7,8 @@ export default async function Header() {
   const blog = await listContent("blog");
 
   return (
-    <Navbar topPosts={blog} topProjects={projects} sidebarData={pageData} />
+    <>
+      <Navbar topPosts={blog} topProjects={projects} sidebarData={pageData} />
+    </>
   );
 }

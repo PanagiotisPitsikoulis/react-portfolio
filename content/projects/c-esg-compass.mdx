@@ -1,7 +1,7 @@
 ---
 title: "C-ESG Compass"
 date: "2025-02-12"
-summary: "Unlocking Sustainability Through Data: A Look Inside C-ESG Compass"
+summary: "A comprehensive ESG platform integrating cultural metrics with environmental, social, and governance data for sustainable business insights."
 tags: [
   "Next.js 14",
   "App Router",
@@ -16,34 +16,226 @@ tags: [
   "NextUI",
   "i18n",
   "Vercel",
+  "ESG",
+  "Sustainability",
+  "Real-time Dashboard",
+  "Multi-tenant",
+  "PDF Generation",
+  "Data Visualization",
+  "TypeScript",
+  "Authentication",
+  "Internationalization",
+  "Compliance",
+  "Analytics"
 ]
-metaTitle: "C-ESG Compass"
-metaDescription: "Unlocking Sustainability Through Data: A Look Inside C-ESG Compass"
 url: "https://c-esg-compass.vercel.app/en"
-routes: ["https://c-esg-compass.vercel.app/en/protected/forms","https://c-esg-compass.vercel.app/en#feature-1","https://c-esg-compass.vercel.app/en#feature-2","https://c-esg-compass.vercel.app/en#feature-3"]
 featured: true
-cover: ''
-github: ''
+cover: '/screenshots/c-esg-compass.webp'
+screenshotMobile: '/screenshots/c-esg-compass.mobile.webp'
+backgroundImage: '/content/projects/c-esg-compass/bg.png'
+github: 'https://github.com/PanagiotisPitsikoulis/c-esg-compass'
 ---
 
-Internship project for [Culture for Climate Actions](https://cultureforclimateactions.eu/).
+# C-ESG Compass Overview
 
-Building a culture-first ESG platform on Supabase + Next.js 14. C‑ESG Compass blends environmental, social, governance, and cultural data into a single, real-time dashboard with bilingual support and strong compliance guarantees.
+## The motivation for building this project
 
-## Core runtime: Next.js 14 (App Router + Server Actions)
-At the heart of Compass sits Next.js 14. The app router handles layouts, streaming, and React Server Components (RSC). We rely on Server Actions for secure, stateless logic—saving ESG submissions, refreshing Supabase queries, and generating PDFs—without a separate REST layer. Co-locating these actions with UI keeps latency low and types shared.
+Traditional ESG (Environmental, Social, Governance) reporting platforms focus primarily on financial metrics and regulatory compliance, often overlooking the cultural dimension that drives sustainable business practices. Organizations struggle with fragmented data sources, complex reporting requirements, and the lack of real-time insights into their sustainability performance.
 
-### Incremental static regeneration for public pages
-Marketing pages (pricing, methodology, docs) ship as static HTML and revalidate in the background when content changes in Supabase, keeping TTFB low while serving fresh content.
+During my internship with [Culture for Climate Actions](https://cultureforclimateactions.eu/), I identified a critical gap: businesses needed a platform that could integrate cultural metrics alongside traditional ESG data, providing a holistic view of their sustainability journey. Most existing solutions are expensive, complex to implement, and don't offer the flexibility needed for diverse organizational structures.
 
-## Data layer: Supabase (Postgres + Realtime)
-Supabase provides Postgres, auth, row-level security, storage, and Realtime—managed from one place. KPI snapshots, audit logs, and profiles live in Postgres; CSV imports and culture survey PDFs go to Storage with signed URLs. Realtime listeners stream metric deltas over WebSockets directly into the dashboard.
+C-ESG Compass was born from the need to democratize ESG reporting by creating an accessible, real-time platform that emphasizes culture as the fourth pillar of sustainability, making it easier for organizations to track, analyze, and improve their sustainable practices.
 
-### Row-level security (RLS) and policies
-Tenant isolation is enforced by Postgres RLS that maps Supabase auth UIDs to organization IDs, enabling multi-tenant safety with audit-grade guarantees.
+![Culture for Climate Actions](/content/projects/c-esg-compass/culture-climate.png)
 
-## Styling and components: Tailwind CSS + NextUI
-Tailwind handles spacing, tokens, and responsive behavior. NextUI supplies accessible primitives (tables, tabs, analytics cards) that match the design system without heavy theming. The outcome is cohesive yet tweakable UI, dark-mode ready.
+# Technical challenges and considerations
 
-## Internationalization (Greek ↔ English)
-My custom internationalization middleware powers translations in Server Components. A small middleware reads `Accept-Language` and a persisted user setting, then rewrites to `/el` or `/en`. Server Actions respect the same locale so emails and PDF exports are consistent end-to-end.
+Building a comprehensive ESG platform with real-time capabilities, multi-tenancy, and strict compliance requirements presented complex technical challenges.
+
+|Challenge|Solution|
+|---|---|
+|Need for real-time ESG data updates across multiple organizations|Implemented Supabase Realtime with WebSockets for instant metric updates.|
+|Ensuring data privacy and tenant isolation in a multi-tenant environment|Used Postgres Row Level Security (RLS) with Supabase auth for bulletproof data isolation.|
+|Supporting bilingual content (Greek/English) across all platform features|Built custom i18n middleware for Server Components with locale-aware routing.|
+|Generating compliant ESG reports in multiple formats|Integrated PDF generation with cultural survey exports and branded templates.|
+|Handling complex ESG data relationships and audit trails|Designed normalized Postgres schema with comprehensive audit logging and versioning.|
+|Providing intuitive UI for complex sustainability metrics|Used NextUI components with Tailwind CSS for accessible, responsive data visualization.|
+
+# Key Features
+
+The platform provides comprehensive ESG management capabilities with a focus on cultural integration and real-time insights.
+
+| Feature | Description |
+|---------|-------------|
+| Cultural ESG Integration | First platform to integrate cultural metrics as the fourth pillar alongside Environmental, Social, and Governance data. |
+| Real-time Dashboard | Live WebSocket updates for ESG metrics with interactive charts and progress tracking. |
+| Multi-tenant Architecture | Secure organization isolation with Row Level Security ensuring complete data privacy. |
+| Bilingual Support | Full Greek and English localization with locale-aware content and routing. |
+| Automated Reporting | Generate compliant ESG reports and cultural surveys in PDF format with custom branding. |
+| Advanced Analytics | Deep insights into sustainability performance with trend analysis and benchmark comparisons. |
+| Audit Trail | Comprehensive logging of all data changes with version control for compliance requirements. |
+| Flexible Data Import | Support for CSV imports and API integrations for seamless data migration. |
+
+# Code Preview
+
+The platform showcases several advanced implementations for ESG data management and real-time updates. Here are key technical implementations.
+
+## Real-time ESG Metrics with Supabase
+
+```typescript
+'use client';
+
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useEffect, useState } from 'react';
+
+export function useRealtimeESGMetrics(organizationId: string) {
+  const [metrics, setMetrics] = useState<ESGMetric[]>([]);
+  const supabase = createClientComponentClient();
+
+  useEffect(() => {
+    // Initial fetch
+    const fetchMetrics = async () => {
+      const { data } = await supabase
+        .from('esg_metrics')
+        .select('*')
+        .eq('organization_id', organizationId)
+        .order('created_at', { ascending: false });
+
+      setMetrics(data || []);
+    };
+
+    fetchMetrics();
+
+    // Real-time subscription
+    const channel = supabase
+      .channel(`esg_metrics_${organizationId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'esg_metrics',
+          filter: `organization_id=eq.${organizationId}`
+        },
+        (payload) => {
+          if (payload.eventType === 'INSERT') {
+            setMetrics(prev => [payload.new as ESGMetric, ...prev]);
+          } else if (payload.eventType === 'UPDATE') {
+            setMetrics(prev =>
+              prev.map(metric =>
+                metric.id === payload.new.id ? payload.new as ESGMetric : metric
+              )
+            );
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [organizationId, supabase]);
+
+  return metrics;
+}
+```
+
+## Multi-tenant Row Level Security
+
+```sql
+-- Row Level Security Policy for ESG Metrics
+CREATE POLICY "Users can only access their organization's ESG data"
+ON esg_metrics
+FOR ALL
+USING (
+  organization_id IN (
+    SELECT organization_id
+    FROM user_organizations
+    WHERE user_id = auth.uid()
+  )
+);
+
+-- Policy for Cultural Survey Data
+CREATE POLICY "Cultural survey isolation by organization"
+ON cultural_surveys
+FOR ALL
+USING (
+  EXISTS (
+    SELECT 1
+    FROM user_organizations uo
+    JOIN esg_metrics em ON em.organization_id = uo.organization_id
+    WHERE uo.user_id = auth.uid()
+    AND em.id = cultural_surveys.metric_id
+  )
+);
+```
+
+## Internationalization with Server Components
+
+```typescript
+// middleware.ts
+import { NextRequest, NextResponse } from 'next/server';
+
+export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  const pathnameIsMissingLocale = ['/en', '/el'].every(
+    (locale) => !pathname.startsWith(`${locale}/`) && pathname !== locale
+  );
+
+  if (pathnameIsMissingLocale) {
+    const locale = getLocale(request);
+    return NextResponse.redirect(
+      new URL(`/${locale}${pathname}`, request.url)
+    );
+  }
+
+  return NextResponse.next();
+}
+
+function getLocale(request: NextRequest): string {
+  // Check user preference from cookie
+  const savedLocale = request.cookies.get('locale')?.value;
+  if (savedLocale && ['en', 'el'].includes(savedLocale)) {
+    return savedLocale;
+  }
+
+  // Fallback to Accept-Language header
+  const acceptLanguage = request.headers.get('accept-language');
+  if (acceptLanguage?.includes('el')) return 'el';
+
+  return 'en'; // Default to English
+}
+```
+
+## Cultural Survey PDF Generation
+
+```typescript
+import { generatePDF } from '@/lib/pdf-generator';
+
+export async function generateCulturalSurveyReport(
+  surveyData: CulturalSurvey,
+  locale: 'en' | 'el'
+) {
+  const template = await getReportTemplate(locale);
+
+  const reportData = {
+    organizationName: surveyData.organization.name,
+    completionDate: new Date().toLocaleDateString(locale),
+    culturalMetrics: {
+      inclusionScore: surveyData.inclusion_score,
+      diversityIndex: surveyData.diversity_index,
+      engagementLevel: surveyData.engagement_level,
+      sustainabilityAwareness: surveyData.sustainability_awareness
+    },
+    recommendations: generateRecommendations(surveyData, locale),
+    chartData: prepareCulturalChartData(surveyData)
+  };
+
+  return await generatePDF({
+    template,
+    data: reportData,
+    filename: `cultural-survey-${surveyData.id}-${locale}.pdf`,
+    branding: surveyData.organization.branding
+  });
+}
+```

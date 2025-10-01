@@ -7,6 +7,7 @@ import { FooterSocial } from "./components/footer-social";
 import Wrapper from "../../section/wrapper/component";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
+import { theme } from "../../themes";
 
 interface FooterConfig {
   // Branding
@@ -59,7 +60,10 @@ export const Footer = ({ config, projects = [], blog = [] }: FooterProps) => {
   } = config;
 
   return (
-    <footer className={cn(`w-full bg-background relative border-t`, className)}>
+    <footer
+      style={theme.primary}
+      className={cn(`w-full bg-background relative`, className)}
+    >
       <Wrapper>
         <div
           className={`grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-12 gap-4 lg:gap-6 py-12 w-full`}

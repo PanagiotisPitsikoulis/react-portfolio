@@ -18,7 +18,7 @@ export const FooterBottom = ({ config }: FooterBottomProps) => {
   }
 
   return (
-    <div className="pb-1 bg-primary text-primary-foreground">
+    <div className="py-2 border-t bg-foreground text-background">
       <Wrapper className="flex justify-between flex-col lg:flex-row -space-y-1 items-center">
         {copyright && <span className="text-xs">{copyright}</span>}
         <div className="flex items-center gap-4">

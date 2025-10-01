@@ -46,7 +46,7 @@ const Footer = async () => {
     legalLinks,
     copyright,
     showCommandBar: true,
-    showThemeToggle: true,
+    showThemeToggle: false,
     showSocialLinks: true,
     showLegalLinks: true,
     maxWidth: "max-w-6xl",

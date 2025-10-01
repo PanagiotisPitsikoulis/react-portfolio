@@ -108,7 +108,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       return (
         <h1
           id={id}
-          className="text-4xl md:text-5xl font-bold text-foreground mt-12 mb-8 first:mt-0 scroll-mt-24 leading-tight"
+          className="text-2xl md:text-3xl font-bold text-foreground mt-8 mb-4 first:mt-0 scroll-mt-20 leading-tight"
         >
           {children}
         </h1>
@@ -119,7 +119,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       return (
         <h2
           id={id}
-          className="text-3xl font-bold text-foreground mt-12 mb-6 scroll-mt-24 leading-tight"
+          className="text-xl md:text-2xl font-bold text-foreground mt-8 mb-3 scroll-mt-20 leading-tight"
         >
           {children}
         </h2>
@@ -130,7 +130,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       return (
         <h3
           id={id}
-          className="text-2xl font-semibold text-foreground mt-10 mb-4 scroll-mt-24 leading-tight"
+          className="text-lg md:text-xl font-semibold text-foreground mt-6 mb-2 scroll-mt-20 leading-tight"
         >
           {children}
         </h3>
@@ -141,7 +141,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       return (
         <h4
           id={id}
-          className="text-xl font-semibold text-foreground mt-8 mb-3 scroll-mt-24 leading-tight"
+          className="text-base md:text-lg font-semibold text-foreground mt-5 mb-2 scroll-mt-20 leading-tight"
         >
           {children}
         </h4>
@@ -152,7 +152,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       return (
         <h5
           id={id}
-          className="text-lg font-semibold text-foreground mt-6 mb-3 scroll-mt-24 leading-tight"
+          className="text-sm md:text-base font-semibold text-foreground mt-4 mb-1 scroll-mt-20 leading-tight"
         >
           {children}
         </h5>
@@ -163,31 +163,33 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       return (
         <h6
           id={id}
-          className="text-base font-semibold text-foreground mt-6 mb-2 scroll-mt-24 leading-tight uppercase tracking-wide"
+          className="text-xs md:text-sm font-semibold text-foreground mt-4 mb-1 scroll-mt-20 leading-tight uppercase tracking-wider"
         >
           {children}
         </h6>
       );
     },
     p: ({ children }) => (
-      <div className="mb-6 leading-relaxed text-foreground/90 text-base">
+      <div className="mb-3 leading-relaxed text-foreground/90 text-sm">
         {children}
       </div>
     ),
     ul: ({ children }) => (
-      <ul className="list-disc list-outside mb-6 ml-6 space-y-2 text-foreground marker:text-primary">
+      <ul className="list-disc list-outside mb-3 ml-4 space-y-1 text-sm text-foreground marker:text-primary">
         {children}
       </ul>
     ),
     ol: ({ children }) => (
-      <ol className="list-decimal list-outside mb-6 ml-6 space-y-2 text-foreground marker:text-primary marker:font-medium">
+      <ol className="list-decimal list-outside mb-3 ml-4 space-y-1 text-sm text-foreground marker:text-primary marker:font-medium">
         {children}
       </ol>
     ),
-    li: ({ children }) => <li className="leading-relaxed pl-1">{children}</li>,
+    li: ({ children }) => (
+      <li className="leading-relaxed pl-1 text-sm">{children}</li>
+    ),
     blockquote: ({ children }) => (
-      <div className="my-8 pl-6 border-l-4 border-primary/60 bg-muted/50 py-4 pr-4 rounded-r-lg">
-        <div className="italic text-foreground/90 text-lg leading-relaxed">
+      <div className="my-4 pl-4 border-l-4 border-primary/60 bg-muted/50 py-3 pr-3 rounded-r-lg">
+        <div className="italic text-foreground/90 text-sm leading-relaxed">
           {children}
         </div>
       </div>
@@ -255,9 +257,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
               style={syntaxTheme}
               customStyle={{
                 margin: 0,
-                padding: "1.5rem",
-                fontSize: "0.875rem",
-                lineHeight: "1.6",
+                padding: "1rem",
+                fontSize: "0.75rem",
+                lineHeight: "1.5",
                 borderRadius: "0rem",
                 fontFamily:
                   "ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace",
@@ -278,7 +280,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         return (
           <Badge
             variant="secondary"
-            className="text-sm px-2 py-1 bg-muted text-primary font-medium rounded-md"
+            className="text-xs px-1.5 py-0.5 bg-muted text-primary font-medium rounded-md"
           >
             {children}
           </Badge>
@@ -308,9 +310,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     em: ({ children }) => (
       <em className="italic text-foreground">{children}</em>
     ),
-    hr: () => <Separator className="my-12" />,
+    hr: () => <Separator className="my-6" />,
     table: ({ children }) => (
-      <div className="my-8 overflow-x-auto rounded-3xl border shadow">
+      <div className="my-4 overflow-x-auto rounded-2xl border shadow">
         <table className="min-w-full">{children}</table>
       </div>
     ),
@@ -322,30 +324,30 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <tr className="hover:bg-muted/50 transition-colors">{children}</tr>
     ),
     th: ({ children }) => (
-      <th className="px-6 py-4 text-left font-semibold text-foreground text-sm">
+      <th className="px-4 py-2 text-left font-semibold text-foreground text-xs">
         {children}
       </th>
     ),
     td: ({ children }) => (
-      <td className="px-6 py-4 text-foreground text-sm leading-relaxed">
+      <td className="px-4 py-2 text-foreground text-xs leading-relaxed">
         {children}
       </td>
     ),
     // Custom components for better visuals
     img: ({ src, alt, ...props }) => (
-      <figure className="my-8">
+      <figure className="my-4">
         <Image
           src={src}
           alt={alt}
           width={1000}
           height={1000}
-          className="w-full h-auto object-cover rounded-3xl shadow"
+          className="w-full h-auto object-cover rounded-2xl shadow"
           loading="lazy"
           {...props}
         />
 
         {alt && (
-          <figcaption className="mt-3 text-center text-sm text-muted-foreground italic">
+          <figcaption className="mt-2 text-center text-xs text-muted-foreground italic">
             {alt}
           </figcaption>
         )}

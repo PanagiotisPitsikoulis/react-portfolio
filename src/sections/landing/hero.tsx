@@ -1,115 +1,163 @@
 import React from "react";
-
+import { ArrowRight, Shield, Users, Zap } from "lucide-react";
+import Wrapper from "@/components/chromaui/section/wrapper/component";
+import { theme } from "@/components/chromaui/themes";
+import { OrbitingCircles } from "@/components/ui/orbiting-circles";
+import { HomePageProps } from ".";
 import { Button } from "@/components/ui/button";
-import { ContentItem } from "@/lib/md/mdx";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
-import { LandingPageData } from "../../../content/data/landing";
-
+import Image from "next/image";
 export type HeroImage = { src: string; alt: string; href?: string };
 
-const Hero: React.FC<LandingPageData["hero"] & { items: ContentItem[] }> = ({
-  title,
-  subtitle,
-  titleHighlighted,
-  primaryCta,
-  secondaryCta,
-  items,
-  stats,
-}) => {
-  return (
-    <div className="lg:h-svh relative">
-      <div className="h-screen 2xl:w-[37%] xl:w-[33%] fixed right-0 hidden xl:block -z-10">
-        <img
-          src="https://pagedone.io/asset/uploads/1694846989.png"
-          alt="Gradient background image"
-          className="h-screen object-cover"
-        />
-      </div>
-      <section className="relative pt-20 sm:pt-24">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-24 gap-6 items-center overflow-visible">
-            <div className="w-full lg:col-span-6 lg:pb-0 pb-10 md:order-first relative">
-              <div className="text-center lg:text-left lg:max-w-xl">
-                <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl text-foreground font-manrope">
-                  {title}{" "}
-                  <span className="text-primary">{titleHighlighted}</span>
-                </h1>
+const stats = [
+  {
+    icon: <Users className="size-6 stroke-1 opacity-20 md:size-10" />,
+    title: "+100k",
+    description: "Daily Users",
+  },
+  {
+    icon: <Zap className="size-6 stroke-1 opacity-20 md:size-10" />,
+    title: "99.9%",
+    description: "Uptime ",
+  },
+  {
+    icon: <Shield className="size-6 stroke-1 opacity-20 md:size-10" />,
+    title: "24/7",
+    description: " Support",
+  },
+];
 
-                <p className="text-muted-foreground mb-8 max-w-xl lg:text-xl lg:text-left">
-                  {subtitle}
-                </p>
-                <div className="flex flex-col md:flex-row lg:justify-start justify-center mb-16 md:mb-24 gap-4 md:gap-5 relative max-lg:px-5">
-                  <div className="absolute -bottom-[1rem] -right-[1rem] max-lg:-right-[6rem]">
-                    <svg
-                      width="168"
-                      height="104"
-                      viewBox="0 0 268 104"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M264.777 3.33834C222.044 14.8431 176.014 33.1588 152.064 73.076C148.329 79.3006 141.654 95.5162 151.662 99.8183C160.445 103.594 176.952 98.3859 182.062 90.8054C195.361 71.0756 206.095 41.7823 175.873 31.4217C142.973 20.1427 98.192 26.4825 64.8209 33.7983C48.6344 37.3468 29.4277 42.8976 14.8854 50.9718C5.23178 56.3317 14.5116 54.7798 21.5226 55.0521C31.4939 55.4393 54.5187 56.3335 32.4429 55.4762C23.4728 55.1278 13.6122 56.1584 5.47517 58.1452C-3.22441 60.2693 10.2074 50.6527 11.5709 48.8256C15.8694 43.0655 20.8662 33.6755 21.15 26.3685"
-                        stroke="var(--primary)"
-                        strokeWidth="5"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </div>
-                  <Button asChild size={"lg"}>
-                    <Link
-                      href={primaryCta.href}
-                      className="flex items-center gap-2"
-                    >
-                      {primaryCta.label}
-                    </Link>
-                  </Button>
-                  <Button asChild variant="secondary" size={"lg"}>
-                    <Link
-                      href={secondaryCta.href}
-                      className="flex items-center gap-2"
-                    >
-                      {secondaryCta.label}
-                    </Link>
-                  </Button>
+const Hero: React.FC<HomePageProps> = (props) => {
+  const circle1Images = [
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/nextjs-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/react-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/vue-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/vite-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/spotify-icon.svg",
+  ];
+
+  const circle2Images = [
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/typescript-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/tailwind-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/astro-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/vercel-icon.svg",
+  ];
+
+  const circle3Images = [
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/notion-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/github-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/figma-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/slack-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/laravel-icon.svg",
+  ];
+
+  const circle4Images = [
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/gatsby-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/dropbox-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/brave-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/vscode-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/sketch-icon.svg",
+    "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/google-icon.svg",
+  ];
+
+  const stats = [
+    {
+      icon: <Users className="size-6 stroke-1.5 text-background md:size-7" />,
+      title: "+100k",
+      description: "Daily Users",
+    },
+    {
+      icon: <Zap className="size-6 stroke-1.5 text-background md:size-7" />,
+      title: "99.9%",
+      description: "Uptime ",
+    },
+    {
+      icon: <Shield className="size-6 stroke-1.5 text-background md:size-7" />,
+      title: "24/7",
+      description: " Support",
+    },
+  ];
+
+  const content = props.landingContent.hero;
+
+  return (
+    <section
+      className="relative border-b w-screen overflow-hidden lg:pb-32 bg-background text-foreground 2xl:max-h-[calc(100vh-5rem)]"
+      style={theme.primary}
+    >
+      <Wrapper className="relative flex flex-col lg:flex-row py-32 pt-20">
+        <div className="space-y-6 lg:w-1/2">
+          <div className="flex flex-row gap-4 items-end">
+            <Link href={content.secondaryCta.href}>
+              <Button
+                size={"lg"}
+                className="bg-foreground text-background hover:bg-foreground/90"
+              >
+                {content.secondaryCta.label}
+                <ArrowRight />
+              </Button>
+            </Link>
+            <Link href={content.primaryCta.href}>
+              <Button size={"lg"}>{content.primaryCta.label}</Button>
+            </Link>
+          </div>
+          <h1 className="font-calSans mt-3 max-w-lg text-6xl font-medium lg:text-7xl">
+            {content.title}
+          </h1>
+          <p className="text-muted-foreground max-w-lg text-lg">
+            {content.subtitle}
+          </p>
+
+          <ul className="mt-10 flex flex-wrap gap-12">
+            {content.stats.map((stat, index) => (
+              <li key={stat.value} className="flex items-center gap-4 mr-4">
+                <div className="md:size-16 bg-foreground flex size-12 items-center justify-center rounded-full text-background">
+                  {stat.icon}
                 </div>
-                {stats && stats.length > 0 && (
-                  <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
-                    {stats.map((s, i) => (
-                      <div
-                        key={s.label}
-                        className={cn(
-                          `relative flex flex-col w-full items-center bg-muted rounded-3xl justify-center py-8`,
-                          i === 2 && "col-span-2",
-                        )}
-                      >
-                        <h4 className="text-lg text-foreground font-bold">
-                          {s.value}
-                        </h4>
-                        <span className="text-xs font-normal text-muted-foreground">
-                          {s.label}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="w-full lg:col-span-6 flex justify-start lg:justify-start -mt-14 relative -z-10 h-svh items-end">
-              <Image
-                src="/mobile.png"
-                sizes="(max-width: 768px) 100vw, 900px"
-                width={2000}
-                height={2000}
-                alt="Welcome back image"
-                className="h-[100svh] object-cover object-top w-full"
-              />
-            </div>
+                <div>
+                  <h2 className="font-calSans text-2xl font-medium md:text-3xl">
+                    {stat.value}
+                  </h2>
+                  <p className="text-sm md:text-base">{stat.label}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="h-112 relative lg:w-1/2">
+          <div className="relative -left-35 lg:left-0 flex h-[1100px] w-[1500px] flex-col items-center justify-center lg:absolute">
+            <OrbitingCircles iconSize={40} radius={310} speed={2}>
+              {circle1Images.map((src, index) => (
+                <div key={index} className="size-12">
+                  <img src={src} className="size-full object-contain" alt="" />
+                </div>
+              ))}
+            </OrbitingCircles>
+            <OrbitingCircles iconSize={40} radius={390} reverse speed={2}>
+              {circle2Images.map((src, index) => (
+                <div key={index} className="size-12">
+                  <img src={src} className="size-full object-contain" alt="" />
+                </div>
+              ))}
+            </OrbitingCircles>
+            <OrbitingCircles iconSize={40} radius={470} speed={2}>
+              {circle3Images.map((src, index) => (
+                <div key={index} className="size-12">
+                  <img src={src} className="size-full object-contain" alt="" />
+                </div>
+              ))}
+            </OrbitingCircles>
+            <OrbitingCircles iconSize={40} radius={550} reverse speed={1}>
+              {circle4Images.map((src, index) => (
+                <div key={index} className="size-12">
+                  <img src={src} className="size-full object-contain" alt="" />
+                </div>
+              ))}
+            </OrbitingCircles>
           </div>
         </div>
-      </section>
-    </div>
+      </Wrapper>
+    </section>
   );
 };
 

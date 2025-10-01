@@ -1,34 +1,38 @@
-import { listContent } from "@/lib/md/mdx";
-import { landingContent } from "../../../content/data/landing";
-import About from "./about";
+import { ContentItem, listContent } from "@/lib/md/mdx";
+import { landingContent, LandingPageData } from "../../../content/data/landing";
+import { About } from "./about";
 import Features from "./features";
 import Hero from "./hero";
-import Portfolio from "./portfolio";
+import { Portfolio } from "./portfolio";
+import { Blog } from "./blog";
+
+export type HomePageProps = {
+  projects: ContentItem[];
+  blog: ContentItem[];
+  landingContent: LandingPageData;
+};
 
 export default async function HomePage() {
   const projects = await listContent("projects");
+  const blog = await listContent("blog");
 
-  const featuredProjects = projects.filter((p) =>
-    Boolean(p.frontmatter.featured)
-  );
+  const homePageProps: HomePageProps = {
+    projects,
+    blog,
+    landingContent,
+  };
 
   return (
     <>
-      <Hero {...landingContent.hero} items={featuredProjects} />
+      <Hero {...homePageProps} />
 
-      <Features
-        featuresData={landingContent.featuresData}
-        heading={landingContent.sectionHeadings.features}
-        cta={landingContent.featuresCta}
-      />
+      <Features {...homePageProps} />
 
-      <Portfolio
-        projects={featuredProjects}
-        heading={landingContent.sectionHeadings.carousel}
-        cta={landingContent.portfolio.cta}
-      />
+      <Portfolio {...homePageProps} />
 
-      <About heading={landingContent.sectionHeadings.timeline} about={landingContent.about} timeline={landingContent.timeline} />
+      <About {...homePageProps} />
+
+      <Blog {...homePageProps} />
     </>
   );
 }

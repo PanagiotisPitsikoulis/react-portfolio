@@ -142,7 +142,10 @@ export const HeroSplit = ({
               badges={badges}
               metadata={metadata}
               cta={cta}
-              className="w-full max-w-lg bg-background p-6 rounded-2xl shadow relative z-10"
+              size="lg"
+              titleClassName="drop-shadow"
+              subtitleClassName="drop-shadow"
+              className="w-full relative z-10"
             />
           </div>
           {/* Content Section - User can pass any content */}

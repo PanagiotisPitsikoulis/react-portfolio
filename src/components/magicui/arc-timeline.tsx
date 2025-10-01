@@ -5,7 +5,7 @@ import { ComponentPropsWithoutRef, ReactNode, useState } from "react";
 export interface ArcTimelineItem {
   time: ReactNode;
   steps: Array<{
-    icon: ReactNode;
+    icon?: ReactNode;
     content: ReactNode;
   }>;
 }

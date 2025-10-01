@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Moon, Sun } from "lucide-react";
+import { Moon, SunDim } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
@@ -36,7 +36,7 @@ export function ThemeToggle({
         className={cn("gap-2", className)}
         disabled
       >
-        <Sun className="h-4 w-4" />
+        <SunDim className="h-4 w-4" />
         {showText && size !== "icon" && "Light"}
       </Button>
     );
@@ -57,7 +57,7 @@ export function ThemeToggle({
         </>
       ) : (
         <>
-          <Sun className="h-4 w-4" />
+          <SunDim className="h-4 w-4" />
           {showText && size !== "icon" && "Light"}
         </>
       )}

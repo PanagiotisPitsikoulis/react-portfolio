@@ -98,7 +98,7 @@ export function ToC({ content }: ToCProps) {
     activeIndex >= 0 ? ((activeIndex + 1) / toc.length) * 100 : 0;
 
   return (
-    <div className="w-full max-h-[32rem] max-w-[25svw] sticky top-32 z-40 dark hidden lg:block">
+    <div className="w-full max-h-[40rem] sticky top-32 z-40 dark hidden lg:block">
       <div className="rounded-3xl shadow-sm bg-background dark:bg-secondary border border-border overflow-hidden">
         <div className="p-5">
           {/* Header */}

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import React from "react";
 import { ContentPage } from "./component";
-import { ToCMobile } from "@/components/chromaui/markdown/toc-mobile";
+import { ToCMobile } from "@/components/chromaui/layout/content-page/markdown/toc-mobile";
 
 interface PostLayoutProps {
   hero?: React.ReactNode;

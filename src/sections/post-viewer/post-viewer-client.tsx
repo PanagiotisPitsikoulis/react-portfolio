@@ -15,7 +15,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Pagination from "./pagination";
-import PostCards from "./post-cards";
+import { PostCards } from "./post-cards";
 import PostViewerHero from "./post-viewer-hero";
 
 const POSTS_PER_PAGE = 6;
@@ -34,10 +34,10 @@ export default function PostViewer({
   const { updateSearchParams, getParam } = useSearchParamsState();
   const [searchQuery, setSearchQuery] = useState(getParam("search") || "");
   const [selectedTags, setSelectedTags] = useState<string[]>(
-    getParam("tags") ? getParam("tags").split(",") : []
+    getParam("tags") ? getParam("tags").split(",") : [],
   );
   const [currentPage, setCurrentPage] = useState(
-    Number.parseInt(getParam("page")) || 1
+    Number.parseInt(getParam("page")) || 1,
   );
   const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
@@ -99,7 +99,7 @@ export default function PostViewer({
 
     if (selectedTags.length > 0) {
       filtered = filtered.filter((post) =>
-        selectedTags.some((tag) => post.frontmatter.tags?.includes(tag))
+        selectedTags.some((tag) => post.frontmatter.tags?.includes(tag)),
       );
     }
 
@@ -120,7 +120,7 @@ export default function PostViewer({
 
   const handleTagToggle = (tag: string) => {
     setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
     );
     setCurrentPage(1);
   };
@@ -150,19 +150,16 @@ export default function PostViewer({
     debouncedSearchQuery.trim().length > 0 || selectedTags.length > 0;
 
   return (
-    <section className="flex flex-1 flex-col gap-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-10 pb-20">
+    <section className="flex flex-1 flex-col">
       {/* Hero */}
-      <div>
-        <PostViewerHero
-          title={title}
-          description={description}
-          posts={posts}
-          contentType={contentType}
-        />
-      </div>
-      <Divider label={contentType === "blog" ? "Posts" : "Projects"} />
+      <PostViewerHero
+        title={title}
+        description={description}
+        posts={posts}
+        contentType={contentType}
+      />
 
-      {/* <Filters
+      {/*<Filters
         contentType={contentType}
         searchQuery={searchQuery}
         debouncedSearchQuery={debouncedSearchQuery}
@@ -180,9 +177,9 @@ export default function PostViewer({
         posts={posts}
         totalPages={totalPages}
         currentPage={currentPage}
-      /> */}
+      />*/}
 
-      <PostCards contentType={contentType} posts={paginatedPosts} />
+      <PostCards />
 
       {(debouncedSearchQuery || selectedTags.length > 0) &&
         filteredPosts.length === 0 && (

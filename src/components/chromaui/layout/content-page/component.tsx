@@ -41,13 +41,17 @@ export const ContentPage = ({
   sidebarClassName = "",
 }: ContentPageProps) => {
   return (
-    <Page hero={hero} isHeroDark={isHeroDark} className={className}>
+    <Page
+      hero={hero}
+      isHeroDark={isHeroDark}
+      className={cn("border-b", className)}
+    >
       {contentAbove}
       {layout === "split" ? (
-        <Wrapper className="py-8 lg:py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-6 gap-8 lg:gap-12">
+        <Wrapper>
+          <div className="grid grid-cols-1 lg:grid-cols-6">
             {/* Main Content */}
-            <div className={cn("lg:col-span-4", contentClassName)}>
+            <div className={cn("lg:col-span-4 py-12", contentClassName)}>
               {/* Widgets above content */}
               {widgets.map((widget, index) => (
                 <div key={index} className="mb-8">
@@ -60,8 +64,8 @@ export const ContentPage = ({
             </div>
 
             {/* Sidebar */}
-            <div className={cn("lg:col-span-2", sidebarClassName)}>
-              {sidebar}
+            <div className="lg:col-span-2 lg:border-x lg:px-5 lg:py-12 lg:bg-background">
+              <div className={cn(sidebarClassName)}>{sidebar}</div>
             </div>
           </div>
         </Wrapper>

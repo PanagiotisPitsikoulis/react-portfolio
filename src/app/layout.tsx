@@ -4,6 +4,7 @@ import "@/lib/fontawesome";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
+import { theme } from "@/components/chromaui/themes";
 
 export { metadata } from "../../content/data";
 
@@ -26,12 +27,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-background`}
+        style={theme.primary}
       >
-        <Theme name="monochrome">
-          <Suspense fallback={<></>}>
-            <Providers>{children}</Providers>
-          </Suspense>
-        </Theme>
+        <Suspense fallback={<></>}>
+          <Providers>{children}</Providers>
+        </Suspense>
       </body>
     </html>
   );
