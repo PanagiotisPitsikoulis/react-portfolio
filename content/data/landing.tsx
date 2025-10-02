@@ -4,9 +4,13 @@ import {
   Clock1,
   Clock10Icon,
   CodeXml,
+  Database,
+  Figma,
   Languages,
   Laptop2,
+  Palette,
   Pyramid,
+  Smartphone,
   Sparkle,
   Zap,
   ZapIcon,
@@ -15,6 +19,7 @@ import {
 export interface LandingPageData {
   hero: {
     title: string;
+    titleColored: string;
     subtitle: string;
     primaryCta: {
       label: string;
@@ -24,33 +29,18 @@ export interface LandingPageData {
       label: string;
       href: string;
     };
-    stats: Array<{ value: string; label: string; icon: React.ReactNode }>;
   };
-  sectionHeadings: {
-    features: {
-      title: string;
-      subtitle: string;
-    };
-    carousel: {
-      title: string;
-      subtitle: string;
-    };
-    blog: {
-      title: string;
-      subtitle: string;
-    };
-    timeline: {
-      title: string;
-      subtitle: string;
-    };
-  };
-  featuresData: {
+  features: {
     title: string;
-    description: string;
-    image: string;
-    icon: React.ReactNode;
-  }[];
-  featuresCta: { label: string; href: string };
+    subtitle: string;
+    cta: { label: string; href: string };
+    data: {
+      title: string;
+      description: string;
+      image: string;
+      icon: React.ReactNode;
+    }[];
+  };
   portfolio: {
     title: string;
     subtitle: string;
@@ -66,30 +56,21 @@ export interface LandingPageData {
     stats: Array<{ label: string; value: string }>;
     rightPanelImage: string;
   };
-  timeline: { data: ArcTimelineItem[]; defaultActiveTime: string };
+  blog: {
+    title: string;
+    subtitle: string;
+  };
+  timeline: {
+    title: string;
+    subtitle: string;
+    data: ArcTimelineItem[];
+    defaultActiveTime: string;
+  };
 }
 
-const sectionHeadings = {
-  features: {
-    title: "Relevant Skills and Programming Languages",
-    subtitle: "Practical skills I use to ship reliable full‑stack products",
-  },
-  carousel: {
-    title: "Some of my Featured Projects",
-    subtitle: "A showcase of my latest projects and technical expertise",
-  },
-  blog: {
-    title: "My Thoughts on the Latest Tech Developments",
-    subtitle: "Thoughts on technology, development, and industry trends",
-  },
-  timeline: {
-    title: "My Journey as a Full-Stack Developer",
-    subtitle: "Professional milestones and growth over the years",
-  },
-} as const;
-
 const heroData: LandingPageData["hero"] = {
-  title: "Hi, I'm Panos Pitsikoulis",
+  title: "Hi, I'm Panos Pitsikoulis,",
+  titleColored: "a full-stack developer",
   subtitle:
     "I am a full-stack developer who specializes in building fast, accessible web apps with modern React, TypeScript, and Next.js.",
   primaryCta: {
@@ -100,60 +81,62 @@ const heroData: LandingPageData["hero"] = {
     label: "Contact Me",
     href: "/contact",
   },
-  stats: [
+};
+
+const featuresData: LandingPageData["features"] = {
+  title: "Relevant Skills and Languages",
+  subtitle:
+    "Practical skills I use to ship reliable full‑stack products. From React and TypeScript on the frontend to Node.js APIs and databases on the backend, I focus on modern tools that deliver results.",
+  cta: { label: "More About Me", href: "/#about" },
+  data: [
     {
-      value: "20+",
-      label: "Projects",
-      icon: <Laptop2 className="stroke-2 size-8" />,
+      title: "Frontend (React + Next.js)",
+      description:
+        "React, Next.js App Router, TypeScript, Tailwind CSS, Radix UI, shadcn/ui, Responsive Design",
+      image: "/landing/nextjs.svg",
+      icon: <Zap className="size-4" />,
     },
     {
-      value: "4+ yrs",
-      label: "Experience",
-      icon: <Clock10Icon className="stroke-2 size-8" />,
+      title: "Mobile (React Native)",
+      description:
+        "React Native, Expo, Cross-platform mobile apps, iOS & Android development",
+      image: "/landing/react-native.svg",
+      icon: <Smartphone className="size-4" />,
     },
     {
-      value: "8 Languages",
-      label: "Programming Language Experience",
-      icon: <CodeXml className="stroke-2 size-8" />,
+      title: "Backend & APIs",
+      description:
+        "Node.js, Laravel, Next.js Route Handlers, REST, GraphQL, tRPC, Prisma",
+      image: "/landing/api.svg",
+      icon: <BadgeCheck className="size-3" />,
+    },
+    {
+      title: "Databases & Cloud",
+      description:
+        "PostgreSQL, MySQL, Redis, MongoDB, ORMs (Prisma/Drizzle), Vercel, AWS",
+      image: "/landing/database.svg",
+      icon: <Database className="size-3" />,
+    },
+    {
+      title: "Design & UI/UX",
+      description:
+        "Figma, Photoshop, Typography, Color Theory, User Interface Design, Prototyping",
+      image: "/landing/design.svg",
+      icon: <Palette className="size-3" />,
+    },
+    {
+      title: "Tooling & Quality",
+      description:
+        "Git, CI/CD (GitHub Actions), Jest/Playwright, Docker, Performance Optimization",
+      image: "/landing/tool.svg",
+      icon: <Sparkle className="size-3" />,
     },
   ],
 };
 
-const featuresData: LandingPageData["featuresData"] = [
-  {
-    title: "Frontend (React + Next.js)",
-    description:
-      "React, Next.js App Router, TypeScript, Tailwind CSS, Radix UI, shadcn/ui",
-    image:
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-1.svg",
-    icon: <Zap className="size-5" />,
-  },
-  {
-    title: "Backend & APIs",
-    description: "Node.js, Next.js Route Handlers, REST, GraphQL, tRPC, Prisma",
-    image:
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-2.svg",
-    icon: <BadgeCheck className="size-5" />,
-  },
-  {
-    title: "Data & Cloud",
-    description:
-      "PostgreSQL (SQL), Redis, ORMs (Prisma/Drizzle), Vercel, AWS basics",
-    image:
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-3.svg",
-    icon: <Pyramid className="size-5" />,
-  },
-  {
-    title: "Tooling & Quality",
-    description:
-      "Git, CI/CD (GitHub Actions), Jest/Playwright, Docker, Performance",
-    image:
-      "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/placeholder-4.svg",
-    icon: <Sparkle className="size-5" />,
-  },
-];
-
 const timelineData: LandingPageData["timeline"] = {
+  title: "My Journey as a Full-Stack Developer",
+  subtitle: "Professional milestones and growth over the years",
   defaultActiveTime: "2025",
   data: [
     {
@@ -225,21 +208,13 @@ const timelineData: LandingPageData["timeline"] = {
 };
 
 export const landingContent: LandingPageData = {
-  // Pull hero copy from folder content
   hero: heroData,
-  // Use section headings from folder
-  sectionHeadings,
-  // Use features from folder
-  featuresData,
-  // Provide CTA aligned to features heading
-  featuresCta: { label: "Contact Me", href: "/contact" },
-  // Map carousel heading to portfolio block
+  features: featuresData,
   portfolio: {
-    title: sectionHeadings.carousel.title,
-    subtitle: sectionHeadings.carousel.subtitle,
+    title: "Some of my Featured Projects",
+    subtitle: "A showcase of my latest projects and technical expertise",
     cta: { label: heroData.primaryCta.label, href: heroData.primaryCta.href },
   },
-  // Developer‑focused About copy
   about: {
     id: "about",
     eyebrow: "A little about me",
@@ -262,6 +237,10 @@ export const landingContent: LandingPageData = {
       { label: "Rating", value: "4.9" },
     ],
     rightPanelImage: "https://pagedone.io/asset/uploads/1724412669.png",
+  },
+  blog: {
+    title: "My Thoughts on the Latest Tech Developments",
+    subtitle: "Thoughts on technology, development, and industry trends",
   },
   timeline: timelineData,
 };

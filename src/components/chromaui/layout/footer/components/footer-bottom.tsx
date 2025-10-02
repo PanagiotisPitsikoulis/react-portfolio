@@ -1,5 +1,4 @@
 import Wrapper from "@/components/chromaui/section/wrapper/component";
-import { ThemeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
 
 interface FooterBottomProps {
@@ -18,7 +17,7 @@ export const FooterBottom = ({ config }: FooterBottomProps) => {
   }
 
   return (
-    <div className="py-2 border-t bg-foreground text-background">
+    <div className="py-1 bg-background text-foreground">
       <Wrapper className="flex justify-between flex-col lg:flex-row -space-y-1 items-center">
         {copyright && <span className="text-xs">{copyright}</span>}
         <div className="flex items-center gap-4">

@@ -36,7 +36,7 @@ export function OrbitingCircles({
           className="pointer-events-none absolute inset-0 size-full"
         >
           <circle
-            className="stroke-foreground/20 stroke-1"
+            className="stroke-background/20 stroke-2"
             cx="50%"
             cy="50%"
             r={radius}

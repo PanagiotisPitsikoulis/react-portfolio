@@ -19,51 +19,31 @@ import {
 } from "@/components/ui/carousel";
 import Wrapper from "@/components/chromaui/section/wrapper/component";
 import { HomePageProps } from ".";
+import Link from "next/link";
+import {
+  MediumAnimation,
+  SlowAnimation,
+} from "@/components/chromaui/section/animation/component";
 
 const Features = (props: HomePageProps) => {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
 
-  const testimonials = [
-    {
-      title: "Just Copy Paste Shadcn Blocks",
-      imgSrc:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/illustrations/tokyo-exchange-between-the-user-and-the-global-network.svg",
-      href: "#",
-    },
-    {
-      title: "Build Modern UI/UX",
-      imgSrc:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/illustrations/tokyo-letters-and-arrows-flying-out-of-a-black-hole.svg",
-      href: "#",
-    },
-    {
-      title: "Streamline Your Workflow",
-      imgSrc:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/illustrations/tokyo-loading-the-next-page.svg",
-      href: "#",
-    },
-    {
-      title: "Collaborate Effectively",
-      imgSrc:
-        "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/illustrations/tokyo-many-browser-windows-with-different-information.svg",
-      href: "#",
-    },
-  ];
+  const content = props.landingContent.features;
 
   React.useEffect(() => {
     if (!api) {
       return;
     }
 
-    setCount(testimonials.length);
+    setCount(content.data.length);
     setCurrent(api.selectedScrollSnap() + 1);
 
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap() + 1);
     });
-  }, [api, testimonials.length]);
+  }, [api, content.data.length]);
 
   return (
     <section
@@ -71,24 +51,28 @@ const Features = (props: HomePageProps) => {
       style={theme.primary}
     >
       <Wrapper className="relative flex flex-col items-center md:px-0 lg:pt-8">
-        <div className="relative z-10 w-full items-center justify-between lg:flex">
-          <h1 className="max-w-2xl text-5xl font-semibold tracking-tighter md:text-7xl">
-            Made for modern UI/UX teams
-          </h1>
-          <p className="text-muted-foreground/80 mt-8 max-w-lg tracking-tight md:text-xl lg:mt-0">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation.{" "}
-            <span className="text-foreground group inline-flex cursor-pointer items-center font-medium transition-all ease-in-out">
-              Read more here{" "}
-              <ChevronRight
-                size={17}
-                className="ml-1 mt-px transition-all ease-in-out group-hover:ml-2"
-              />{" "}
-            </span>
-          </p>
+        <div className="relative z-10 w-full mb-10 items-center justify-between lg:flex">
+          <MediumAnimation>
+            <h1 className="max-w-2xl text-5xl font-semibold tracking-tighter md:text-6xl">
+              {content.title}
+            </h1>
+          </MediumAnimation>
+          <SlowAnimation delay={0.2}>
+            <p className="text-muted-foreground mt-8 max-w-lg tracking-tight text-lg lg:mt-0">
+              {content.subtitle}{" "}
+              <Link href={content.cta.href}>
+                <span className="text-accent group inline-flex cursor-pointer items-center font-medium transition-all ease-in-out">
+                  {content.cta.label}
+                  <ChevronRight
+                    size={17}
+                    className="ml-1 mt-px transition-all ease-in-out group-hover:ml-2"
+                  />{" "}
+                </span>
+              </Link>
+            </p>
+          </SlowAnimation>
         </div>
-        <DottedDiv className="mt-8 flex w-full items-center justify-center px-2 py-10">
+        <div className="mt-8 flex w-full items-center justify-center px-2 py-10">
           <Carousel
             opts={{
               align: "center",
@@ -98,32 +82,37 @@ const Features = (props: HomePageProps) => {
             setApi={setApi}
           >
             <CarouselContent className="m-0 flex w-full">
-              {testimonials.map((item, index) => (
+              {content.data.map((item, index) => (
                 <CarouselItem
                   key={index}
                   className="px-2 md:basis-1/2 lg:basis-1/3"
                 >
-                  <div className="bg-foreground group relative flex h-full max-h-96 w-full flex-col items-end justify-between text-ellipsis rounded-xl p-5">
-                    <img
-                      className="max-h-72 w-full opacity-100 transition-all ease-in-out group-hover:scale-90 group-hover:opacity-60"
-                      src={item.imgSrc}
-                      alt={item.title}
-                    />
-                    <div className="flex w-full items-center text-background justify-between gap-4">
-                      <h5 className="text-2xl font-medium leading-7 tracking-tighter transition-all ease-in-out group-hover:translate-x-4">
-                        {item.title}
-                      </h5>
-                      <a
-                        href={item.href}
-                        className="relative z-10 cursor-pointer"
-                      >
+                  <div className="group relative flex h-full max-h-[700px] w-full flex-col items-end justify-between text-ellipsis">
+                    <div className="h-full bg-foreground w-full rounded-3xl flex items-center justify-center p-10 mb-5">
+                      <img
+                        className="w-full opacity-100 transition-all ease-in-out group-hover:scale-90 group-hover:opacity-60"
+                        src={item.image}
+                        alt={item.title}
+                      />
+                    </div>
+                    <div className="flex w-full items-center text-foreground justify-between gap-4">
+                      <div className="flex flex-col gap-1">
+                        <h5 className="text-xl font-medium leading-6 tracking-tighter transition-all ease-in-out group-hover:translate-x-4">
+                          {item.title}
+                        </h5>
+                        <p className="text-sm text-foreground/80 line-clamp-2 transition-all ease-in-out group-hover:translate-x-4">
+                          {item.description}
+                        </p>
+                      </div>
+                      <div className="relative z-10 cursor-pointer">
                         <Button
                           variant="outline"
-                          className="hover:bg-muted bg-background h-12 w-12 rounded-full transition-all ease-in-out"
+                          size={"icon"}
+                          className="hover:bg-accent/90 bg-foreground text-background h-8 w-8 rounded-full transition-all ease-in-out"
                         >
-                          <Plus className="scale-150" />
+                          {item.icon}
                         </Button>
-                      </a>
+                      </div>
                     </div>
                   </div>
                 </CarouselItem>
@@ -141,36 +130,19 @@ const Features = (props: HomePageProps) => {
                 </span>
               </div>
 
-              <div className="relative mr-10 flex gap-2">
-                <CarouselPrevious className="h-10 w-10" />
-                <CarouselNext variant="default" className="h-10 w-10" />
+              <div className="relative mr-10 flex gap-2 mt-10">
+                <CarouselPrevious className="h-10 w-10 bg-background text-accent hover:text-background hover:bg-accent/90 border border-accent" />
+                <CarouselNext
+                  variant="default"
+                  className="h-10 w-10 bg-accent text-background hover:bg-accent/90"
+                />
               </div>
             </div>
           </Carousel>
-        </DottedDiv>
+        </div>
       </Wrapper>
     </section>
   );
 };
 
 export default Features;
-
-const DottedDiv = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => (
-  <div className={cn("relative", className)}>
-    <div className="bg-foreground/20 absolute -left-[12.5px] top-4 h-[1.5px] w-[110%] md:-left-20" />
-    <div className="bg-foreground/20 absolute -left-[12.5px] bottom-4 h-[1.5px] w-[110%] md:-left-20" />
-    <div className="bg-foreground/20 absolute -top-4 left-0 h-[110%] w-[1.5px]" />
-    <div className="bg-foreground/20 absolute -top-4 right-0 h-[110%] w-[1.5px]" />
-    <div className="bg-accent absolute left-[-3px] top-[12.5px] z-10 h-2 w-2 rounded-full" />
-    <div className="bg-accent absolute right-[-3px] top-[12.5px] z-10 h-2 w-2 rounded-full" />
-    <div className="bg-accent absolute bottom-[12.5px] left-[-3px] z-10 h-2 w-2 rounded-full" />
-    <div className="bg-accent absolute bottom-[12.5px] right-[-3px] z-10 h-2 w-2 rounded-full" />
-    {children}
-  </div>
-);

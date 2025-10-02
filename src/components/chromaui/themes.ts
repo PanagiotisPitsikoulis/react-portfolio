@@ -1,8 +1,8 @@
 export const pastelGreen = {
   "--background": "oklch(37.8% 0.077 168.94)",
-  "--foreground": "oklch(95.4% 0.038 75.164)",
+  "--foreground": "oklch(98.7% 0.022 95.277)",
   "--muted": "oklch(48% 0.055 165)",
-  "--muted-foreground": "oklch(82% 0.042 160)",
+  "--muted-foreground": "oklch(95.4% 0.038 75.164)",
   "--border": "oklch(52% 0.065 168)",
   "--card": "oklch(98% 0.008 140)",
   "--card-foreground": "oklch(37.8% 0.077 168.94)",
@@ -12,7 +12,7 @@ export const pastelGreen = {
   "--primary-foreground": "oklch(98% 0.005 172)",
   "--secondary": "oklch(88% 0.045 165)",
   "--secondary-foreground": "oklch(35% 0.082 170)",
-  "--accent": "oklch(75% 0.065 155)",
+  "--accent": "oklch(94.3% 0.029 294.588)",
   "--accent-foreground": "oklch(32% 0.085 168)",
   "--destructive": "oklch(65% 0.16 25)",
   "--destructive-foreground": "oklch(98% 0.005 25)",
@@ -36,7 +36,7 @@ export const pastelGreen = {
   "--radius": "0.5rem",
 };
 export const pastelOrange = {
-  "--background": "oklch(95.4% 0.038 75.164)",
+  "--background": "oklch(98.7% 0.022 95.277)",
   "--foreground": "oklch(37.8% 0.077 168.94)",
   "--muted-foreground": "oklch(37.8% 0.077 168.94)",
   "--border": "oklch(92.4% 0.038 75.164)",
@@ -49,7 +49,7 @@ export const pastelOrange = {
   "--primary": "oklch(37.8% 0.077 168.94)",
   "--primary-foreground": "oklch(100% 0 0)",
   "--secondary-foreground": "oklch(37.8% 0.077 168.94)",
-  "--accent": "oklch(92.4% 0.038 75.164)",
+  "--accent": "oklch(64.5% 0.246 16.439)",
   "--accent-foreground": "oklch(37.8% 0.077 168.94)",
   "--destructive": "oklch(63.2% 0.257 27.785)",
   "--destructive-foreground": "oklch(100% 0 0)",
@@ -149,18 +149,18 @@ export const monochromeWhite = {
 
 export const monochromeDark = {
   "--radius": "0.65rem",
-  "--background": "oklch(0.10 0 0)",
-  "--foreground": "oklch(0.95 0 0)",
+  "--background": "oklch(0 0 0)",
+  "--foreground": "oklch(1 0 0)",
   "--card": "oklch(0.14 0 0)",
   "--card-foreground": "oklch(0.95 0 0)",
   "--popover": "oklch(0.12 0 0)",
   "--popover-foreground": "oklch(0.95 0 0)",
-  "--primary": "oklch(0.88 0 0)",
+  "--primary": "oklch(1 0 0)",
   "--primary-foreground": "oklch(0.10 0 0)",
-  "--secondary": "oklch(0.22 0 0)",
+  "--secondary": "oklch(0.5 0 0)",
   "--secondary-foreground": "oklch(0.95 0 0)",
   "--muted": "oklch(0.20 0 0)",
-  "--muted-foreground": "oklch(0.60 0 0)",
+  "--muted-foreground": "oklch(0.80 0 0)",
   "--accent": "oklch(0.35 0 0)",
   "--accent-foreground": "oklch(0.95 0 0)",
   "--destructive": "oklch(0.75 0 0)",
@@ -182,6 +182,10 @@ export const monochromeDark = {
   "--sidebar-border": "oklch(0.25 0 0)",
   "--sidebar-ring": "oklch(0.65 0 0)",
 };
+
+// export const primary = monochromeDark;
+// export const secondary = monochromeWhite;
+// export const tertiary = monochromeDark;
 
 export const primary = pastelGreen;
 export const secondary = pastelOrange;

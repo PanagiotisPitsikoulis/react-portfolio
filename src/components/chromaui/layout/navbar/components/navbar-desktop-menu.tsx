@@ -24,9 +24,9 @@ export const NavbarDesktopMenu = ({
   blogLinks,
 }: NavbarDesktopMenuProps) => {
   const triggerClass =
-    "inline-flex justify-center items-center gap-2 text-muted-foreground text-base font-medium hover:text-primary transition-all duration-500";
+    "inline-flex text-lg justify-center items-center gap-2 text-foreground text-base font-medium hover:text-primary transition-all duration-500";
   const desktopLinkClass =
-    "text-muted-foreground text-base font-medium hover:text-primary transition-all duration-500";
+    "text-foreground text-lg text-base font-medium hover:text-primary transition-all duration-500";
 
   function renderDesktopDropdown(
     label: string,

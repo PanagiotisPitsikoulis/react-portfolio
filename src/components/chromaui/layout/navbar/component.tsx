@@ -31,14 +31,14 @@ interface NavbarProps {
 }
 
 export const Navbar = ({ topPosts, topProjects, sidebarData }: NavbarProps) => {
-  // const [hasScrolled, setHasScrolled] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
 
-  // useEffect(() => {
-  //   const handleScroll = () => setHasScrolled(window.scrollY > 0);
-  //   handleScroll();
-  //   window.addEventListener("scroll", handleScroll, { passive: true });
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, []);
+  useEffect(() => {
+    const handleScroll = () => setHasScrolled(window.scrollY > 0);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const projectLinks = topProjects.map((p) => ({
     title: p.frontmatter.title || p.slug,
@@ -62,8 +62,9 @@ export const Navbar = ({ topPosts, topProjects, sidebarData }: NavbarProps) => {
     <nav
       style={theme.primary}
       className={cn(
-        "bg-background border-b border-border",
-        "py-5 sticky top-0 w-full z-50",
+        "bg-background",
+        "py-5 sticky top-0 w-full z-50 border-border",
+        hasScrolled && "border-b",
       )}
     >
       <Wrapper>

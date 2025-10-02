@@ -6,6 +6,11 @@ import { Separator } from "@/components/ui/separator";
 import Wrapper from "@/components/chromaui/section/wrapper/component";
 import { theme } from "@/components/chromaui/themes";
 import { HomePageProps } from ".";
+import {
+  MediumAnimation,
+  SlowAnimation,
+  StaggeredAnimations,
+} from "@/components/chromaui/section/animation/component";
 
 const data = [
   {
@@ -64,16 +69,18 @@ export const Blog = (props: HomePageProps) => {
       style={theme.primary}
     >
       <div className="px-0">
-        <Wrapper className=" text-3xl font-bold lg:text-5xl">
-          <span className="text-muted-foreground">Blog.</span>
-          <br />
-          Latest insights & updates
-        </Wrapper>
+        <MediumAnimation>
+          <Wrapper className=" text-3xl font-bold lg:text-5xl">
+            <span className="text-muted-foreground">Blog.</span>
+            <br />
+            Latest insights & updates
+          </Wrapper>
+        </MediumAnimation>
         <div className="mt-12">
           <Separator />
-          <div className="">
+          <StaggeredAnimations speed="fast" staggerDelay={0.1}>
             {data.map((item, index) => (
-              <React.Fragment key={index}>
+              <div key={index}>
                 <Wrapper className="grid grid-cols-1 gap-6 py-12 lg:grid-cols-4">
                   <div className="hidden items-center gap-3 self-start lg:flex">
                     <img
@@ -122,9 +129,9 @@ export const Blog = (props: HomePageProps) => {
                   </Button>
                 </Wrapper>
                 <Separator />
-              </React.Fragment>
+              </div>
             ))}
-          </div>
+          </StaggeredAnimations>
         </div>
       </div>
     </section>

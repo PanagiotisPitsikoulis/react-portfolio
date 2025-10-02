@@ -54,12 +54,12 @@ export default function CommandBar({
       <Button
         variant="outline"
         size="sm"
-        className="h-9 w-[220px] justify-start flex bg-foreground text-background hover:bg-foreground/90"
+        className="h-9 w-[220px] justify-start flex bg-accent hover:bg-accent/90 text-background"
         onClick={() => setOpen(true)}
       >
         <Search className="mr-2 size-4" />
         <span>Search…</span>
-        <kbd className="pointer-events-none ml-auto rounded-full text-primary-foreground bg-primary px-2 py-px text-[10px] font-medium">
+        <kbd className="pointer-events-none ml-auto rounded-full text-foreground bg-background px-2 py-px text-[10px] font-medium">
           ⌘K
         </kbd>
       </Button>

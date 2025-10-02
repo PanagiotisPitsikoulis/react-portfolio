@@ -2,6 +2,11 @@ import Wrapper from "@/components/chromaui/section/wrapper/component";
 import { theme } from "@/components/chromaui/themes";
 import { ArrowUpRight } from "lucide-react";
 import { HomePageProps } from ".";
+import {
+  MediumAnimation,
+  SlowAnimation,
+  StaggeredAnimations,
+} from "@/components/chromaui/section/animation/component";
 
 const profile = {
   title: "SaaS Startup",
@@ -30,48 +35,58 @@ export const About = (props: HomePageProps) => {
         <div className="flex flex-col-reverse gap-5 md:flex-row md:gap-12">
           <div className="w-full md:w-1/3 md:pr-4">
             <div className="sticky top-20 md:p-6">
-              <div className="mb-8">
-                <div className="mb-6 flex items-center gap-4">
-                  <img
-                    src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/photos/futuristic-device-design-qcufu.png"
-                    alt="SaaS Startup Team"
-                    className="h-16 w-16 rounded-lg object-cover"
-                  />
-                  <div>
-                    <h3 className="font-semibold">{profile.title}</h3>
-                    <p className="text-muted-foreground text-sm">
-                      {profile.subtitle}
-                    </p>
+              <MediumAnimation>
+                <div className="mb-8">
+                  <div className="mb-6 flex items-center gap-4">
+                    <img
+                      src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/photos/futuristic-device-design-qcufu.png"
+                      alt="SaaS Startup Team"
+                      className="h-16 w-16 rounded-lg object-cover"
+                    />
+                    <div>
+                      <h3 className="font-semibold">{profile.title}</h3>
+                      <p className="text-muted-foreground text-sm">
+                        {profile.subtitle}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </MediumAnimation>
 
-              <nav>
-                <div className="py-4">
-                  <div className="group flex p-0 text-start text-xl font-medium hover:bg-transparent sm:text-2xl">
-                    <span className="border-border border-b-2 pb-0.5 transition-colors">
-                      Contact Us
-                    </span>
-                    <ArrowUpRight className="ml-1 h-6 w-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+              <SlowAnimation delay={0.2}>
+                <nav>
+                  <div className="py-4">
+                    <div className="group flex p-0 text-start text-xl font-medium hover:bg-transparent sm:text-2xl">
+                      <span className="border-accent border-b-2 pb-0.5 transition-colors text-accent">
+                        Contact Us
+                      </span>
+                      <ArrowUpRight className="ml-1 text-accent h-6 w-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </div>
                   </div>
-                </div>
-              </nav>
+                </nav>
+              </SlowAnimation>
             </div>
           </div>
 
           <div className="w-full md:w-2/3 md:p-6">
             <div className="max-w-4xl">
-              <h1 className="mb-12 text-7xl font-semibold">About Us</h1>
+              <MediumAnimation>
+                <h1 className="mb-12 text-7xl font-semibold">About Us</h1>
+              </MediumAnimation>
 
               <div className="space-y-12">
-                <p className="w-full text-2xl font-medium leading-[36px] md:max-w-2xl">
-                  {profile.bio}
-                </p>
+                <SlowAnimation delay={0.2}>
+                  <p className="w-full text-2xl font-medium leading-[36px] md:max-w-2xl">
+                    {profile.bio}
+                  </p>
+                </SlowAnimation>
 
-                <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-                  <h2 className="text-2xl font-medium">Core Philosophy</h2>
-                  <p className="leading-relaxed">{profile.vision}</p>
-                </div>
+                <MediumAnimation delay={0.4}>
+                  <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
+                    <h2 className="text-2xl font-medium">Core Philosophy</h2>
+                    <p className="leading-relaxed">{profile.vision}</p>
+                  </div>
+                </MediumAnimation>
 
                 <div className="my-12">
                   <img
@@ -82,15 +97,15 @@ export const About = (props: HomePageProps) => {
                 </div>
 
                 <div>
-                  <h2 className="mb-8 text-2xl font-medium">Our Team</h2>
-                  <div className="space-y-6">
+                  <h2 className="mb-4 text-3xl font-medium">Our Team</h2>
+                  <StaggeredAnimations speed="fast" staggerDelay={0.05}>
                     {profile.team.map(({ id, item, type }) => (
                       <div
                         key={id}
                         className="flex items-center justify-between border-b py-4"
                       >
                         <div className="flex items-center gap-4">
-                          <span className="text-muted-foreground font-mono text-sm">
+                          <span className="font-mono bg-accent text-background px-1.5 py-1 rounded-full text-xs">
                             {id}
                           </span>
                           <span className="text-base">{item}</span>
@@ -100,12 +115,14 @@ export const About = (props: HomePageProps) => {
                         </span>
                       </div>
                     ))}
-                  </div>
+                  </StaggeredAnimations>
                 </div>
 
-                <div className="mt-16">
-                  <p className="leading-relaxed">{profile.outro}</p>
-                </div>
+                <SlowAnimation delay={1.0}>
+                  <div className="mt-16">
+                    <p className="leading-relaxed">{profile.outro}</p>
+                  </div>
+                </SlowAnimation>
               </div>
             </div>
           </div>

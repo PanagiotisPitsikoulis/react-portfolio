@@ -9,53 +9,51 @@ import { Card, CardContent } from "@/components/ui/card";
 import Wrapper from "@/components/chromaui/section/wrapper/component";
 import { theme } from "@/components/chromaui/themes";
 import { HomePageProps } from ".";
+import {
+  MediumAnimation,
+  SlowAnimation,
+  StaggeredAnimations,
+} from "@/components/chromaui/section/animation/component";
 
 const Portfolio = (props: HomePageProps) => {
   return (
     <section className="bg-background py-12" style={theme.secondary}>
       <Wrapper>
         <div className="space-y-8">
-          <div className="mb-4 flex items-center justify-center">
-            <img
-              className="size-6"
-              alt="Copy paste icon"
-              src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/block-1.svg"
-            />
-            <h2 className="text-center text-xl font-semibold tracking-tight text-foreground">
-              Just Copy Paste
-            </h2>
-          </div>
+          <MediumAnimation>
+            <div className="mb-4 flex items-center justify-center">
+              <img
+                className="size-6"
+                alt="Copy paste icon"
+                src="https://deifkwefumgah.cloudfront.net/shadcnblocks/block/block-1.svg"
+              />
+              <h2 className="text-center text-xl font-semibold tracking-tight text-foreground">
+                Just Copy Paste
+              </h2>
+            </div>
+          </MediumAnimation>
 
-          <h1 className="text-center text-6xl font-bold tracking-tighter leading-20 text-foreground md:text-[100px]">
-            Amazing
-            <br />
-            components
-          </h1>
+          <SlowAnimation delay={0.2}>
+            <h1 className="text-center text-6xl font-bold tracking-tighter leading-20 text-foreground md:text-[100px]">
+              Amazing
+              <br />
+              components
+            </h1>
+          </SlowAnimation>
 
-          <p className="mx-auto mt-6 max-w-3xl text-center text-xl text-muted-foreground">
-            Discover our collection of beautifully designed, ready-to-use
-            components that you can easily integrate into your projects.
-          </p>
-
-          <div className="relative mt-8 flex flex-col items-center justify-center">
-            <Button className="w-75 rounded-full lg:text-xl px-2 py-6 shadow-[0px_1px_3px_#0000001a,inset_0px_2px_0px_#ffffff40]">
-              Sign up for free
-            </Button>
-            <a
-              href="#"
-              className="group relative z-12 flex w-75 items-center justify-center rounded-2xl py-6 text-muted-foreground hover:bg-none"
-            >
-              Book a demo
-              <ChevronRightIcon className="ml-1 h-4 w-4 transition-all ease-in-out group-hover:ml-4" />
-            </a>
-          </div>
+          <MediumAnimation delay={0.4}>
+            <p className="mx-auto mt-6 max-w-3xl text-center text-xl text-muted-foreground">
+              Discover our collection of beautifully designed, ready-to-use
+              components that you can easily integrate into your projects.
+            </p>
+          </MediumAnimation>
         </div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 100 }}
           transition={{ ease: [0, 0.71, 0.2, 1.01], duration: 0.8 }}
-          className="relative mt-22 h-100"
+          className="relative mt-30 h-100"
         >
           <motion.div
             initial={{ y: 250 }}
